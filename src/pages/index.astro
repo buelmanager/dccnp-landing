@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Preloader from '../components/ui/Preloader.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import MenuOverlay from '../components/ui/MenuOverlay.astro';
+import FloatingButton from '../components/ui/FloatingButton.astro';
+import Hero from '../components/sections/Hero.astro';
+import Services from '../components/sections/Services.astro';
+import ITProducts from '../components/sections/ITProducts.astro';
+import Appliances from '../components/sections/Appliances.astro';
+import BrandHall from '../components/sections/BrandHall.astro';
+import FAQ from '../components/sections/FAQ.astro';
+import Contact from '../components/sections/Contact.astro';
+import Footer from '../components/sections/Footer.astro';
+---
+
+<Layout 
+  title="DCC&P - 디지털 라이프스타일의 절정 | IT 하드웨어 전문"
+  description="(주)디씨씨앤피 - 25년 이상의 노하우로 2,000여 종의 프리미엄 IT 제품을 제공합니다. Dell, HP 공식 파트너."
+>
+  <Preloader />
+  <Navbar />
+  <MenuOverlay />
+  <FloatingButton />
+  
+  <main>
+    <Hero />
+    <Services />
+    <ITProducts />
+    <Appliances />
+    <BrandHall />
+    <FAQ />
+    <Contact />
+  </main>
+  
+  <Footer />
+</Layout>

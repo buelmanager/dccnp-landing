@@ -1,0 +1,474 @@
+---
+/**
+ * Services Section
+ * 8개 서비스 카드 그리드 with GSAP ScrollTrigger 애니메이션
+ */
+
+const services = [
+  { 
+    icon: 'server', 
+    title: '25년 노하우', 
+    desc: '오랜 경험으로 쌓인 전문성' 
+  },
+  { 
+    icon: 'truck', 
+    title: '빠른 배송', 
+    desc: '파주 물류센터에서 신속 출고' 
+  },
+  { 
+    icon: 'shield', 
+    title: 'B2B 전문', 
+    desc: '기업 맞춤 솔루션 제공' 
+  },
+  { 
+    icon: 'users', 
+    title: 'B2C 서비스', 
+    desc: '개인 고객 친절 상담' 
+  },
+  { 
+    icon: 'refresh', 
+    title: '중고/리퍼', 
+    desc: '품질 보증된 리퍼비시' 
+  },
+  { 
+    icon: 'document', 
+    title: '온라인 견적', 
+    desc: '실시간 맞춤 견적 제공' 
+  },
+  { 
+    icon: 'headphones', 
+    title: '고객 지원', 
+    desc: '전문 상담원 기술 지원' 
+  },
+  { 
+    icon: 'star', 
+    title: '프리미엄', 
+    desc: '2,000여 종 큐레이션 제품' 
+  },
+];
+
+// SVG 아이콘 매핑
+const icons: Record<string, string> = {
+  server: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="3" width="20" height="8" rx="2"/>
+    <rect x="2" y="13" width="20" height="8" rx="2"/>
+    <circle cx="6" cy="7" r="1" fill="currentColor"/>
+    <circle cx="6" cy="17" r="1" fill="currentColor"/>
+    <line x1="10" y1="7" x2="18" y2="7"/>
+    <line x1="10" y1="17" x2="18" y2="17"/>
+  </svg>`,
+  truck: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 3H1v13h15V3z"/>
+    <path d="M16 8h4l3 3v5h-7V8z"/>
+    <circle cx="5.5" cy="18.5" r="2.5"/>
+    <circle cx="18.5" cy="18.5" r="2.5"/>
+  </svg>`,
+  shield: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    <polyline points="9 12 11 14 15 10"/>
+  </svg>`,
+  users: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+    <circle cx="9" cy="7" r="4"/>
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+  </svg>`,
+  refresh: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="23 4 23 10 17 10"/>
+    <polyline points="1 20 1 14 7 14"/>
+    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/>
+    <path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"/>
+  </svg>`,
+  document: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <line x1="16" y1="13" x2="8" y2="13"/>
+    <line x1="16" y1="17" x2="8" y2="17"/>
+    <polyline points="10 9 9 9 8 9"/>
+  </svg>`,
+  headphones: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3v5z"/>
+    <path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3v5z"/>
+  </svg>`,
+  star: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+  </svg>`,
+};
+---
+
+<section class="services" id="services">
+  <!-- Decorative Background -->
+  <div class="services__bg">
+    <div class="services__bg-gradient"></div>
+    <div class="services__bg-pattern"></div>
+  </div>
+
+  <div class="services__container">
+    <!-- Section Header -->
+    <header class="services__header">
+      <span class="services__label">Why DCC&P</span>
+      <h2 class="services__title">왜 DCC&P인가?</h2>
+      <p class="services__description">
+        25년 이상의 경험으로 최고의 서비스를 제공합니다
+      </p>
+    </header>
+
+    <!-- Service Cards Grid -->
+    <div class="services__grid">
+      {services.map((service, index) => (
+        <article class="services__card" data-service-card style={`--delay: ${index * 0.08}s`}>
+          <div class="services__card-glow"></div>
+          <div class="services__card-content">
+            <div class="services__icon" set:html={icons[service.icon]} />
+            <h3 class="services__card-title">{service.title}</h3>
+            <p class="services__card-desc">{service.desc}</p>
+          </div>
+          <div class="services__card-border"></div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    position: relative;
+    padding: var(--space-4xl) 0;
+    overflow: hidden;
+    background: var(--background);
+  }
+
+  /* Background Effects */
+  .services__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .services__bg-gradient {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(26, 54, 93, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(49, 130, 206, 0.08) 0%, transparent 50%);
+  }
+
+  .services__bg-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Container */
+  .services__container {
+    position: relative;
+    z-index: 1;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  /* Header */
+  .services__header {
+    text-align: center;
+    margin-bottom: var(--space-4xl);
+  }
+
+  .services__label {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--accent);
+    margin-bottom: var(--space-md);
+    padding: var(--space-xs) var(--space-lg);
+    background: rgba(99, 179, 237, 0.1);
+    border: 1px solid rgba(99, 179, 237, 0.2);
+    border-radius: var(--radius-full);
+  }
+
+  .services__title {
+    font-size: var(--font-size-4xl);
+    font-weight: 600;
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--text-primary);
+    margin-bottom: var(--space-lg);
+  }
+
+  .services__description {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* Grid */
+  .services__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+  }
+
+  /* Card */
+  .services__card {
+    position: relative;
+    padding: var(--space-2xl);
+    background: linear-gradient(
+      135deg,
+      rgba(26, 54, 93, 0.08) 0%,
+      rgba(17, 17, 17, 0.4) 100%
+    );
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 
+      transform var(--transition-base),
+      box-shadow var(--transition-base);
+  }
+
+  .services__card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: 
+      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--delay),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--delay);
+  }
+
+  /* Card Glow */
+  .services__card-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle at center,
+      rgba(99, 179, 237, 0.15) 0%,
+      transparent 50%
+    );
+    opacity: 0;
+    transform: scale(0.5);
+    transition: 
+      opacity var(--transition-slow),
+      transform var(--transition-slow);
+    pointer-events: none;
+  }
+
+  .services__card:hover .services__card-glow {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Card Border */
+  .services__card-border {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: border-color var(--transition-base);
+    pointer-events: none;
+  }
+
+  .services__card:hover .services__card-border {
+    border-color: rgba(99, 179, 237, 0.3);
+  }
+
+  /* Card Hover State */
+  .services__card:hover {
+    transform: translateY(-8px);
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.4),
+      0 0 60px rgba(26, 54, 93, 0.2);
+  }
+
+  /* Card Content */
+  .services__card-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Icon */
+  .services__icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: var(--space-lg);
+    color: var(--accent);
+    transition: 
+      transform var(--transition-base),
+      color var(--transition-base);
+  }
+
+  .services__icon :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .services__card:hover .services__icon {
+    transform: scale(1.1);
+    color: var(--accent-light);
+  }
+
+  /* Card Title */
+  .services__card-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+    letter-spacing: var(--letter-spacing-tight);
+    transition: color var(--transition-base);
+  }
+
+  .services__card:hover .services__card-title {
+    color: var(--accent-light);
+  }
+
+  /* Card Description */
+  .services__card-desc {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    line-height: var(--line-height-relaxed);
+    transition: color var(--transition-base);
+  }
+
+  .services__card:hover .services__card-desc {
+    color: var(--text-secondary);
+  }
+
+  /* Responsive: Tablet (3 columns) */
+  @media (max-width: 1199px) {
+    .services__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Responsive: Small Tablet (2 columns) */
+  @media (max-width: 899px) {
+    .services__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+
+    .services__card {
+      padding: var(--space-xl);
+    }
+
+    .services__icon {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  /* Responsive: Mobile (1 column) */
+  @media (max-width: 599px) {
+    .services {
+      padding: var(--space-3xl) 0;
+    }
+
+    .services__header {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .services__title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .services__description {
+      font-size: var(--font-size-base);
+    }
+
+    .services__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .services__card {
+      padding: var(--space-lg);
+    }
+
+    .services__card-title {
+      font-size: var(--font-size-lg);
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Service cards animation
+  const initServicesAnimation = () => {
+    const cards = document.querySelectorAll('[data-service-card]');
+    const section = document.querySelector('.services');
+
+    if (!cards.length || !section) return;
+
+    // Create ScrollTrigger for staggered reveal
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 80%',
+      onEnter: () => {
+        cards.forEach((card) => {
+          card.classList.add('is-visible');
+        });
+      },
+      once: true,
+    });
+
+    // Alternative: GSAP stagger animation (더 세밀한 제어가 필요할 때)
+    // gsap.set(cards, { opacity: 0, y: 40 });
+    // 
+    // ScrollTrigger.create({
+    //   trigger: section,
+    //   start: 'top 80%',
+    //   onEnter: () => {
+    //     gsap.to(cards, {
+    //       opacity: 1,
+    //       y: 0,
+    //       duration: 0.6,
+    //       stagger: 0.08,
+    //       ease: 'power3.out',
+    //     });
+    //   },
+    //   once: true,
+    // });
+
+    // Header animation
+    const header = section.querySelector('.services__header');
+    if (header) {
+      gsap.fromTo(
+        header,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: header,
+            start: 'top 85%',
+            once: true,
+          },
+        }
+      );
+    }
+  };
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initServicesAnimation);
+  } else {
+    initServicesAnimation();
+  }
+</script>

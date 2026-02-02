@@ -1,0 +1,105 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = "DCC&P - 디지털 라이프스타일의 절정",
+  description = "IT 하드웨어, 가전제품 전문 프리미엄 온라인 쇼핑몰. 25년 이상의 노하우로 최고의 제품을 제공합니다."
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content={description} />
+    <meta name="keywords" content="DCC&P, 디씨씨앤피, IT, 하드웨어, 가전, Dell, HP, 서버, 워크스테이션" />
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dccom.co.kr" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/images/og-image.jpg" />
+    
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://dccom.co.kr" />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <title>{title}</title>
+    
+    <!-- Preload critical assets -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <slot />
+    
+    <!-- Lenis Smooth Scroll & GSAP Init -->
+    <script>
+      import Lenis from 'lenis';
+      import gsap from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+      
+      // Register GSAP plugins
+      gsap.registerPlugin(ScrollTrigger);
+      
+      // Initialize Lenis smooth scroll
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        touchMultiplier: 2,
+        infinite: false,
+      });
+      
+      // Sync Lenis with GSAP ScrollTrigger
+      lenis.on('scroll', ScrollTrigger.update);
+      
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+      
+      gsap.ticker.lagSmoothing(0);
+      
+      // Store lenis instance globally
+      window.lenis = lenis;
+      
+      // Handle anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = document.querySelector(anchor.getAttribute('href'));
+          if (target) {
+            lenis.scrollTo(target, {
+              offset: -80,
+              duration: 1.2,
+            });
+          }
+        });
+      });
+      
+      // Cleanup on page navigation (for Astro View Transitions)
+      document.addEventListener('astro:before-swap', () => {
+        lenis.destroy();
+        ScrollTrigger.getAll().forEach(st => st.kill());
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+</style>

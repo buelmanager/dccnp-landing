@@ -1,0 +1,1277 @@
+---
+/**
+ * Hero Section Component
+ * Full-screen hero with premium GSAP animations, parallax, and mouse interactions
+ * Inspired by luxury automotive brand landing pages
+ */
+---
+
+<section id="home" class="hero" data-hero>
+  <!-- Background Layer -->
+  <div class="hero-background" data-hero-bg>
+    <!-- Animated Gradient Background -->
+    <div class="hero-gradient-layer" data-hero-gradient></div>
+    
+    <!-- YouTube Video Background -->
+    <div class="hero-video-wrapper" data-hero-bg-wrapper>
+      <iframe
+        class="hero-video"
+        src="https://www.youtube.com/embed/WYjyKZqaixI?autoplay=1&mute=1&loop=1&playlist=WYjyKZqaixI&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
+        title="Background video"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        data-hero-video
+      ></iframe>
+    </div>
+    
+    <!-- Overlay -->
+    <div class="hero-overlay"></div>
+    
+    <!-- Noise Texture -->
+    <div class="hero-noise"></div>
+    
+    <!-- Decorative Elements -->
+    <div class="hero-grid"></div>
+    
+    <!-- Floating Geometric Elements -->
+    <div class="hero-geometrics" data-hero-geometrics>
+      <div class="geo-shape geo-shape--1" data-geo="1">
+        <svg viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="48" stroke="currentColor" stroke-width="0.5"/>
+          <circle cx="50" cy="50" r="35" stroke="currentColor" stroke-width="0.3"/>
+        </svg>
+      </div>
+      <div class="geo-shape geo-shape--2" data-geo="2">
+        <svg viewBox="0 0 100 100" fill="none">
+          <rect x="10" y="10" width="80" height="80" stroke="currentColor" stroke-width="0.5" transform="rotate(45 50 50)"/>
+        </svg>
+      </div>
+      <div class="geo-shape geo-shape--3" data-geo="3">
+        <svg viewBox="0 0 100 100" fill="none">
+          <polygon points="50,5 95,75 5,75" stroke="currentColor" stroke-width="0.5"/>
+        </svg>
+      </div>
+      <div class="geo-shape geo-shape--4" data-geo="4">
+        <svg viewBox="0 0 100 100" fill="none">
+          <line x1="0" y1="50" x2="100" y2="50" stroke="currentColor" stroke-width="0.3"/>
+          <line x1="50" y1="0" x2="50" y2="100" stroke="currentColor" stroke-width="0.3"/>
+          <circle cx="50" cy="50" r="20" stroke="currentColor" stroke-width="0.5"/>
+        </svg>
+      </div>
+      <div class="geo-shape geo-shape--5" data-geo="5">
+        <svg viewBox="0 0 100 100" fill="none">
+          <path d="M25,50 Q50,10 75,50 Q50,90 25,50" stroke="currentColor" stroke-width="0.5"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Particle Dots -->
+    <div class="hero-particles" data-hero-particles>
+      {Array.from({ length: 30 }).map((_, i) => (
+        <div class="particle" data-particle={i} />
+      ))}
+    </div>
+    
+    <!-- Mouse Follower Light -->
+    <div class="hero-mouse-light" data-hero-mouse-light></div>
+  </div>
+
+  <!-- Content -->
+  <div class="hero-content" data-hero-content>
+    <div class="hero-content-inner">
+      <!-- Eyebrow -->
+      <span class="hero-eyebrow" data-hero-eyebrow>
+        <span class="hero-eyebrow-line"></span>
+        <span class="hero-eyebrow-text">SINCE 2000</span>
+      </span>
+      
+      <!-- Main Title with Split Text Animation -->
+      <h1 class="hero-title" data-hero-title>
+        <span class="hero-title-line">
+          <span class="hero-title-text" data-split-text>디지털 라이프스타일의</span>
+        </span>
+        <span class="hero-title-line">
+          <span class="hero-title-text hero-title-accent" data-split-text data-accent>절정</span>
+        </span>
+      </h1>
+      
+      <!-- Subtitle -->
+      <p class="hero-subtitle" data-hero-subtitle>
+        <span class="hero-subtitle-text">DCC&P - 25년의 신뢰, 2,000여 종의 프리미엄 제품</span>
+      </p>
+      
+      <!-- CTA Buttons -->
+      <div class="hero-cta" data-hero-cta>
+        <a href="#services" class="button button--primary hero-cta-btn" data-magnetic>
+          <span class="btn-text">제품 보기</span>
+          <span class="btn-shine"></span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="#contact" class="button button--outline hero-cta-btn" data-magnetic>
+          <span class="btn-text">문의하기</span>
+          <span class="btn-shine"></span>
+        </a>
+      </div>
+    </div>
+    
+    <!-- Stats Badge -->
+    <div class="hero-stats" data-hero-stats>
+      <div class="hero-stat">
+        <span class="hero-stat-number" data-counter="25">0</span>
+        <span class="hero-stat-label">YEARS</span>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-number" data-counter="2000">0</span>
+        <span class="hero-stat-suffix">+</span>
+        <span class="hero-stat-label">PRODUCTS</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="scroll-indicator" data-scroll-indicator>
+    <span class="scroll-indicator-text">SCROLL</span>
+    <div class="scroll-indicator-line">
+      <div class="scroll-indicator-dot"></div>
+    </div>
+    <svg class="scroll-indicator-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  
+  <!-- Luxury Brand Lines -->
+  <div class="hero-brand-lines">
+    <div class="brand-line brand-line--left"></div>
+    <div class="brand-line brand-line--right"></div>
+  </div>
+</section>
+
+<style>
+  /* Hero Section */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  /* Background */
+  .hero-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  
+  /* Animated Gradient Layer */
+  .hero-gradient-layer {
+    position: absolute;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    background: 
+      radial-gradient(ellipse 80% 50% at 20% 40%, rgba(26, 54, 93, 0.4) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 80% 60%, rgba(79, 70, 229, 0.2) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 30% at 40% 80%, rgba(234, 179, 8, 0.15) 0%, transparent 50%);
+    opacity: 0;
+    will-change: transform;
+  }
+  
+  /* YouTube Video Wrapper */
+  .hero-video-wrapper {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    /* Cover the entire viewport while maintaining 16:9 aspect ratio */
+    width: max(100%, calc(100vh * 16 / 9));
+    height: max(100%, calc(100vw * 9 / 16));
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.75) 0%,
+      rgba(0, 0, 0, 0.4) 40%,
+      rgba(0, 0, 0, 0.65) 100%
+    );
+  }
+
+  .hero-noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 70% 50% at 50% 50%, black, transparent);
+    pointer-events: none;
+  }
+  
+  /* Floating Geometric Elements */
+  .hero-geometrics {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  
+  .geo-shape {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.06);
+    will-change: transform;
+    opacity: 0;
+    transform: scale(0);
+  }
+  
+  .geo-shape svg {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .geo-shape--1 {
+    top: 10%;
+    right: 15%;
+    width: 300px;
+    height: 300px;
+  }
+  
+  .geo-shape--2 {
+    top: 60%;
+    left: 5%;
+    width: 200px;
+    height: 200px;
+  }
+  
+  .geo-shape--3 {
+    bottom: 20%;
+    right: 25%;
+    width: 150px;
+    height: 150px;
+  }
+  
+  .geo-shape--4 {
+    top: 30%;
+    left: 20%;
+    width: 180px;
+    height: 180px;
+  }
+  
+  .geo-shape--5 {
+    top: 5%;
+    left: 40%;
+    width: 120px;
+    height: 120px;
+  }
+  
+  /* Particle Dots */
+  .hero-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+  
+  .particle::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  
+  /* Mouse Follower Light */
+  .hero-mouse-light {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(
+      circle,
+      rgba(79, 70, 229, 0.15) 0%,
+      rgba(26, 54, 93, 0.1) 30%,
+      transparent 70%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    will-change: transform, opacity;
+    mix-blend-mode: screen;
+  }
+  
+  /* Luxury Brand Lines */
+  .hero-brand-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+  
+  .brand-line {
+    position: absolute;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 20%,
+      rgba(255, 255, 255, 0.1) 80%,
+      transparent 100%
+    );
+    width: 1px;
+    height: 100%;
+    opacity: 0;
+  }
+  
+  .brand-line--left {
+    left: 10%;
+  }
+  
+  .brand-line--right {
+    right: 10%;
+  }
+
+  /* Content */
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+    padding-top: var(--header-height);
+  }
+
+  .hero-content-inner {
+    max-width: 800px;
+  }
+
+  /* Eyebrow */
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .hero-eyebrow-line {
+    width: 0;
+    height: 1px;
+    background: var(--primary-light);
+    will-change: width;
+  }
+
+  .hero-eyebrow-text {
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--primary-light);
+    opacity: 0;
+  }
+
+  /* Title */
+  .hero-title {
+    margin-bottom: var(--space-xl);
+    overflow: hidden;
+  }
+
+  .hero-title-line {
+    display: block;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .hero-title-text {
+    display: inline-block;
+    font-size: clamp(2.5rem, 8vw, var(--font-size-6xl));
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--text-primary);
+    opacity: 0;
+    transform: translateY(100%);
+    will-change: transform, opacity;
+  }
+  
+  /* Split Text Characters */
+  .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(100%);
+    will-change: transform, opacity;
+  }
+  
+  .char-space {
+    width: 0.3em;
+  }
+
+  .hero-title-accent {
+    color: var(--primary-light);
+  }
+  
+  /* Glitch Effect on Accent */
+  .hero-title-accent[data-glitch]::before,
+  .hero-title-accent[data-glitch]::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: inherit;
+  }
+  
+  .hero-title-accent[data-glitch]::before {
+    left: 2px;
+    text-shadow: -2px 0 #ff0080;
+    clip-path: inset(0 0 0 0);
+    animation: glitch-1 2s infinite linear alternate-reverse;
+  }
+  
+  .hero-title-accent[data-glitch]::after {
+    left: -2px;
+    text-shadow: 2px 0 #00ffff;
+    clip-path: inset(0 0 0 0);
+    animation: glitch-2 2s infinite linear alternate-reverse;
+  }
+  
+  @keyframes glitch-1 {
+    0%, 100% { clip-path: inset(0 0 95% 0); }
+    20% { clip-path: inset(20% 0 60% 0); }
+    40% { clip-path: inset(40% 0 40% 0); }
+    60% { clip-path: inset(60% 0 20% 0); }
+    80% { clip-path: inset(80% 0 5% 0); }
+  }
+  
+  @keyframes glitch-2 {
+    0%, 100% { clip-path: inset(95% 0 0 0); }
+    20% { clip-path: inset(60% 0 20% 0); }
+    40% { clip-path: inset(40% 0 40% 0); }
+    60% { clip-path: inset(20% 0 60% 0); }
+    80% { clip-path: inset(5% 0 80% 0); }
+  }
+
+  /* Subtitle */
+  .hero-subtitle {
+    margin-bottom: var(--space-2xl);
+    overflow: hidden;
+  }
+
+  .hero-subtitle-text {
+    display: inline-block;
+    font-size: var(--font-size-lg);
+    font-weight: 300;
+    line-height: var(--line-height-relaxed);
+    color: var(--text-secondary);
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  /* CTA */
+  .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .hero-cta-btn {
+    position: relative;
+    overflow: hidden;
+    will-change: transform;
+  }
+  
+  .btn-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 100%
+    );
+    transform: skewX(-25deg);
+    pointer-events: none;
+  }
+  
+  .hero-cta-btn:hover .btn-shine {
+    animation: btnShine 0.6s ease-out;
+  }
+  
+  @keyframes btnShine {
+    0% { left: -100%; }
+    100% { left: 200%; }
+  }
+
+  .hero-cta-btn svg {
+    transition: transform var(--transition-base);
+  }
+
+  .hero-cta-btn:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* Stats Badge */
+  .hero-stats {
+    position: absolute;
+    right: var(--container-padding);
+    bottom: 120px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    padding: var(--space-lg) var(--space-xl);
+    background: rgba(26, 54, 93, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  .hero-stat {
+    text-align: center;
+    position: relative;
+  }
+
+  .hero-stat-number {
+    display: inline-block;
+    font-size: var(--font-size-3xl);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+  
+  .hero-stat-suffix {
+    display: inline-block;
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--primary-light);
+    margin-left: 2px;
+  }
+
+  .hero-stat-label {
+    display: block;
+    margin-top: var(--space-xs);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--text-muted);
+  }
+
+  .hero-stat-divider {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      var(--border-light) 50%,
+      transparent 100%
+    );
+  }
+
+  /* Scroll Indicator */
+  .scroll-indicator {
+    position: absolute;
+    left: 50%;
+    bottom: var(--space-2xl);
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity var(--transition-base);
+  }
+
+  .scroll-indicator:hover {
+    opacity: 0.8;
+  }
+
+  .scroll-indicator-text {
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--text-muted);
+  }
+
+  .scroll-indicator-line {
+    position: relative;
+    width: 1px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+  }
+
+  .scroll-indicator-dot {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 3px;
+    height: 10px;
+    background: var(--primary-light);
+    border-radius: var(--radius-full);
+    transform: translateX(-50%);
+    animation: scrollDot 2s ease-in-out infinite;
+  }
+
+  .scroll-indicator-arrow {
+    color: var(--text-muted);
+    animation: scrollBounce 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollDot {
+    0%, 100% {
+      top: 0;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      top: 100%;
+      opacity: 0;
+    }
+  }
+
+  @keyframes scrollBounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(6px);
+    }
+  }
+  
+  /* Animated Gradient Shift */
+  @keyframes gradientShift {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    33% {
+      transform: translate(5%, 5%) rotate(120deg);
+    }
+    66% {
+      transform: translate(-5%, 3%) rotate(240deg);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .hero-stats {
+      right: auto;
+      left: var(--container-padding);
+      bottom: 100px;
+    }
+    
+    .geo-shape--1 { width: 200px; height: 200px; }
+    .geo-shape--2 { width: 150px; height: 150px; }
+    .geo-shape--3 { width: 100px; height: 100px; }
+    .geo-shape--4 { width: 120px; height: 120px; }
+    .geo-shape--5 { width: 80px; height: 80px; }
+    
+    .brand-line--left { left: 5%; }
+    .brand-line--right { right: 5%; }
+  }
+
+  @media (max-width: 719px) {
+    .hero {
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    .hero-content {
+      padding-top: calc(var(--header-height) + var(--space-xl));
+    }
+
+    .hero-title-text {
+      font-size: clamp(2rem, 10vw, 3rem);
+    }
+
+    .hero-subtitle-text {
+      font-size: var(--font-size-base);
+    }
+
+    .hero-cta {
+      flex-direction: column;
+    }
+
+    .hero-cta-btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .hero-stats {
+      position: relative;
+      left: auto;
+      right: auto;
+      bottom: auto;
+      margin-top: var(--space-3xl);
+      width: fit-content;
+    }
+
+    .scroll-indicator {
+      bottom: var(--space-lg);
+    }
+    
+    .hero-geometrics,
+    .hero-mouse-light,
+    .brand-line {
+      display: none;
+    }
+    
+    .hero-particles .particle:nth-child(n+15) {
+      display: none;
+    }
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-indicator-dot,
+    .scroll-indicator-arrow {
+      animation: none;
+    }
+    
+    .hero-eyebrow,
+    .hero-title-text,
+    .hero-subtitle-text,
+    .hero-cta,
+    .hero-stats,
+    .scroll-indicator,
+    .geo-shape,
+    .particle,
+    .brand-line,
+    .hero-gradient-layer,
+    .char {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
+    
+    .hero-eyebrow-line {
+      width: 40px !important;
+    }
+    
+    .hero-eyebrow-text {
+      opacity: 1 !important;
+    }
+    
+    .hero-bg-wrapper,
+    .hero-bg-image {
+      transform: none !important;
+    }
+    
+    .hero-mouse-light {
+      display: none;
+    }
+    
+    .btn-shine {
+      display: none;
+    }
+    
+    .hero-title-accent[data-glitch]::before,
+    .hero-title-accent[data-glitch]::after {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Premium GSAP Hero Animation with Parallax, Mouse Tracking & Particles
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  
+  // Register ScrollTrigger plugin
+  gsap.registerPlugin(ScrollTrigger);
+  
+  // Check for reduced motion preference
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function initHeroAnimation() {
+    const hero = document.querySelector('[data-hero]') as HTMLElement;
+    if (!hero || prefersReducedMotion) return;
+    
+    // Elements
+    const bgWrapper = hero.querySelector('[data-hero-bg-wrapper]') as HTMLElement;
+    const bgImage = hero.querySelector('[data-hero-bg-image]') as HTMLElement;
+    const gradientLayer = hero.querySelector('[data-hero-gradient]') as HTMLElement;
+    const geoShapes = hero.querySelectorAll('.geo-shape');
+    const particles = hero.querySelectorAll('.particle');
+    const mouseLight = hero.querySelector('[data-hero-mouse-light]') as HTMLElement;
+    const brandLines = hero.querySelectorAll('.brand-line');
+    const eyebrow = hero.querySelector('[data-hero-eyebrow]') as HTMLElement;
+    const eyebrowLine = hero.querySelector('.hero-eyebrow-line') as HTMLElement;
+    const eyebrowText = hero.querySelector('.hero-eyebrow-text') as HTMLElement;
+    const titleTexts = hero.querySelectorAll('[data-split-text]');
+    const accentText = hero.querySelector('[data-accent]') as HTMLElement;
+    const subtitleText = hero.querySelector('.hero-subtitle-text') as HTMLElement;
+    const cta = hero.querySelector('[data-hero-cta]') as HTMLElement;
+    const ctaButtons = hero.querySelectorAll('[data-magnetic]');
+    const stats = hero.querySelector('[data-hero-stats]') as HTMLElement;
+    const counters = hero.querySelectorAll('[data-counter]');
+    const scrollIndicator = hero.querySelector('[data-scroll-indicator]') as HTMLElement;
+    const heroContent = hero.querySelector('[data-hero-content]') as HTMLElement;
+
+    // =====================
+    // 1. BACKGROUND ZOOM & PARALLAX
+    // =====================
+    
+    // Initial zoom animation on load
+    gsap.fromTo(bgWrapper, 
+      { scale: 1.2 },
+      { 
+        scale: 1,
+        duration: 2.5,
+        ease: 'power2.out',
+      }
+    );
+    
+    // Parallax scroll effect
+    gsap.to(bgWrapper, {
+      yPercent: 30,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: hero,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1,
+      }
+    });
+    
+    // Content parallax (moves slower than background)
+    gsap.to(heroContent, {
+      yPercent: -15,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: hero,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1,
+      }
+    });
+
+    // =====================
+    // 2. ANIMATED GRADIENT BACKGROUND
+    // =====================
+    
+    gsap.to(gradientLayer, {
+      opacity: 1,
+      duration: 2,
+      delay: 0.5,
+    });
+    
+    // Continuous gradient animation
+    gsap.to(gradientLayer, {
+      rotation: 360,
+      duration: 60,
+      ease: 'none',
+      repeat: -1,
+    });
+    
+    gsap.to(gradientLayer, {
+      x: '5%',
+      y: '3%',
+      duration: 15,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+    });
+
+    // =====================
+    // 3. FLOATING GEOMETRIC ELEMENTS - Sequential Entrance
+    // =====================
+    
+    // Create entrance timeline for geometric shapes
+    const geoEntranceTl = gsap.timeline({
+      delay: 1.5, // Start after initial page load animations
+      onComplete: () => {
+        // After all shapes have appeared, start floating animations
+        startFloatingAnimations();
+      }
+    });
+    
+    // Sequential entrance: fade in + scale up one by one
+    geoEntranceTl.to(geoShapes, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.8,
+      stagger: 0.2, // 0.2s delay between each shape
+      ease: 'back.out(1.7)',
+    });
+    
+    // Function to start floating animations after entrance completes
+    function startFloatingAnimations() {
+      geoShapes.forEach((shape, i) => {
+        const duration = 20 + i * 5;
+        
+        // Floating animation
+        gsap.to(shape, {
+          y: `${-30 + i * 10}`,
+          x: `${15 - i * 5}`,
+          rotation: 360,
+          duration: duration,
+          ease: 'none',
+          repeat: -1,
+        });
+        
+        // Subtle pulse
+        gsap.to(shape, {
+          scale: 1.1,
+          duration: 4 + i,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: -1,
+        });
+      });
+    }
+
+    // =====================
+    // 4. PARTICLE SYSTEM
+    // =====================
+    
+    particles.forEach((particle, i) => {
+      const el = particle as HTMLElement;
+      
+      // Random initial positions
+      const startX = Math.random() * 100;
+      const startY = Math.random() * 100;
+      
+      gsap.set(el, {
+        left: `${startX}%`,
+        top: `${startY}%`,
+      });
+      
+      // Fade in with stagger
+      gsap.to(el, {
+        opacity: 0.3 + Math.random() * 0.4,
+        duration: 1,
+        delay: 2 + i * 0.1,
+      });
+      
+      // Floating animation
+      gsap.to(el, {
+        y: `-=${50 + Math.random() * 100}`,
+        x: `+=${-50 + Math.random() * 100}`,
+        duration: 10 + Math.random() * 20,
+        ease: 'none',
+        repeat: -1,
+        yoyo: true,
+        delay: Math.random() * 5,
+      });
+      
+      // Twinkle effect
+      gsap.to(el, {
+        opacity: 0.1,
+        duration: 1 + Math.random() * 2,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        delay: Math.random() * 3,
+      });
+    });
+
+    // =====================
+    // 5. MOUSE FOLLOWING INTERACTION
+    // =====================
+    
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let currentX = mouseX;
+    let currentY = mouseY;
+    
+    // Show mouse light after delay
+    gsap.to(mouseLight, {
+      opacity: 1,
+      duration: 1,
+      delay: 2,
+    });
+    
+    // Smooth mouse tracking
+    const updateMouseLight = () => {
+      const dx = mouseX - currentX;
+      const dy = mouseY - currentY;
+      
+      currentX += dx * 0.08;
+      currentY += dy * 0.08;
+      
+      gsap.set(mouseLight, {
+        x: currentX,
+        y: currentY,
+      });
+      
+      requestAnimationFrame(updateMouseLight);
+    };
+    
+    updateMouseLight();
+    
+    hero.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      
+      // Parallax effect on geometric shapes
+      geoShapes.forEach((shape, i) => {
+        const depth = 0.02 + i * 0.01;
+        const moveX = (e.clientX - window.innerWidth / 2) * depth;
+        const moveY = (e.clientY - window.innerHeight / 2) * depth;
+        
+        gsap.to(shape, {
+          x: moveX,
+          y: moveY,
+          duration: 1,
+          ease: 'power2.out',
+        });
+      });
+    });
+    
+    // Magnetic buttons
+    ctaButtons.forEach((btn) => {
+      const button = btn as HTMLElement;
+      
+      button.addEventListener('mousemove', (e: MouseEvent) => {
+        const rect = button.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        
+        gsap.to(button, {
+          x: x * 0.2,
+          y: y * 0.2,
+          duration: 0.3,
+          ease: 'power2.out',
+        });
+      });
+      
+      button.addEventListener('mouseleave', () => {
+        gsap.to(button, {
+          x: 0,
+          y: 0,
+          duration: 0.5,
+          ease: 'elastic.out(1, 0.5)',
+        });
+      });
+    });
+
+    // =====================
+    // 6. SPLIT TEXT ANIMATION
+    // =====================
+    
+    titleTexts.forEach((textEl) => {
+      const el = textEl as HTMLElement;
+      const text = el.textContent || '';
+      el.innerHTML = '';
+      
+      // Split into characters
+      text.split('').forEach((char) => {
+        const span = document.createElement('span');
+        if (char === ' ') {
+          span.className = 'char char-space';
+          span.innerHTML = '&nbsp;';
+        } else {
+          span.className = 'char';
+          span.textContent = char;
+        }
+        el.appendChild(span);
+      });
+      
+      // Make parent visible
+      gsap.set(el, { opacity: 1, y: 0 });
+    });
+    
+    // Add glitch data attribute to accent text
+    if (accentText) {
+      accentText.setAttribute('data-text', accentText.textContent || '');
+    }
+
+    // =====================
+    // 7. MAIN ANIMATION TIMELINE
+    // =====================
+    
+    const tl = gsap.timeline({
+      defaults: {
+        ease: 'power3.out',
+        duration: 1,
+      },
+      delay: 0.3,
+    });
+    
+    // Brand lines
+    tl.to(brandLines, {
+      opacity: 0.5,
+      duration: 1.5,
+      stagger: 0.2,
+    }, 0);
+    
+    // Eyebrow animation
+    tl.to(eyebrow, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+    }, 0.5)
+    .to(eyebrowLine, {
+      width: 40,
+      duration: 0.6,
+      ease: 'power2.inOut',
+    }, 0.6)
+    .to(eyebrowText, {
+      opacity: 1,
+      duration: 0.5,
+    }, 0.9);
+    
+    // Split text character animation
+    const allChars = hero.querySelectorAll('.char');
+    tl.to(allChars, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      stagger: {
+        amount: 0.8,
+        from: 'start',
+      },
+      ease: 'power4.out',
+    }, 1);
+    
+    // Glitch effect trigger after text reveals
+    if (accentText) {
+      tl.call(() => {
+        accentText.setAttribute('data-glitch', 'true');
+        
+        // Remove glitch after 2 seconds
+        setTimeout(() => {
+          accentText.removeAttribute('data-glitch');
+        }, 2000);
+      }, [], 2.2);
+    }
+    
+    // Subtitle
+    tl.to(subtitleText, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+    }, '-=0.4');
+    
+    // CTA buttons
+    tl.to(cta, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+    }, '-=0.4');
+    
+    // Stats
+    tl.to(stats, {
+      opacity: 1,
+      x: 0,
+      duration: 0.8,
+    }, '-=0.4');
+    
+    // Counter animation
+    counters.forEach((counter) => {
+      const el = counter as HTMLElement;
+      const target = parseInt(el.dataset.counter || '0');
+      
+      gsap.to({ value: 0 }, {
+        value: target,
+        duration: 2,
+        delay: 2.5,
+        ease: 'power2.out',
+        onUpdate: function() {
+          const current = Math.round(this.targets()[0].value);
+          if (target >= 1000) {
+            el.textContent = (current / 1000).toFixed(1) + 'K';
+          } else {
+            el.textContent = current.toString();
+          }
+        },
+      });
+    });
+    
+    // Scroll indicator
+    tl.to(scrollIndicator, {
+      opacity: 1,
+      duration: 0.6,
+    }, '-=0.2');
+
+    // =====================
+    // 8. SCROLL INTERACTIONS
+    // =====================
+    
+    // Fade out hero content on scroll
+    ScrollTrigger.create({
+      trigger: hero,
+      start: 'top top',
+      end: '50% top',
+      scrub: 1,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        gsap.set([eyebrow, cta, stats, scrollIndicator], {
+          opacity: 1 - progress * 1.5,
+        });
+        gsap.set(allChars, {
+          opacity: 1 - progress * 1.2,
+        });
+      },
+    });
+    
+    // Scroll indicator click
+    scrollIndicator?.addEventListener('click', () => {
+      const nextSection = document.querySelector('#about, #services, .section');
+      if (nextSection) {
+        nextSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+
+  // Cleanup function for page transitions
+  function cleanupHeroAnimation() {
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+  }
+
+  // Initialize when DOM is ready
+  document.addEventListener('DOMContentLoaded', initHeroAnimation);
+  
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initHeroAnimation);
+  document.addEventListener('astro:before-preparation', cleanupHeroAnimation);
+</script>

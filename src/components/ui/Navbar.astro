@@ -1,0 +1,238 @@
+---
+/**
+ * Navbar Component
+ * Fixed navigation with blur effect, logo, and hamburger menu
+ */
+---
+
+<nav class="navbar" id="navbar">
+  <div class="navbar__blur">
+    <div class="navbar__blur-layer"></div>
+  </div>
+  
+  <div class="navbar__container">
+    <!-- Logo -->
+    <a href="#home" class="navbar__logo" aria-label="DCC&P 홈으로">
+      <span class="navbar__logo-text">DCC&P</span>
+    </a>
+    
+    <!-- Hamburger Menu Button -->
+    <button 
+      class="navbar__menu-btn" 
+      id="menuToggle"
+      aria-label="메뉴 열기"
+      aria-expanded="false"
+      aria-controls="menuOverlay"
+    >
+      <span class="navbar__menu-btn-line"></span>
+      <span class="navbar__menu-btn-line"></span>
+      <span class="navbar__menu-btn-line"></span>
+    </button>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-fixed);
+    height: var(--header-height);
+    transition: background-color var(--transition-base);
+  }
+  
+  /* Blur Background Layer */
+  .navbar__blur {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+  }
+  
+  .navbar.scrolled .navbar__blur {
+    opacity: 1;
+  }
+  
+  .navbar__blur-layer {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  
+  /* Container */
+  .navbar__container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+  
+  /* Logo */
+  .navbar__logo {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+  
+  .navbar__logo-text {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--text-primary);
+    transition: color var(--transition-base);
+  }
+  
+  .navbar__logo:hover .navbar__logo-text {
+    color: var(--accent);
+  }
+  
+  /* Hamburger Menu Button */
+  .navbar__menu-btn {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    gap: 6px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+  
+  .navbar__menu-btn-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--text-primary);
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+  }
+  
+  /* Hamburger to X Animation */
+  .navbar__menu-btn.active .navbar__menu-btn-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  
+  .navbar__menu-btn.active .navbar__menu-btn-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  
+  .navbar__menu-btn.active .navbar__menu-btn-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+  
+  /* Hover Effect */
+  .navbar__menu-btn:hover .navbar__menu-btn-line {
+    background-color: var(--accent);
+  }
+  
+  /* Hidden state during preloader */
+  :global(body:not(.preloader-ready)) .navbar {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  
+  :global(body.preloader-ready) .navbar {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  
+  /* Mobile */
+  @media (max-width: 719px) {
+    .navbar__logo-text {
+      font-size: var(--font-size-lg);
+    }
+    
+    .navbar__menu-btn {
+      width: 40px;
+      height: 40px;
+      gap: 5px;
+    }
+    
+    .navbar__menu-btn-line {
+      width: 20px;
+    }
+    
+    .navbar__menu-btn.active .navbar__menu-btn-line:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    
+    .navbar__menu-btn.active .navbar__menu-btn-line:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  
+  const navbar = document.getElementById('navbar');
+  const menuToggle = document.getElementById('menuToggle');
+  let isMenuOpen = false;
+  
+  // Scroll-based navbar background
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      navbar?.classList.add('scrolled');
+    } else {
+      navbar?.classList.remove('scrolled');
+    }
+  };
+  
+  // Initialize scroll listener
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll(); // Check initial state
+  
+  // Menu toggle functionality
+  menuToggle?.addEventListener('click', () => {
+    isMenuOpen = !isMenuOpen;
+    menuToggle.classList.toggle('active', isMenuOpen);
+    menuToggle.setAttribute('aria-expanded', String(isMenuOpen));
+    menuToggle.setAttribute('aria-label', isMenuOpen ? '메뉴 닫기' : '메뉴 열기');
+    
+    // Dispatch custom event for MenuOverlay
+    window.dispatchEvent(new CustomEvent('toggleMenu', { 
+      detail: { isOpen: isMenuOpen } 
+    }));
+  });
+  
+  // Listen for menu close from overlay
+  window.addEventListener('closeMenu', () => {
+    isMenuOpen = false;
+    menuToggle?.classList.remove('active');
+    menuToggle?.setAttribute('aria-expanded', 'false');
+    menuToggle?.setAttribute('aria-label', '메뉴 열기');
+  });
+  
+  // Entrance animation
+  document.addEventListener('DOMContentLoaded', () => {
+    gsap.fromTo(navbar,
+      { y: -100, opacity: 0 },
+      { 
+        y: 0, 
+        opacity: 1, 
+        duration: 0.8, 
+        ease: 'power3.out',
+        delay: 0.2
+      }
+    );
+  });
+</script>

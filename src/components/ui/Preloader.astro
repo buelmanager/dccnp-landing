@@ -1,0 +1,336 @@
+---
+// Preloader Component
+// Full-screen loading overlay with DCC&P logo and spinner
+---
+
+<div id="preloader" class="preloader" aria-label="Loading">
+  <div class="preloader-content">
+    <!-- Background Grain Texture -->
+    <div class="preloader-grain"></div>
+    
+    <!-- Animated Logo -->
+    <div class="preloader-logo">
+      <svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg" aria-label="DCC&P Logo">
+        <!-- Decorative line above -->
+        <line class="logo-line logo-line--top" x1="40" y1="8" x2="160" y2="8" />
+        
+        <!-- Main Text: DCC&P -->
+        <text class="logo-text" x="100" y="42" text-anchor="middle">
+          <tspan class="logo-text--main">DCC</tspan>
+          <tspan class="logo-text--ampersand">&amp;</tspan>
+          <tspan class="logo-text--main">P</tspan>
+        </text>
+        
+        <!-- Decorative line below -->
+        <line class="logo-line logo-line--bottom" x1="40" y1="52" x2="160" y2="52" />
+      </svg>
+    </div>
+    
+    <!-- Spinner Ring -->
+    <div class="preloader-spinner">
+      <svg viewBox="0 0 50 50" class="spinner-svg">
+        <!-- Track -->
+        <circle class="spinner-track" cx="25" cy="25" r="20" />
+        <!-- Progress Arc -->
+        <circle class="spinner-progress" cx="25" cy="25" r="20" />
+      </svg>
+    </div>
+    
+    <!-- Loading Text -->
+    <div class="preloader-text">
+      <span class="loading-text">LOADING</span>
+      <span class="loading-dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-preloader, 9999);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    overflow: hidden;
+  }
+
+  /* Grain texture overlay */
+  .preloader-grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+  }
+
+  .preloader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  /* Logo Styles */
+  .preloader-logo {
+    width: clamp(180px, 40vw, 280px);
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .preloader-logo svg {
+    width: 100%;
+    height: auto;
+  }
+
+  .logo-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    fill: #fff;
+  }
+
+  .logo-text--ampersand {
+    fill: var(--primary, #1a365d);
+    font-weight: 400;
+  }
+
+  .logo-line {
+    stroke: var(--primary, #1a365d);
+    stroke-width: 1;
+    stroke-linecap: round;
+    opacity: 0.6;
+  }
+
+  .logo-line--top {
+    stroke-dasharray: 120;
+    stroke-dashoffset: 120;
+  }
+
+  .logo-line--bottom {
+    stroke-dasharray: 120;
+    stroke-dashoffset: 120;
+  }
+
+  /* Spinner Styles */
+  .preloader-spinner {
+    width: 50px;
+    height: 50px;
+    opacity: 0;
+  }
+
+  .spinner-svg {
+    width: 100%;
+    height: 100%;
+    animation: spin 1.2s linear infinite;
+  }
+
+  .spinner-track {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.08);
+    stroke-width: 2;
+  }
+
+  .spinner-progress {
+    fill: none;
+    stroke: var(--primary, #1a365d);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 126;
+    stroke-dashoffset: 90;
+    transform-origin: center;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Loading Text */
+  .preloader-text {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  .loading-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+  }
+
+  .loading-dots {
+    display: flex;
+    gap: 3px;
+    margin-left: 4px;
+  }
+
+  .dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    animation: dotPulse 1.4s ease-in-out infinite;
+  }
+
+  .dot:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes dotPulse {
+    0%, 80%, 100% {
+      opacity: 0.3;
+      transform: scale(0.8);
+    }
+    40% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Hidden state (after animation) */
+  .preloader.is-hidden {
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .spinner-svg {
+      animation: none;
+    }
+    
+    .dot {
+      animation: none;
+      opacity: 0.5;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  // Initialize preloader animation
+  function initPreloader() {
+    const preloader = document.getElementById('preloader');
+    if (!preloader) return;
+
+    const logo = preloader.querySelector('.preloader-logo');
+    const lineTop = preloader.querySelector('.logo-line--top');
+    const lineBottom = preloader.querySelector('.logo-line--bottom');
+    const spinner = preloader.querySelector('.preloader-spinner');
+    const text = preloader.querySelector('.preloader-text');
+
+    // Create entrance timeline
+    const entranceTL = gsap.timeline();
+
+    entranceTL
+      // Logo fade in
+      .to(logo, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: 'power2.out',
+      })
+      // Lines draw in
+      .to([lineTop, lineBottom], {
+        strokeDashoffset: 0,
+        duration: 0.8,
+        ease: 'power2.inOut',
+        stagger: 0.1,
+      }, '-=0.3')
+      // Spinner fade in
+      .to(spinner, {
+        opacity: 1,
+        duration: 0.4,
+        ease: 'power2.out',
+      }, '-=0.4')
+      // Text fade in
+      .to(text, {
+        opacity: 1,
+        y: 0,
+        duration: 0.4,
+        ease: 'power2.out',
+      }, '-=0.2');
+
+    // Fade out function
+    function hidePreloader() {
+      const exitTL = gsap.timeline({
+        onComplete: () => {
+          preloader.classList.add('is-hidden');
+          document.body.classList.add('preloader-ready');
+          
+          // Dispatch custom event for other components
+          window.dispatchEvent(new CustomEvent('preloader:complete'));
+        },
+      });
+
+      exitTL
+        // Fade out elements
+        .to([text, spinner], {
+          opacity: 0,
+          y: -10,
+          duration: 0.3,
+          ease: 'power2.in',
+          stagger: 0.05,
+        })
+        // Logo scale and fade
+        .to(logo, {
+          opacity: 0,
+          scale: 0.95,
+          duration: 0.4,
+          ease: 'power2.in',
+        }, '-=0.2')
+        // Preloader slide up and fade
+        .to(preloader, {
+          opacity: 0,
+          duration: 0.5,
+          ease: 'power2.inOut',
+        }, '-=0.2');
+    }
+
+    // Wait for window load then hide
+    let preloaderHidden = false;
+
+    function triggerHide() {
+      if (preloaderHidden) return;
+      preloaderHidden = true;
+      setTimeout(hidePreloader, 2500);
+    }
+
+    if (document.readyState === 'complete') {
+      triggerHide();
+    } else {
+      window.addEventListener('load', triggerHide);
+    }
+
+    setTimeout(() => {
+      if (!preloaderHidden) {
+        triggerHide();
+      }
+    }, 4000);
+  }
+
+  // Run on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPreloader);
+  } else {
+    initPreloader();
+  }
+</script>

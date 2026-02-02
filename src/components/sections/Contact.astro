@@ -1,0 +1,821 @@
+---
+/**
+ * Contact Section
+ * Contact info + Form layout
+ */
+
+const contactInfo = {
+  company: '(주)디씨씨앤피',
+  phone: '070-8873-8472',
+  hours: '평일 10:00~18:30 (점심 12:00~13:00)',
+  address: '서울 영등포구 문래동6가 24-1 에이스하이테크시티2 6층 606호',
+  website: 'dccom.co.kr',
+};
+
+const inquiryTypes = [
+  { value: '', label: '문의 유형 선택' },
+  { value: 'product', label: '제품 문의' },
+  { value: 'quote', label: '견적 요청' },
+  { value: 'b2b', label: 'B2B 대량 구매' },
+  { value: 'as', label: 'A/S 문의' },
+  { value: 'other', label: '기타' },
+];
+---
+
+<section class="contact" id="contact">
+  <!-- Background -->
+  <div class="contact__bg">
+    <div class="contact__bg-gradient"></div>
+    <div class="contact__bg-glow"></div>
+    <div class="contact__bg-pattern"></div>
+  </div>
+
+  <div class="contact__container">
+    <!-- Header -->
+    <header class="contact__header" data-contact-header>
+      <span class="contact__label">Contact</span>
+      <h2 class="contact__title">문의하기</h2>
+      <p class="contact__description">
+        궁금한 점이 있으시면 언제든 문의해 주세요
+      </p>
+    </header>
+
+    <!-- Content Grid -->
+    <div class="contact__grid">
+      <!-- Info Side -->
+      <div class="contact__info" data-contact-info>
+        <div class="contact__info-card">
+          <!-- Company -->
+          <div class="contact__info-item">
+            <div class="contact__info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 21h18M3 10h18M3 7l9-4 9 4M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/>
+              </svg>
+            </div>
+            <div class="contact__info-content">
+              <h3 class="contact__info-label">회사명</h3>
+              <p class="contact__info-value">{contactInfo.company}</p>
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="contact__info-item">
+            <div class="contact__info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+              </svg>
+            </div>
+            <div class="contact__info-content">
+              <h3 class="contact__info-label">전화번호</h3>
+              <a href={`tel:${contactInfo.phone}`} class="contact__info-value contact__info-link">
+                {contactInfo.phone}
+              </a>
+            </div>
+          </div>
+
+          <!-- Hours -->
+          <div class="contact__info-item">
+            <div class="contact__info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div class="contact__info-content">
+              <h3 class="contact__info-label">운영시간</h3>
+              <p class="contact__info-value">{contactInfo.hours}</p>
+            </div>
+          </div>
+
+          <!-- Address -->
+          <div class="contact__info-item">
+            <div class="contact__info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div class="contact__info-content">
+              <h3 class="contact__info-label">주소</h3>
+              <p class="contact__info-value">{contactInfo.address}</p>
+            </div>
+          </div>
+
+          <!-- Website -->
+          <div class="contact__info-item">
+            <div class="contact__info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+              </svg>
+            </div>
+            <div class="contact__info-content">
+              <h3 class="contact__info-label">웹사이트</h3>
+              <a 
+                href={`https://${contactInfo.website}`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="contact__info-value contact__info-link"
+              >
+                {contactInfo.website}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Contact -->
+        <div class="contact__quick">
+          <a href={`tel:${contactInfo.phone}`} class="contact__quick-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+            <span>전화 문의</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Form Side -->
+      <div class="contact__form-wrapper" data-contact-form>
+        <form class="contact__form" id="contactForm">
+          <div class="contact__form-header">
+            <h3 class="contact__form-title">온라인 문의</h3>
+            <p class="contact__form-subtitle">빠른 시일 내 답변 드리겠습니다</p>
+          </div>
+
+          <!-- Name & Email Row -->
+          <div class="contact__form-row">
+            <div class="contact__form-group">
+              <label for="name" class="contact__form-label">이름 *</label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                class="contact__form-input"
+                placeholder="홍길동"
+                required
+              />
+            </div>
+            <div class="contact__form-group">
+              <label for="email" class="contact__form-label">이메일 *</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                class="contact__form-input"
+                placeholder="example@email.com"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Phone & Type Row -->
+          <div class="contact__form-row">
+            <div class="contact__form-group">
+              <label for="phone" class="contact__form-label">전화번호</label>
+              <input 
+                type="tel" 
+                id="phone" 
+                name="phone" 
+                class="contact__form-input"
+                placeholder="010-1234-5678"
+              />
+            </div>
+            <div class="contact__form-group">
+              <label for="inquiryType" class="contact__form-label">문의 유형 *</label>
+              <div class="contact__form-select-wrapper">
+                <select 
+                  id="inquiryType" 
+                  name="inquiryType" 
+                  class="contact__form-select"
+                  required
+                >
+                  {inquiryTypes.map((type) => (
+                    <option value={type.value} disabled={type.value === ''} selected={type.value === ''}>
+                      {type.label}
+                    </option>
+                  ))}
+                </select>
+                <svg class="contact__form-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Message -->
+          <div class="contact__form-group contact__form-group--full">
+            <label for="message" class="contact__form-label">문의 내용 *</label>
+            <textarea 
+              id="message" 
+              name="message" 
+              class="contact__form-textarea"
+              placeholder="문의하실 내용을 입력해 주세요"
+              rows="5"
+              required
+            ></textarea>
+          </div>
+
+          <!-- Privacy -->
+          <div class="contact__form-privacy">
+            <label class="contact__form-checkbox">
+              <input type="checkbox" name="privacy" required />
+              <span class="contact__form-checkbox-mark"></span>
+              <span class="contact__form-checkbox-label">
+                개인정보 수집 및 이용에 동의합니다
+              </span>
+            </label>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="contact__form-submit">
+            <span>문의하기</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    position: relative;
+    padding: var(--space-4xl) 0;
+    overflow: hidden;
+    background: var(--background-alt);
+  }
+
+  /* Background Effects */
+  .contact__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .contact__bg-gradient {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 50% 40% at 20% 20%, rgba(26, 54, 93, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 30% at 80% 80%, rgba(49, 130, 206, 0.1) 0%, transparent 50%);
+  }
+
+  .contact__bg-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at center, rgba(26, 54, 93, 0.08) 0%, transparent 60%);
+  }
+
+  .contact__bg-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: 0.015;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Container */
+  .contact__container {
+    position: relative;
+    z-index: 1;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  /* Header */
+  .contact__header {
+    text-align: center;
+    margin-bottom: var(--space-4xl);
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .contact__header.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: 
+      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .contact__label {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--accent);
+    margin-bottom: var(--space-md);
+    padding: var(--space-xs) var(--space-lg);
+    background: rgba(99, 179, 237, 0.1);
+    border: 1px solid rgba(99, 179, 237, 0.2);
+    border-radius: var(--radius-full);
+  }
+
+  .contact__title {
+    font-size: var(--font-size-4xl);
+    font-weight: 600;
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--text-primary);
+    margin-bottom: var(--space-lg);
+  }
+
+  .contact__description {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* Grid */
+  .contact__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--space-3xl);
+    align-items: start;
+  }
+
+  /* Info Side */
+  .contact__info {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  .contact__info.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+    transition: 
+      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+  }
+
+  .contact__info-card {
+    background: linear-gradient(
+      135deg,
+      rgba(26, 54, 93, 0.1) 0%,
+      rgba(17, 17, 17, 0.5) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .contact__info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .contact__info-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(99, 179, 237, 0.1);
+    border: 1px solid rgba(99, 179, 237, 0.2);
+    border-radius: var(--radius-md);
+    color: var(--accent);
+  }
+
+  .contact__info-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .contact__info-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .contact__info-label {
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--text-muted);
+    margin-bottom: var(--space-xs);
+  }
+
+  .contact__info-value {
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    line-height: var(--line-height-normal);
+    word-break: keep-all;
+  }
+
+  .contact__info-link {
+    transition: color var(--transition-base);
+  }
+
+  .contact__info-link:hover {
+    color: var(--accent);
+  }
+
+  /* Quick Contact */
+  .contact__quick {
+    margin-top: var(--space-xl);
+  }
+
+  .contact__quick-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    width: 100%;
+    padding: var(--space-md) var(--space-xl);
+    background: var(--primary);
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: all var(--transition-base);
+  }
+
+  .contact__quick-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(26, 54, 93, 0.4);
+  }
+
+  .contact__quick-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Form Side */
+  .contact__form-wrapper {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  .contact__form-wrapper.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+    transition: 
+      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s,
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+  }
+
+  .contact__form {
+    background: linear-gradient(
+      145deg,
+      rgba(26, 54, 93, 0.08) 0%,
+      rgba(17, 17, 17, 0.6) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl);
+  }
+
+  .contact__form-header {
+    margin-bottom: var(--space-xl);
+  }
+
+  .contact__form-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .contact__form-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  .contact__form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-lg);
+  }
+
+  .contact__form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contact__form-group--full {
+    margin-bottom: var(--space-lg);
+  }
+
+  .contact__form-label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .contact__form-input,
+  .contact__form-select,
+  .contact__form-textarea {
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+  }
+
+  .contact__form-input::placeholder,
+  .contact__form-textarea::placeholder {
+    color: var(--text-muted);
+  }
+
+  .contact__form-input:focus,
+  .contact__form-select:focus,
+  .contact__form-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: rgba(26, 54, 93, 0.1);
+    box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.2);
+  }
+
+  /* Select wrapper */
+  .contact__form-select-wrapper {
+    position: relative;
+  }
+
+  .contact__form-select {
+    appearance: none;
+    cursor: pointer;
+    padding-right: var(--space-3xl);
+  }
+
+  .contact__form-select option {
+    background: var(--surface);
+    color: var(--text-primary);
+  }
+
+  .contact__form-select-arrow {
+    position: absolute;
+    right: var(--space-md);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  /* Textarea */
+  .contact__form-textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  /* Privacy checkbox */
+  .contact__form-privacy {
+    margin-bottom: var(--space-xl);
+  }
+
+  .contact__form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    cursor: pointer;
+  }
+
+  .contact__form-checkbox input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .contact__form-checkbox-mark {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.3);
+    transition: all var(--transition-base);
+    position: relative;
+  }
+
+  .contact__form-checkbox-mark::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 10px;
+    border: solid var(--text-primary);
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -60%) rotate(45deg);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+  }
+
+  .contact__form-checkbox input:checked + .contact__form-checkbox-mark {
+    background: var(--primary);
+    border-color: var(--primary);
+  }
+
+  .contact__form-checkbox input:checked + .contact__form-checkbox-mark::after {
+    opacity: 1;
+  }
+
+  .contact__form-checkbox input:focus-visible + .contact__form-checkbox-mark {
+    box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.3);
+  }
+
+  .contact__form-checkbox-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  /* Submit button */
+  .contact__form-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    width: 100%;
+    padding: var(--space-md) var(--space-xl);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+    border: none;
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-base);
+  }
+
+  .contact__form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(26, 54, 93, 0.5);
+  }
+
+  .contact__form-submit:active {
+    transform: translateY(0);
+  }
+
+  .contact__form-submit svg {
+    width: 18px;
+    height: 18px;
+    transition: transform var(--transition-base);
+  }
+
+  .contact__form-submit:hover svg {
+    transform: translateX(4px) translateY(-4px);
+  }
+
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .contact__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-2xl);
+    }
+
+    .contact__info {
+      order: 2;
+    }
+
+    .contact__form-wrapper {
+      order: 1;
+    }
+  }
+
+  @media (max-width: 719px) {
+    .contact {
+      padding: var(--space-3xl) 0;
+    }
+
+    .contact__header {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .contact__title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .contact__description {
+      font-size: var(--font-size-base);
+    }
+
+    .contact__form-row {
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+
+    .contact__form {
+      padding: var(--space-xl);
+    }
+
+    .contact__info-card {
+      padding: var(--space-xl);
+    }
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .contact__header,
+    .contact__info,
+    .contact__form-wrapper {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initContactAnimation() {
+    const section = document.querySelector('.contact');
+    if (!section) return;
+
+    const header = section.querySelector('[data-contact-header]');
+    const info = section.querySelector('[data-contact-info]');
+    const form = section.querySelector('[data-contact-form]');
+
+    // Header animation
+    if (header) {
+      ScrollTrigger.create({
+        trigger: header,
+        start: 'top 85%',
+        onEnter: () => header.classList.add('is-visible'),
+        once: true,
+      });
+    }
+
+    // Info animation
+    if (info) {
+      ScrollTrigger.create({
+        trigger: info,
+        start: 'top 80%',
+        onEnter: () => info.classList.add('is-visible'),
+        once: true,
+      });
+    }
+
+    // Form animation
+    if (form) {
+      ScrollTrigger.create({
+        trigger: form,
+        start: 'top 80%',
+        onEnter: () => form.classList.add('is-visible'),
+        once: true,
+      });
+    }
+
+    // Form handling (frontend only)
+    const contactForm = section.querySelector('#contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Visual feedback
+        const submitBtn = contactForm.querySelector('.contact__form-submit');
+        if (submitBtn) {
+          const originalText = submitBtn.innerHTML;
+          submitBtn.innerHTML = '<span>전송 완료!</span>';
+          submitBtn.setAttribute('disabled', 'true');
+          
+          setTimeout(() => {
+            submitBtn.innerHTML = originalText;
+            submitBtn.removeAttribute('disabled');
+            (contactForm as HTMLFormElement).reset();
+          }, 2000);
+        }
+      });
+    }
+  }
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initContactAnimation);
+  } else {
+    initContactAnimation();
+  }
+
+  // Astro page transitions
+  document.addEventListener('astro:page-load', initContactAnimation);
+</script>

@@ -1,0 +1,1003 @@
+---
+/**
+ * ITProducts Section
+ * - Swiper carousel with IT product cards
+ * - Modal with GSAP animations
+ * - Parallax dark background
+ */
+
+const products = [
+  { 
+    id: 'workstation',
+    title: 'Dell PRECISION 워크스테이션',
+    desc: '전문가를 위한 최고 성능의 워크스테이션',
+    fullDesc: 'ISV 인증을 통해 전문 소프트웨어와의 완벽한 호환성을 보장합니다. Intel Xeon 프로세서와 NVIDIA RTX 그래픽으로 3D 렌더링, CAD, 영상 편집 등 고사양 작업을 원활하게 처리합니다.',
+    specs: ['Intel Xeon W-2400 시리즈', 'NVIDIA RTX 5000 Ada', '최대 512GB ECC 메모리', 'PCIe 5.0 NVMe SSD'],
+    image: 'https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=600&q=80'
+  },
+  { 
+    id: 'server',
+    title: 'Dell POWEREDGE 서버',
+    desc: '엔터프라이즈급 서버 솔루션',
+    fullDesc: '비즈니스 크리티컬 워크로드를 위한 안정적이고 확장 가능한 서버 인프라. AI/ML, 가상화, 데이터베이스 등 다양한 엔터프라이즈 환경에 최적화되어 있습니다.',
+    specs: ['Intel Xeon Scalable 4/5세대', '최대 2TB DDR5 메모리', '핫스왑 NVMe/SAS 스토리지', 'iDRAC9 원격 관리'],
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80'
+  },
+  { 
+    id: 'laptop',
+    title: '고성능 노트북',
+    desc: '비즈니스와 창작을 위한 모바일 파워',
+    fullDesc: '어디서나 데스크톱급 성능을 경험하세요. Dell Latitude, HP EliteBook 시리즈로 보안성과 휴대성, 성능을 모두 만족시킵니다.',
+    specs: ['Intel Core Ultra / AMD Ryzen Pro', '최대 64GB DDR5', 'OLED / 4K+ 디스플레이', '최대 1TB PCIe Gen4 SSD'],
+    image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&q=80'
+  },
+  { 
+    id: 'monitor',
+    title: '모니터 & 디스플레이',
+    desc: '전문가용 색재현 모니터',
+    fullDesc: 'Delta E < 2의 정확한 색 재현으로 디자인, 사진, 영상 편집 전문가들의 신뢰를 받는 프리미엄 모니터 라인업입니다.',
+    specs: ['Dell UltraSharp / HP Z 시리즈', 'DCI-P3 99% / Adobe RGB 99%', 'USB-C PD 최대 140W', 'Thunderbolt 4 데이지체인'],
+    image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&q=80'
+  },
+  { 
+    id: 'network',
+    title: '네트워크 장비',
+    desc: '안정적인 기업 네트워크 구축',
+    fullDesc: 'Dell, HP, Cisco 등 글로벌 브랜드의 스위치, 라우터, 무선 AP로 기업 네트워크의 안정성과 보안을 강화합니다.',
+    specs: ['10/25/100GbE 스위치', 'WiFi 7 액세스 포인트', 'SDWAN / Zero Trust', '중앙집중식 관리 솔루션'],
+    image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&q=80'
+  },
+];
+---
+
+<section id="it-products" class="it-products">
+  <!-- Parallax Background -->
+  <div class="it-products__bg">
+    <div class="it-products__bg-gradient"></div>
+    <div class="it-products__bg-grid"></div>
+    <div class="it-products__bg-glow"></div>
+  </div>
+  
+  <div class="it-products__container">
+    <!-- Section Header -->
+    <header class="it-products__header">
+      <span class="it-products__eyebrow">Premium IT Solutions</span>
+      <h2 class="it-products__title">
+        IT 솔루션의 <span class="text-gradient">정점</span>
+      </h2>
+      <p class="it-products__description">
+        Dell, HP 등 글로벌 브랜드의 프리미엄 IT 제품
+      </p>
+    </header>
+    
+    <!-- Swiper Carousel -->
+    <div class="it-products__carousel">
+      <div class="swiper it-products-swiper">
+        <div class="swiper-wrapper">
+          {products.map((product, index) => (
+            <div class="swiper-slide">
+              <article 
+                class="product-card" 
+                data-product-id={product.id}
+                data-index={index}
+                role="button"
+                tabindex="0"
+                aria-label={`${product.title} 상세보기`}
+              >
+                <!-- Product Image -->
+                <div class="product-card__image">
+                  <img 
+                    src={product.image} 
+                    alt={product.title}
+                    class="product-card__img"
+                  />
+                  <div class="product-card__image-content">
+                    <svg class="product-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      {product.id === 'workstation' && (
+                        <path d="M9 17H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2h-4m-6 0v4m0-4h6m-6 4h6m-3 0v3" stroke-linecap="round" stroke-linejoin="round"/>
+                      )}
+                      {product.id === 'server' && (
+                        <path d="M5 3h14a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zm0 10h14a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4a2 2 0 012-2zm2-6h.01M7 17h.01" stroke-linecap="round" stroke-linejoin="round"/>
+                      )}
+                      {product.id === 'laptop' && (
+                        <path d="M20 16V7a2 2 0 00-2-2H6a2 2 0 00-2 2v9m16 0H4m16 0l1.28 2.55a1 1 0 01-.9 1.45H3.62a1 1 0 01-.9-1.45L4 16" stroke-linecap="round" stroke-linejoin="round"/>
+                      )}
+                      {product.id === 'monitor' && (
+                        <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/>
+                      )}
+                      {product.id === 'network' && (
+                        <path d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071a9 9 0 0112.728 0M1.394 9.393a13 13 0 0118.728 0" stroke-linecap="round" stroke-linejoin="round"/>
+                      )}
+                    </svg>
+                    <span class="product-card__label">{product.title.split(' ')[0]}</span>
+                  </div>
+                  
+                  <!-- Hover Overlay -->
+                  <div class="product-card__overlay">
+                    <span class="product-card__view">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+                
+                <!-- Card Content -->
+                <div class="product-card__content">
+                  <h3 class="product-card__title">{product.title}</h3>
+                  <p class="product-card__desc">{product.desc}</p>
+                </div>
+              </article>
+            </div>
+          ))}
+        </div>
+        
+        <!-- Navigation -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        
+        <!-- Pagination -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div class="product-modal" id="productModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="product-modal__backdrop"></div>
+    <div class="product-modal__container">
+      <button class="product-modal__close" aria-label="모달 닫기">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      
+       <div class="product-modal__content">
+         <div class="product-modal__image" id="modalImage">
+           <img 
+             id="modalImageImg"
+             src=""
+             alt="Product"
+             class="product-modal__img"
+           />
+           <div class="product-modal__image-content">
+             <svg class="product-modal__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" id="modalIcon"></svg>
+             <span class="product-modal__label" id="modalLabel"></span>
+           </div>
+         </div>
+        
+        <div class="product-modal__info">
+          <span class="product-modal__eyebrow">Product Details</span>
+          <h3 class="product-modal__title" id="modalTitle"></h3>
+          <p class="product-modal__description" id="modalDescription"></p>
+          
+          <div class="product-modal__specs">
+            <h4 class="product-modal__specs-title">주요 사양</h4>
+            <ul class="product-modal__specs-list" id="modalSpecs"></ul>
+          </div>
+          
+          <div class="product-modal__actions">
+            <button class="button button--primary">견적 문의</button>
+            <button class="button button--outline">자세히 보기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .it-products {
+    position: relative;
+    padding: var(--space-4xl) 0;
+    min-height: 100vh;
+    overflow: hidden;
+    background: var(--background);
+  }
+  
+  /* Parallax Background */
+  .it-products__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  
+  .it-products__bg-gradient {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(26, 54, 93, 0.3) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 100%, rgba(49, 130, 206, 0.15) 0%, transparent 50%);
+  }
+  
+  .it-products__bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: perspective(500px) rotateX(60deg);
+    transform-origin: center top;
+    mask-image: linear-gradient(to bottom, white 0%, transparent 80%);
+    -webkit-mask-image: linear-gradient(to bottom, white 0%, transparent 80%);
+  }
+  
+  .it-products__bg-glow {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(26, 54, 93, 0.4) 0%, transparent 70%);
+    transform: translateX(-50%);
+    filter: blur(100px);
+    animation: glowPulse 8s ease-in-out infinite;
+  }
+  
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+    50% { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
+  }
+  
+  /* Container */
+  .it-products__container {
+    position: relative;
+    z-index: 1;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+  
+  /* Header */
+  .it-products__header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--space-4xl);
+  }
+  
+  .it-products__eyebrow {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--accent);
+    margin-bottom: var(--space-md);
+    padding: var(--space-xs) var(--space-md);
+    background: rgba(99, 179, 237, 0.1);
+    border: 1px solid rgba(99, 179, 237, 0.2);
+    border-radius: var(--radius-full);
+  }
+  
+  .it-products__title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 600;
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .it-products__description {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+  
+  /* Carousel */
+  .it-products__carousel {
+    position: relative;
+    padding: 0 40px;
+  }
+  
+  .it-products-swiper {
+    padding-bottom: 60px;
+    overflow: visible;
+  }
+  
+  .it-products-swiper .swiper-slide {
+    height: auto;
+  }
+  
+  .it-products-swiper .swiper-button-prev,
+  .it-products-swiper .swiper-button-next {
+    top: calc(50% - 30px);
+  }
+  
+  .it-products-swiper .swiper-button-prev {
+    left: -20px;
+  }
+  
+  .it-products-swiper .swiper-button-next {
+    right: -20px;
+  }
+  
+  /* Product Card */
+  .product-card {
+    position: relative;
+    height: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all var(--transition-base);
+  }
+  
+  .product-card:hover,
+  .product-card:focus-visible {
+    border-color: var(--primary);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+  
+  .product-card:focus-visible {
+    outline: none;
+  }
+  
+   .product-card__image {
+     position: relative;
+     aspect-ratio: 4/3;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     overflow: hidden;
+     background: var(--surface-dark);
+   }
+   
+   .product-card__img {
+     position: absolute;
+     inset: 0;
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     object-position: center;
+   }
+  
+  .product-card__image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.1) 0%, 
+      transparent 50%, 
+      rgba(0, 0, 0, 0.2) 100%);
+    pointer-events: none;
+  }
+  
+  .product-card__image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+  }
+  
+  .product-card__image-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    color: rgba(255, 255, 255, 0.8);
+    transition: transform var(--transition-base);
+  }
+  
+  .product-card:hover .product-card__image-content {
+    transform: scale(1.05);
+  }
+  
+  .product-card__icon {
+    width: 64px;
+    height: 64px;
+    opacity: 0.8;
+  }
+  
+  .product-card__label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    opacity: 0.7;
+  }
+  
+  .product-card__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+  }
+  
+  .product-card:hover .product-card__overlay {
+    opacity: 1;
+  }
+  
+  .product-card__view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: var(--primary);
+    border-radius: var(--radius-full);
+    transform: scale(0.8);
+    transition: transform var(--transition-base);
+  }
+  
+  .product-card:hover .product-card__view {
+    transform: scale(1);
+  }
+  
+  .product-card__view svg {
+    width: 24px;
+    height: 24px;
+    color: white;
+  }
+  
+  .product-card__content {
+    padding: var(--space-lg);
+  }
+  
+  .product-card__title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+    line-height: var(--line-height-tight);
+  }
+  
+  .product-card__desc {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: var(--line-height-normal);
+  }
+  
+  /* Modal */
+  .product-modal {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-modal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-lg);
+    pointer-events: none;
+    visibility: hidden;
+  }
+  
+  .product-modal.is-open {
+    pointer-events: auto;
+    visibility: visible;
+  }
+  
+  .product-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+  }
+  
+  .product-modal.is-open .product-modal__backdrop {
+    opacity: 1;
+  }
+  
+  .product-modal__container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    max-height: 90vh;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  
+  .product-modal.is-open .product-modal__container {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  .product-modal__close {
+    position: absolute;
+    top: var(--space-lg);
+    right: var(--space-lg);
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-full);
+    color: white;
+    cursor: pointer;
+    transition: all var(--transition-base);
+  }
+  
+  .product-modal__close:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: rotate(90deg);
+  }
+  
+  .product-modal__close svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .product-modal__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 500px;
+  }
+  
+   .product-modal__image {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: var(--space-3xl);
+     position: relative;
+     overflow: hidden;
+     background: var(--surface-dark);
+   }
+   
+   .product-modal__img {
+     position: absolute;
+     inset: 0;
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     object-position: center;
+   }
+  
+  .product-modal__image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.1) 0%, 
+      transparent 50%, 
+      rgba(0, 0, 0, 0.2) 100%);
+    pointer-events: none;
+  }
+  
+  .product-modal__image-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .product-modal__icon {
+    width: 120px;
+    height: 120px;
+    opacity: 0.9;
+  }
+  
+  .product-modal__label {
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    opacity: 0.8;
+  }
+  
+  .product-modal__info {
+    padding: var(--space-3xl);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--surface-light);
+  }
+  
+  .product-modal__eyebrow {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--accent);
+    margin-bottom: var(--space-md);
+  }
+  
+  .product-modal__title {
+    font-size: var(--font-size-3xl);
+    font-weight: 600;
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .product-modal__description {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-2xl);
+  }
+  
+  .product-modal__specs {
+    margin-bottom: var(--space-2xl);
+  }
+  
+  .product-modal__specs-title {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--text-muted);
+    margin-bottom: var(--space-md);
+  }
+  
+  .product-modal__specs-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  
+  .product-modal__specs-list li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+  }
+  
+  .product-modal__specs-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--primary);
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+  }
+  
+  .product-modal__actions {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+  
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .it-products__carousel {
+      padding: 0 20px;
+    }
+    
+    .it-products-swiper .swiper-button-prev,
+    .it-products-swiper .swiper-button-next {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .it-products {
+      padding: var(--space-3xl) 0;
+    }
+    
+    .it-products__header {
+      margin-bottom: var(--space-2xl);
+    }
+    
+    .it-products__carousel {
+      padding: 0;
+    }
+    
+    .product-modal__content {
+      grid-template-columns: 1fr;
+    }
+    
+    .product-modal__image {
+      aspect-ratio: 16/9;
+      padding: var(--space-2xl);
+    }
+    
+    .product-modal__icon {
+      width: 80px;
+      height: 80px;
+    }
+    
+    .product-modal__info {
+      padding: var(--space-2xl);
+    }
+    
+    .product-modal__title {
+      font-size: var(--font-size-2xl);
+    }
+    
+    .product-modal__actions {
+      flex-direction: column;
+    }
+    
+    .product-modal__actions .button {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Pagination } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/navigation';
+  import 'swiper/css/pagination';
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  
+  gsap.registerPlugin(ScrollTrigger);
+  
+   // Product data for modal
+   const products = [
+     { 
+       id: 'workstation',
+       title: 'Dell PRECISION 워크스테이션',
+       desc: '전문가를 위한 최고 성능의 워크스테이션',
+       fullDesc: 'ISV 인증을 통해 전문 소프트웨어와의 완벽한 호환성을 보장합니다. Intel Xeon 프로세서와 NVIDIA RTX 그래픽으로 3D 렌더링, CAD, 영상 편집 등 고사양 작업을 원활하게 처리합니다.',
+       specs: ['Intel Xeon W-2400 시리즈', 'NVIDIA RTX 5000 Ada', '최대 512GB ECC 메모리', 'PCIe 5.0 NVMe SSD'],
+       image: 'https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=600&q=80',
+       gradient: 'linear-gradient(135deg, #1a365d 0%, #2d5a8c 50%, #4a7ba7 100%)',
+       iconPath: 'M9 17H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2h-4m-6 0v4m0-4h6m-6 4h6m-3 0v3'
+     },
+     { 
+       id: 'server',
+       title: 'Dell POWEREDGE 서버',
+       desc: '엔터프라이즈급 서버 솔루션',
+       fullDesc: '비즈니스 크리티컬 워크로드를 위한 안정적이고 확장 가능한 서버 인프라. AI/ML, 가상화, 데이터베이스 등 다양한 엔터프라이즈 환경에 최적화되어 있습니다.',
+       specs: ['Intel Xeon Scalable 4/5세대', '최대 2TB DDR5 메모리', '핫스왑 NVMe/SAS 스토리지', 'iDRAC9 원격 관리'],
+       image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80',
+       gradient: 'linear-gradient(135deg, #0f1f3a 0%, #1a365d 50%, #3182ce 100%)',
+       iconPath: 'M5 3h14a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zm0 10h14a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4a2 2 0 012-2zm2-6h.01M7 17h.01'
+     },
+     { 
+       id: 'laptop',
+       title: '고성능 노트북',
+       desc: '비즈니스와 창작을 위한 모바일 파워',
+       fullDesc: '어디서나 데스크톱급 성능을 경험하세요. Dell Latitude, HP EliteBook 시리즈로 보안성과 휴대성, 성능을 모두 만족시킵니다.',
+       specs: ['Intel Core Ultra / AMD Ryzen Pro', '최대 64GB DDR5', 'OLED / 4K+ 디스플레이', '최대 1TB PCIe Gen4 SSD'],
+       image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&q=80',
+       gradient: 'linear-gradient(135deg, #2d3748 0%, #4a5568 50%, #718096 100%)',
+       iconPath: 'M20 16V7a2 2 0 00-2-2H6a2 2 0 00-2 2v9m16 0H4m16 0l1.28 2.55a1 1 0 01-.9 1.45H3.62a1 1 0 01-.9-1.45L4 16'
+     },
+     { 
+       id: 'monitor',
+       title: '모니터 & 디스플레이',
+       desc: '전문가용 색재현 모니터',
+       fullDesc: 'Delta E < 2의 정확한 색 재현으로 디자인, 사진, 영상 편집 전문가들의 신뢰를 받는 프리미엄 모니터 라인업입니다.',
+       specs: ['Dell UltraSharp / HP Z 시리즈', 'DCI-P3 99% / Adobe RGB 99%', 'USB-C PD 최대 140W', 'Thunderbolt 4 데이지체인'],
+       image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&q=80',
+       gradient: 'linear-gradient(135deg, #1a365d 0%, #3182ce 50%, #63b3ed 100%)',
+       iconPath: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'
+     },
+     { 
+       id: 'network',
+       title: '네트워크 장비',
+       desc: '안정적인 기업 네트워크 구축',
+       fullDesc: 'Dell, HP, Cisco 등 글로벌 브랜드의 스위치, 라우터, 무선 AP로 기업 네트워크의 안정성과 보안을 강화합니다.',
+       specs: ['10/25/100GbE 스위치', 'WiFi 7 액세스 포인트', 'SDWAN / Zero Trust', '중앙집중식 관리 솔루션'],
+       image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&q=80',
+       gradient: 'linear-gradient(135deg, #0f1f3a 0%, #2d5a8c 50%, #4a7ba7 100%)',
+       iconPath: 'M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071a9 9 0 0112.728 0M1.394 9.393a13 13 0 0118.728 0'
+     },
+   ];
+  
+  // Initialize Swiper
+  const swiper = new Swiper('.it-products-swiper', {
+    modules: [Navigation, Pagination],
+    slidesPerView: 1,
+    spaceBetween: 24,
+    loop: true,
+    grabCursor: true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    breakpoints: {
+      640: {
+        slidesPerView: 2,
+        spaceBetween: 24,
+      },
+      1024: {
+        slidesPerView: 3,
+        spaceBetween: 32,
+      },
+    },
+  });
+  
+   // Modal elements
+   const modal = document.getElementById('productModal') as HTMLElement;
+   const modalImage = document.getElementById('modalImage') as HTMLElement;
+   const modalImageImg = document.getElementById('modalImageImg') as HTMLImageElement;
+   const modalIcon = document.getElementById('modalIcon') as SVGElement;
+   const modalLabel = document.getElementById('modalLabel') as HTMLElement;
+   const modalTitle = document.getElementById('modalTitle') as HTMLElement;
+   const modalDescription = document.getElementById('modalDescription') as HTMLElement;
+   const modalSpecs = document.getElementById('modalSpecs') as HTMLElement;
+   const closeBtn = modal.querySelector('.product-modal__close') as HTMLElement;
+   const backdrop = modal.querySelector('.product-modal__backdrop') as HTMLElement;
+  
+   // Open modal
+   function openModal(productId: string) {
+     const product = products.find(p => p.id === productId);
+     if (!product) return;
+     
+     // Update modal content
+     modalImageImg.src = product.image;
+     modalImageImg.alt = product.title;
+     modalIcon.innerHTML = `<path d="${product.iconPath}" stroke-linecap="round" stroke-linejoin="round"/>`;
+     modalLabel.textContent = product.title.split(' ')[0];
+     modalTitle.textContent = product.title;
+     modalDescription.textContent = product.fullDesc;
+     modalSpecs.innerHTML = product.specs.map(spec => `<li>${spec}</li>`).join('');
+    
+    // Stop Lenis scroll
+    if (window.lenis) {
+      window.lenis.stop();
+    }
+    
+    // Show modal with GSAP animation
+    modal.classList.add('is-open');
+    
+    const tl = gsap.timeline();
+    
+    tl.fromTo(backdrop, 
+      { opacity: 0 },
+      { opacity: 1, duration: 0.3, ease: 'power2.out' }
+    );
+    
+    tl.fromTo(modal.querySelector('.product-modal__container'),
+      { opacity: 0, scale: 0.9, y: 20 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: 'back.out(1.5)' },
+      '-=0.15'
+    );
+    
+    tl.fromTo(modal.querySelector('.product-modal__image-content'),
+      { opacity: 0, scale: 0.8 },
+      { opacity: 1, scale: 1, duration: 0.3, ease: 'power2.out' },
+      '-=0.2'
+    );
+    
+    tl.fromTo(modal.querySelectorAll('.product-modal__info > *'),
+      { opacity: 0, y: 15 },
+      { opacity: 1, y: 0, duration: 0.3, stagger: 0.05, ease: 'power2.out' },
+      '-=0.2'
+    );
+  }
+  
+  // Close modal
+  function closeModal() {
+    const tl = gsap.timeline({
+      onComplete: () => {
+        modal.classList.remove('is-open');
+        
+        // Resume Lenis scroll
+        if (window.lenis) {
+          window.lenis.start();
+        }
+      }
+    });
+    
+    tl.to(modal.querySelector('.product-modal__container'), {
+      opacity: 0,
+      scale: 0.9,
+      duration: 0.25,
+      ease: 'power2.in'
+    });
+    
+    tl.to(backdrop, {
+      opacity: 0,
+      duration: 0.2,
+      ease: 'power2.in'
+    }, '-=0.15');
+  }
+  
+  // Event listeners for product cards
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const productId = card.getAttribute('data-product-id');
+      if (productId) openModal(productId);
+    });
+    
+    card.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') {
+        e.preventDefault();
+        const productId = card.getAttribute('data-product-id');
+        if (productId) openModal(productId);
+      }
+    });
+  });
+  
+  // Close modal events
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+  
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+      closeModal();
+    }
+  });
+  
+  // Parallax effect for background
+  gsap.to('.it-products__bg-glow', {
+    y: 100,
+    scrollTrigger: {
+      trigger: '.it-products',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 1,
+    }
+  });
+  
+  gsap.to('.it-products__bg-grid', {
+    y: -50,
+    scrollTrigger: {
+      trigger: '.it-products',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 1,
+    }
+  });
+  
+  // Entrance animations
+  const headerEl = document.querySelector('.it-products__header');
+  const carouselEl = document.querySelector('.it-products__carousel');
+  const productCards = document.querySelectorAll('.product-card');
+  
+  if (headerEl) {
+    gsap.fromTo(headerEl, 
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: headerEl,
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        }
+      }
+    );
+  }
+  
+  if (productCards.length > 0) {
+    // Entrance animation with immediateRender: false to keep cards visible until triggered
+    gsap.from(productCards, {
+      opacity: 0,
+      y: 40,
+      duration: 0.7,
+      stagger: 0.12,
+      ease: 'power2.out',
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: carouselEl || '.it-products__carousel',
+        start: 'top 90%',
+        toggleActions: 'play none none none',
+      }
+    });
+  }
+  
+  // Type declaration for global lenis
+  declare global {
+    interface Window {
+      lenis: any;
+    }
+  }
+</script>

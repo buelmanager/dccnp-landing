@@ -1,0 +1,547 @@
+---
+/**
+ * MenuOverlay Component
+ * Fullscreen menu overlay with GSAP stagger animations
+ * and duplicate text hover effect
+ */
+
+const menuItems = [
+  { label: '홈', href: '#home', section: 'home' },
+  { label: '서비스', href: '#services', section: 'services' },
+  { label: 'IT 제품', href: '#it-products', section: 'it-products' },
+  { label: '주변기기', href: '#appliances', section: 'appliances' },
+  { label: '브랜드', href: '#brands', section: 'brands' },
+  { label: 'FAQ', href: '#faq', section: 'faq' },
+  { label: '문의하기', href: '#contact', section: 'contact' },
+];
+---
+
+<div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+  <!-- Backdrop for dimming -->
+  <div class="menu-overlay__backdrop" id="menuBackdrop"></div>
+  
+  <!-- Sliding Panel -->
+  <div class="menu-overlay__panel" id="menuPanel">
+    <!-- Panel background with blur -->
+    <div class="menu-overlay__panel-bg"></div>
+    
+    <!-- Decorative elements -->
+    <div class="menu-overlay__decoration">
+      <div class="menu-overlay__line menu-overlay__line--1"></div>
+      <div class="menu-overlay__line menu-overlay__line--2"></div>
+      <div class="menu-overlay__line menu-overlay__line--3"></div>
+    </div>
+    
+    <!-- Menu Content -->
+    <div class="menu-overlay__content">
+    <nav class="menu-overlay__nav" role="navigation" aria-label="메인 메뉴">
+      <ul class="menu-overlay__list">
+        {menuItems.map((item, index) => (
+          <li class="menu-overlay__item" data-index={index}>
+            <a 
+              href={item.href} 
+              class="menu-overlay__link"
+              data-section={item.section}
+            >
+              <span class="menu-overlay__link-index">0{index + 1}</span>
+              <span class="menu-overlay__link-wrapper">
+                <span class="menu-overlay__link-text">{item.label}</span>
+                <span class="menu-overlay__link-text menu-overlay__link-text--clone">{item.label}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    
+    <!-- Footer Info -->
+    <div class="menu-overlay__footer">
+      <div class="menu-overlay__footer-col">
+        <p class="menu-overlay__footer-label">연락처</p>
+        <a href="tel:02-1234-5678" class="menu-overlay__footer-value">02-1234-5678</a>
+      </div>
+      <div class="menu-overlay__footer-col">
+        <p class="menu-overlay__footer-label">이메일</p>
+        <a href="mailto:info@dccom.co.kr" class="menu-overlay__footer-value">info@dccom.co.kr</a>
+      </div>
+      <div class="menu-overlay__footer-col">
+        <p class="menu-overlay__footer-label">소셜</p>
+        <div class="menu-overlay__footer-social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="YouTube">YT</a>
+          <a href="#" aria-label="LinkedIn">LI</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<style>
+  .menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: calc(var(--z-fixed) - 1);
+    pointer-events: none;
+    visibility: hidden;
+  }
+  
+  .menu-overlay.active {
+    pointer-events: auto;
+    visibility: visible;
+  }
+  
+  /* Backdrop - dims the background */
+  .menu-overlay__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  /* Sliding Panel */
+  .menu-overlay__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(500px, 85vw);
+    transform: translateX(100%);
+    will-change: transform;
+    overflow: hidden;
+    
+    /* Subtle shadow on left edge */
+    box-shadow: 
+      -20px 0 60px rgba(0, 0, 0, 0.4),
+      -8px 0 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Panel background with blur */
+  .menu-overlay__panel-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      var(--primary-dark) 0%,
+      var(--background) 50%,
+      var(--primary-dark) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  
+  /* Decorative Lines */
+  .menu-overlay__decoration {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  
+  .menu-overlay__line {
+    position: absolute;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(26, 54, 93, 0.3) 50%,
+      transparent 100%
+    );
+    opacity: 0;
+  }
+  
+  .menu-overlay__line--1 {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(26, 54, 93, 0.5) 30%,
+      rgba(26, 54, 93, 0.5) 70%,
+      transparent 100%
+    );
+  }
+  
+  .menu-overlay__line--2 {
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+  }
+  
+  .menu-overlay__line--3 {
+    right: var(--container-padding);
+    left: auto;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+  }
+  
+  /* Content */
+  .menu-overlay__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding: calc(var(--header-height) + var(--space-2xl)) var(--space-xl) var(--space-2xl);
+  }
+  
+  /* Navigation */
+  .menu-overlay__nav {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  
+  .menu-overlay__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  
+  .menu-overlay__item {
+    overflow: hidden;
+  }
+  
+  .menu-overlay__link {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-lg);
+    padding: var(--space-sm) 0;
+    text-decoration: none;
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  
+  .menu-overlay__link-index {
+    font-size: var(--font-size-sm);
+    font-weight: 300;
+    color: var(--text-muted);
+    letter-spacing: var(--letter-spacing-wide);
+    min-width: 30px;
+    transition: color var(--transition-base);
+  }
+  
+  .menu-overlay__link-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .menu-overlay__link-text {
+    display: block;
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 600;
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: 1.3;
+    color: var(--text-primary);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+  }
+  
+  .menu-overlay__link-text--clone {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    color: var(--accent);
+  }
+  
+  /* Hover Effect - Duplicate Text Animation */
+  .menu-overlay__link:hover .menu-overlay__link-index {
+    color: var(--accent);
+  }
+  
+  .menu-overlay__link:hover .menu-overlay__link-text:not(.menu-overlay__link-text--clone) {
+    transform: translateY(-100%);
+  }
+  
+  .menu-overlay__link:hover .menu-overlay__link-text--clone {
+    transform: translateY(0);
+  }
+  
+  /* Footer */
+  .menu-overlay__footer {
+    display: flex;
+    gap: var(--space-3xl);
+    padding-top: var(--space-2xl);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  .menu-overlay__footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+  
+  .menu-overlay__footer-label {
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--text-muted);
+  }
+  
+  .menu-overlay__footer-value {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+  
+  .menu-overlay__footer-value:hover {
+    color: var(--accent);
+  }
+  
+  .menu-overlay__footer-social {
+    display: flex;
+    gap: var(--space-md);
+  }
+  
+  .menu-overlay__footer-social a {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+  
+  .menu-overlay__footer-social a:hover {
+    color: var(--accent);
+  }
+  
+  /* Mobile Responsive */
+  @media (max-width: 719px) {
+    .menu-overlay__panel {
+      width: 100%;
+      box-shadow: none;
+    }
+    
+    .menu-overlay__backdrop {
+      display: none;
+    }
+    
+    .menu-overlay__content {
+      padding-top: calc(var(--header-height) + var(--space-xl));
+      padding-left: var(--container-padding);
+      padding-right: var(--container-padding);
+    }
+    
+    .menu-overlay__list {
+      gap: var(--space-sm);
+    }
+    
+    .menu-overlay__link {
+      gap: var(--space-md);
+    }
+    
+    .menu-overlay__link-index {
+      font-size: var(--font-size-xs);
+      min-width: 24px;
+    }
+    
+    .menu-overlay__link-text {
+      font-size: clamp(1.5rem, 8vw, 2.5rem);
+    }
+    
+    .menu-overlay__footer {
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  
+  const overlay = document.getElementById('menuOverlay');
+  const backdrop = document.getElementById('menuBackdrop');
+  const panel = document.getElementById('menuPanel');
+  const lines = overlay?.querySelectorAll('.menu-overlay__line');
+  const links = overlay?.querySelectorAll('.menu-overlay__link');
+  const footer = overlay?.querySelector('.menu-overlay__footer');
+  
+  let isAnimating = false;
+  let timeline: gsap.core.Timeline | null = null;
+  
+  // Open menu animation
+  const openMenu = () => {
+    if (isAnimating) return;
+    isAnimating = true;
+    
+    overlay?.classList.add('active');
+    overlay?.setAttribute('aria-hidden', 'false');
+    
+    // Disable Lenis scroll
+    if (window.lenis) {
+      window.lenis.stop();
+    }
+    
+    // Create timeline
+    timeline = gsap.timeline({
+      onComplete: () => {
+        isAnimating = false;
+      }
+    });
+    
+    timeline
+      // Backdrop fade in
+      .to(backdrop, {
+        opacity: 1,
+        duration: 0.4,
+        ease: 'power2.out'
+      })
+      // Panel slide from right
+      .to(panel, {
+        x: 0,
+        duration: 0.6,
+        ease: 'power3.out'
+      }, '-=0.3')
+      // Decorative lines
+      .to(lines, {
+        opacity: 1,
+        duration: 0.4,
+        stagger: 0.1,
+        ease: 'power2.out'
+      }, '-=0.4')
+      // Menu items stagger (after panel is visible)
+      .to(links, {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.06,
+        ease: 'power3.out'
+      }, '-=0.2')
+      // Footer
+      .to(footer, {
+        opacity: 1,
+        y: 0,
+        duration: 0.4,
+        ease: 'power2.out'
+      }, '-=0.2');
+  };
+  
+  // Close menu animation
+  const closeMenu = () => {
+    if (isAnimating || !timeline) return;
+    isAnimating = true;
+    
+    // Create close timeline
+    const closeTl = gsap.timeline({
+      onComplete: () => {
+        overlay?.classList.remove('active');
+        overlay?.setAttribute('aria-hidden', 'true');
+        isAnimating = false;
+        
+        // Re-enable Lenis scroll
+        if (window.lenis) {
+          window.lenis.start();
+        }
+        
+        // Reset states for next open
+        gsap.set(backdrop, { opacity: 0 });
+        gsap.set(panel, { x: '100%' });
+        gsap.set(lines, { opacity: 0 });
+        gsap.set(links, { y: '100%', opacity: 0 });
+        gsap.set(footer, { opacity: 0, y: 20 });
+      }
+    });
+    
+    closeTl
+      // Footer fade out
+      .to(footer, {
+        opacity: 0,
+        y: 20,
+        duration: 0.2,
+        ease: 'power2.in'
+      })
+      // Menu items stagger out (reverse)
+      .to(links, {
+        y: '-100%',
+        opacity: 0,
+        duration: 0.25,
+        stagger: 0.03,
+        ease: 'power3.in'
+      }, '-=0.1')
+      // Lines fade
+      .to(lines, {
+        opacity: 0,
+        duration: 0.2,
+        ease: 'power2.in'
+      }, '-=0.15')
+      // Panel slide out to right
+      .to(panel, {
+        x: '100%',
+        duration: 0.5,
+        ease: 'power3.inOut'
+      }, '-=0.1')
+      // Backdrop fade out
+      .to(backdrop, {
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.in'
+      }, '-=0.3');
+  };
+  
+  // Listen for toggle event from Navbar
+  window.addEventListener('toggleMenu', ((e: CustomEvent) => {
+    if (e.detail.isOpen) {
+      openMenu();
+    } else {
+      closeMenu();
+    }
+  }) as EventListener);
+  
+  // Handle menu item clicks
+  links?.forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+      
+      // Close menu first
+      closeMenu();
+      
+      // Dispatch close event to navbar
+      window.dispatchEvent(new CustomEvent('closeMenu'));
+      
+      // Navigate after animation
+      setTimeout(() => {
+        if (href && window.lenis) {
+          const target = document.querySelector(href);
+          if (target) {
+            window.lenis.scrollTo(target, {
+              offset: -80,
+              duration: 1.2
+            });
+          }
+        }
+      }, 600);
+    });
+  });
+  
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay?.classList.contains('active')) {
+      closeMenu();
+      window.dispatchEvent(new CustomEvent('closeMenu'));
+    }
+  });
+  
+  // Close on backdrop click
+  backdrop?.addEventListener('click', () => {
+    if (overlay?.classList.contains('active')) {
+      closeMenu();
+      window.dispatchEvent(new CustomEvent('closeMenu'));
+    }
+  });
+  
+  // Initialize GSAP states
+  gsap.set(backdrop, { opacity: 0 });
+  gsap.set(panel, { x: '100%' });
+  gsap.set(lines, { opacity: 0 });
+  gsap.set(links, { y: '100%', opacity: 0 });
+  gsap.set(footer, { opacity: 0, y: 20 });
+</script>

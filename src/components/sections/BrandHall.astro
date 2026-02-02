@@ -1,0 +1,668 @@
+---
+/**
+ * Brand Hall Section Component
+ * Premium brand partners with filter tabs and GSAP animations
+ */
+
+const brandProducts = [
+  { brand: 'dell', name: 'Dell PRECISION T7920', type: '워크스테이션', image: 'https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=500&q=80' },
+  { brand: 'dell', name: 'Dell POWEREDGE R750', type: '랙 서버', image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&q=80' },
+  { brand: 'dell', name: 'Dell Latitude 7440', type: '비즈니스 노트북', image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&q=80' },
+  { brand: 'hp', name: 'HP Z8 G5', type: '워크스테이션', image: 'https://images.unsplash.com/photo-1547082299-de196ea013d6?w=500&q=80' },
+  { brand: 'hp', name: 'HP ProLiant DL380', type: '서버', image: 'https://images.unsplash.com/photo-1600267185393-e158a98703de?w=500&q=80' },
+  { brand: 'hp', name: 'HP EliteBook 865', type: '노트북', image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500&q=80' },
+  { brand: 'other', name: '삼성 모니터', type: '모니터', image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=500&q=80' },
+  { brand: 'other', name: 'LG 울트라기어', type: '게이밍 모니터', image: 'https://images.unsplash.com/photo-1616763355548-1b606f439f86?w=500&q=80' },
+];
+
+const filterTabs = [
+  { id: 'all', label: '전체' },
+  { id: 'dell', label: 'Dell' },
+  { id: 'hp', label: 'HP' },
+  { id: 'other', label: '기타' },
+];
+---
+
+<section id="brands" class="brand-hall section" data-brand-hall>
+  <!-- Background Elements -->
+  <div class="brand-hall-bg">
+    <div class="brand-hall-gradient"></div>
+    <div class="brand-hall-grid"></div>
+    <div class="brand-hall-glow"></div>
+  </div>
+
+  <div class="brand-hall-container section-container">
+    <!-- Section Header -->
+    <header class="brand-hall-header" data-brand-header>
+      <span class="brand-hall-eyebrow">
+        <span class="brand-hall-eyebrow-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 2L12.5 7.5L18 10L12.5 12.5L10 18L7.5 12.5L2 10L7.5 7.5L10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span>BRAND PARTNERS</span>
+      </span>
+      <h2 class="brand-hall-title section-title">
+        프리미엄 브랜드 <span class="text-gradient">파트너</span>
+      </h2>
+      <p class="brand-hall-description section-description">
+        글로벌 IT 리더들의 최신 제품
+      </p>
+    </header>
+
+    <!-- Filter Tabs -->
+    <nav class="brand-filter" data-brand-filter>
+      <div class="brand-filter-track">
+        {filterTabs.map((tab, index) => (
+          <button
+            class={`brand-filter-btn ${index === 0 ? 'active' : ''}`}
+            data-filter={tab.id}
+            type="button"
+          >
+            <span class="brand-filter-btn-text">{tab.label}</span>
+            <span class="brand-filter-btn-bg"></span>
+          </button>
+        ))}
+        <div class="brand-filter-indicator" data-filter-indicator></div>
+      </div>
+    </nav>
+
+    <!-- Products Grid -->
+    <div class="brand-products" data-brand-products>
+      <div class="brand-products-grid">
+        {brandProducts.map((product, index) => (
+          <article 
+            class="brand-card" 
+            data-brand={product.brand}
+            data-brand-card
+            style={`--card-index: ${index}`}
+          >
+            <!-- Card Glow Effect -->
+            <div class="brand-card-glow"></div>
+            
+             <!-- Image Area -->
+             <div class="brand-card-image">
+               <!-- Product Image -->
+               <img 
+                 src={product.image} 
+                 alt={product.name}
+                 class="brand-card-img"
+               />
+               <!-- Dark Overlay for Text Contrast -->
+               <div class="brand-card-image-overlay"></div>
+               <!-- Hover Overlay -->
+               <div class="brand-card-overlay">
+                 <span class="brand-card-view">자세히 보기</span>
+               </div>
+             </div>
+            
+            <!-- Card Content -->
+            <div class="brand-card-content">
+              <span class="brand-card-type">{product.type}</span>
+              <h3 class="brand-card-name">{product.name}</h3>
+              <div class="brand-card-footer">
+                <span class="brand-card-badge">{product.brand.toUpperCase()}</span>
+                <svg class="brand-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <!-- View All CTA -->
+    <div class="brand-cta" data-brand-cta>
+      <a href="#products" class="brand-cta-btn">
+        <span>전체 제품 보기</span>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Brand Hall Section */
+  .brand-hall {
+    position: relative;
+    overflow: hidden;
+    background: var(--background);
+  }
+
+  /* Background */
+  .brand-hall-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .brand-hall-gradient {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(26, 54, 93, 0.15) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 80% 80%, rgba(49, 130, 206, 0.1) 0%, transparent 60%);
+  }
+
+  .brand-hall-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: linear-gradient(180deg, transparent 0%, black 20%, black 80%, transparent 100%);
+  }
+
+  .brand-hall-glow {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(26, 54, 93, 0.2) 0%, transparent 70%);
+    filter: blur(80px);
+    opacity: 0.6;
+  }
+
+  /* Container */
+  .brand-hall-container {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .brand-hall-header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .brand-hall-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--primary-light);
+  }
+
+  .brand-hall-eyebrow-icon {
+    display: flex;
+    animation: rotateStar 8s linear infinite;
+  }
+
+  @keyframes rotateStar {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .brand-hall-title {
+    margin-bottom: var(--space-md);
+  }
+
+  .brand-hall-description {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* Filter Tabs */
+  .brand-filter {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--space-3xl);
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .brand-filter-track {
+    position: relative;
+    display: inline-flex;
+    gap: var(--space-sm);
+    padding: var(--space-xs);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-full);
+  }
+
+  .brand-filter-btn {
+    position: relative;
+    padding: var(--space-sm) var(--space-xl);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--text-secondary);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    transition: color var(--transition-base);
+    z-index: 1;
+  }
+
+  .brand-filter-btn-text {
+    position: relative;
+    z-index: 2;
+  }
+
+  .brand-filter-btn-bg {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    border-radius: var(--radius-full);
+    transition: background var(--transition-base);
+    z-index: 1;
+  }
+
+  .brand-filter-btn:hover {
+    color: var(--text-primary);
+  }
+
+  .brand-filter-btn:hover .brand-filter-btn-bg {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .brand-filter-btn.active {
+    color: var(--text-primary);
+  }
+
+  .brand-filter-btn.active .brand-filter-btn-bg {
+    background: var(--primary);
+  }
+
+  /* Products Grid */
+  .brand-products {
+    margin-bottom: var(--space-3xl);
+  }
+
+  .brand-products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-xl);
+  }
+
+  /* Brand Card */
+  .brand-card {
+    position: relative;
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.01) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 
+      transform var(--transition-base),
+      border-color var(--transition-base),
+      box-shadow var(--transition-base);
+  }
+
+  .brand-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(26, 54, 93, 0.4);
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(26, 54, 93, 0.15);
+  }
+
+  .brand-card.hidden {
+    display: none;
+  }
+
+  /* Card Glow */
+  .brand-card-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle at center,
+      rgba(26, 54, 93, 0.15) 0%,
+      transparent 50%
+    );
+    opacity: 0;
+    transition: opacity var(--transition-slow);
+    pointer-events: none;
+  }
+
+  .brand-card:hover .brand-card-glow {
+    opacity: 1;
+  }
+
+   /* Card Image */
+   .brand-card-image {
+     position: relative;
+     aspect-ratio: 4/3;
+     overflow: hidden;
+     background: var(--surface);
+   }
+
+   .brand-card-img {
+     position: absolute;
+     inset: 0;
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     object-position: center;
+     transition: transform var(--transition-base);
+   }
+
+   .brand-card:hover .brand-card-img {
+     transform: scale(1.05);
+   }
+
+   /* Dark Overlay for Text Contrast */
+   .brand-card-image-overlay {
+     position: absolute;
+     inset: 0;
+     background: rgba(0, 0, 0, 0.25);
+     pointer-events: none;
+   }
+
+  /* Hover Overlay */
+  .brand-card-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+  }
+
+  .brand-card:hover .brand-card-overlay {
+    opacity: 1;
+  }
+
+  .brand-card-view {
+    padding: var(--space-sm) var(--space-lg);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-full);
+    transform: translateY(10px);
+    transition: transform var(--transition-base), border-color var(--transition-base);
+  }
+
+  .brand-card:hover .brand-card-view {
+    transform: translateY(0);
+  }
+
+  .brand-card-view:hover {
+    border-color: var(--primary);
+  }
+
+  /* Card Content */
+  .brand-card-content {
+    padding: var(--space-lg);
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+  }
+
+  .brand-card-type {
+    display: inline-block;
+    margin-bottom: var(--space-xs);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--primary-light);
+    text-transform: uppercase;
+  }
+
+  .brand-card-name {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    line-height: var(--line-height-tight);
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    transition: color var(--transition-base);
+  }
+
+  .brand-card:hover .brand-card-name {
+    color: var(--accent-light);
+  }
+
+  .brand-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand-card-badge {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-sm);
+  }
+
+  .brand-card-arrow {
+    color: var(--text-muted);
+    transition: color var(--transition-base), transform var(--transition-base);
+  }
+
+  .brand-card:hover .brand-card-arrow {
+    color: var(--primary-light);
+    transform: translate(4px, -4px);
+  }
+
+  /* CTA */
+  .brand-cta {
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .brand-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-2xl);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--text-primary);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-full);
+    transition: all var(--transition-base);
+  }
+
+  .brand-cta-btn:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+
+  .brand-cta-btn svg {
+    transition: transform var(--transition-base);
+  }
+
+  .brand-cta-btn:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* Responsive */
+  @media (max-width: 1200px) {
+    .brand-products-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .brand-products-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-lg);
+    }
+  }
+
+  @media (max-width: 719px) {
+    .brand-filter-track {
+      flex-wrap: wrap;
+      justify-content: center;
+      border-radius: var(--radius-lg);
+    }
+
+    .brand-filter-btn {
+      padding: var(--space-sm) var(--space-lg);
+    }
+
+    .brand-products-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+
+    .brand-card-image {
+      aspect-ratio: 16/9;
+    }
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .brand-hall-eyebrow-icon {
+      animation: none;
+    }
+    
+    .brand-hall-header,
+    .brand-filter,
+    .brand-card,
+    .brand-cta {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initBrandHall() {
+    const section = document.querySelector('[data-brand-hall]');
+    if (!section) return;
+
+    const header = section.querySelector('[data-brand-header]');
+    const filter = section.querySelector('[data-brand-filter]');
+    const cards = section.querySelectorAll('[data-brand-card]');
+    const cta = section.querySelector('[data-brand-cta]');
+    const filterBtns = section.querySelectorAll('.brand-filter-btn');
+
+    // Scroll-triggered animations
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 70%',
+        end: 'bottom 20%',
+        toggleActions: 'play none none reverse',
+      },
+    });
+
+    // Header animation
+    tl.to(header, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power3.out',
+    });
+
+    // Filter animation
+    tl.to(filter, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      ease: 'power3.out',
+    }, '-=0.4');
+
+    // Cards staggered animation
+    tl.to(cards, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      stagger: {
+        amount: 0.6,
+        from: 'start',
+      },
+      ease: 'power3.out',
+    }, '-=0.3');
+
+    // CTA animation
+    tl.to(cta, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      ease: 'power3.out',
+    }, '-=0.3');
+
+    // Filter functionality
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filterValue = btn.dataset.filter;
+        
+        // Update active state
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Filter cards with animation
+        filterCards(filterValue, cards);
+      });
+    });
+  }
+
+  function filterCards(filterValue: string, cards: NodeListOf<Element>) {
+    cards.forEach((card) => {
+      const cardBrand = (card as HTMLElement).dataset.brand;
+      const shouldShow = filterValue === 'all' || cardBrand === filterValue;
+
+      if (shouldShow) {
+        // Show card
+        gsap.to(card, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.4,
+          ease: 'power2.out',
+          onStart: () => {
+            (card as HTMLElement).classList.remove('hidden');
+            (card as HTMLElement).style.display = '';
+          },
+        });
+      } else {
+        // Hide card
+        gsap.to(card, {
+          opacity: 0,
+          scale: 0.95,
+          duration: 0.3,
+          ease: 'power2.in',
+          onComplete: () => {
+            (card as HTMLElement).classList.add('hidden');
+            (card as HTMLElement).style.display = 'none';
+          },
+        });
+      }
+    });
+  }
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', initBrandHall);
+  document.addEventListener('astro:page-load', initBrandHall);
+</script>
