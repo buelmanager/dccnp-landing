@@ -1,0 +1,1072 @@
+---
+/**
+ * Quote Checkout Page (견적 요청)
+ * 3-step checkout: Item Review → Customer Info → Confirmation
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import ShopNavbar from '../../components/shop/ShopNavbar.astro';
+import Breadcrumb from '../../components/shop/Breadcrumb.astro';
+import ShopFooter from '../../components/shop/ShopFooter.astro';
+import Toast from '../../components/shop/Toast.astro';
+
+const breadcrumbs = [
+  { label: '쇼핑몰', href: '/shop' },
+  { label: '견적함', href: '/shop/quote-cart' },
+  { label: '견적 요청' },
+];
+---
+
+<Layout
+  title="견적 요청 - issac.design Shop"
+  description="견적함에 담긴 제품의 견적 요청을 진행합니다."
+>
+  <script is:inline>document.body.classList.add('preloader-ready');</script>
+  <ShopNavbar />
+  <Toast />
+
+  <main class="checkout-page">
+    <!-- Breadcrumb -->
+    <div class="checkout-page__breadcrumb">
+      <Breadcrumb items={breadcrumbs} />
+    </div>
+
+    <section class="checkout" data-checkout>
+      <div class="checkout__container">
+
+        <!-- Step Progress Indicator -->
+        <div class="checkout__progress">
+          <div class="checkout__step checkout__step--active" data-step-indicator="1">
+            <span class="checkout__step-badge">1</span>
+            <span class="checkout__step-label">항목 확인</span>
+          </div>
+          <div class="checkout__step-line" data-step-line="1"></div>
+          <div class="checkout__step" data-step-indicator="2">
+            <span class="checkout__step-badge">2</span>
+            <span class="checkout__step-label">고객 정보</span>
+          </div>
+          <div class="checkout__step-line" data-step-line="2"></div>
+          <div class="checkout__step" data-step-indicator="3">
+            <span class="checkout__step-badge">3</span>
+            <span class="checkout__step-label">확인 & 제출</span>
+          </div>
+        </div>
+
+        <!-- Step 1: 항목 확인 (Item Review) -->
+        <div class="checkout__panel" data-step-panel="1">
+          <h2 class="checkout__panel-title">견적 항목 확인</h2>
+          <p class="checkout__panel-desc">
+            견적 요청할 항목을 확인해주세요. 수정이 필요하면
+            <a href="/shop/quote-cart" class="checkout__link">견적함으로 돌아가세요</a>.
+          </p>
+
+          <!-- Items rendered via JS -->
+          <div class="checkout__items" data-checkout-items></div>
+
+          <div class="checkout__item-count" data-checkout-item-count>
+            총 <strong>0</strong>개 항목
+          </div>
+
+          <div class="checkout__actions">
+            <a href="/shop/quote-cart" class="checkout__btn checkout__btn--outline">견적함으로</a>
+            <button class="checkout__btn checkout__btn--primary" data-next-step="2" type="button">
+              다음
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: 고객 정보 (Customer Info) -->
+        <div class="checkout__panel" data-step-panel="2" style="display: none;">
+          <h2 class="checkout__panel-title">고객 정보 입력</h2>
+          <p class="checkout__panel-desc">견적서를 받으실 연락처 정보를 입력해주세요.</p>
+
+          <form class="checkout__form" data-checkout-form novalidate>
+            <!-- 이름 -->
+            <div class="checkout__field">
+              <label class="checkout__label" for="checkout-name">
+                이름 <span class="checkout__required">*</span>
+              </label>
+              <input
+                class="checkout__input"
+                type="text"
+                id="checkout-name"
+                name="name"
+                placeholder="홍길동"
+                required
+                autocomplete="name"
+              />
+              <span class="checkout__error" data-error="name">이름을 입력해주세요</span>
+            </div>
+
+            <!-- 연락처 -->
+            <div class="checkout__field">
+              <label class="checkout__label" for="checkout-phone">
+                연락처 <span class="checkout__required">*</span>
+              </label>
+              <input
+                class="checkout__input"
+                type="tel"
+                id="checkout-phone"
+                name="phone"
+                placeholder="010-1234-5678"
+                required
+                autocomplete="tel"
+              />
+              <span class="checkout__error" data-error="phone">연락처를 입력해주세요</span>
+            </div>
+
+            <!-- 이메일 -->
+            <div class="checkout__field">
+              <label class="checkout__label" for="checkout-email">이메일</label>
+              <input
+                class="checkout__input"
+                type="email"
+                id="checkout-email"
+                name="email"
+                placeholder="example@email.com"
+                autocomplete="email"
+              />
+            </div>
+
+            <!-- 설치 주소 -->
+            <div class="checkout__field">
+              <label class="checkout__label" for="checkout-address">설치 주소</label>
+              <input
+                class="checkout__input"
+                type="text"
+                id="checkout-address"
+                name="address"
+                placeholder="서울특별시 강남구 역삼동 123-45"
+                autocomplete="street-address"
+              />
+            </div>
+
+            <!-- 추가 요청사항 -->
+            <div class="checkout__field">
+              <label class="checkout__label" for="checkout-notes">추가 요청사항</label>
+              <textarea
+                class="checkout__textarea"
+                id="checkout-notes"
+                name="notes"
+                placeholder="추가 요청사항이 있으시면 자유롭게 적어주세요"
+                rows="4"
+              ></textarea>
+            </div>
+          </form>
+
+          <div class="checkout__actions">
+            <button class="checkout__btn checkout__btn--outline" data-prev-step="1" type="button">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M10 3l-5 5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              이전
+            </button>
+            <button class="checkout__btn checkout__btn--primary" data-submit-quote type="button">
+              견적 요청 제출
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M14 2l-7 9-4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3: 확인 & 완료 (Confirmation) -->
+        <div class="checkout__panel" data-step-panel="3" style="display: none;">
+          <div class="checkout__success">
+            <!-- Success Icon -->
+            <div class="checkout__success-icon">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2.5"/>
+                <path d="M15 24l6 6 12-12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+            <h2 class="checkout__success-title">견적 요청이 완료되었습니다!</h2>
+            <p class="checkout__success-desc">
+              영업일 기준 24시간 이내에 연락드리겠습니다.
+            </p>
+
+            <!-- Summary Card -->
+            <div class="checkout__summary-card" data-summary-card>
+              <h3 class="checkout__summary-heading">요청 요약</h3>
+              <div class="checkout__summary-row">
+                <span class="checkout__summary-label">이름</span>
+                <span class="checkout__summary-value" data-summary-name>-</span>
+              </div>
+              <div class="checkout__summary-row">
+                <span class="checkout__summary-label">연락처</span>
+                <span class="checkout__summary-value" data-summary-phone>-</span>
+              </div>
+              <div class="checkout__summary-row" data-summary-email-row style="display: none;">
+                <span class="checkout__summary-label">이메일</span>
+                <span class="checkout__summary-value" data-summary-email>-</span>
+              </div>
+              <div class="checkout__summary-row" data-summary-address-row style="display: none;">
+                <span class="checkout__summary-label">설치 주소</span>
+                <span class="checkout__summary-value" data-summary-address>-</span>
+              </div>
+              <div class="checkout__summary-row">
+                <span class="checkout__summary-label">견적 항목</span>
+                <span class="checkout__summary-value" data-summary-item-count>0개</span>
+              </div>
+            </div>
+
+            <div class="checkout__actions checkout__actions--center">
+              <a href="/shop" class="checkout__btn checkout__btn--primary">
+                쇼핑 계속하기
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State (no items in cart) -->
+        <div class="checkout__empty" data-checkout-empty style="display: none;">
+          <div class="checkout__empty-icon">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6z"/>
+              <path d="M3 6h18"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+          </div>
+          <h2 class="checkout__empty-title">견적함이 비어있습니다</h2>
+          <p class="checkout__empty-desc">견적 요청할 제품을 먼저 견적함에 추가해주세요.</p>
+          <a href="/shop" class="checkout__btn checkout__btn--primary">제품 보러가기</a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <ShopFooter />
+</Layout>
+
+<style>
+  /* ============================================
+     Quote Checkout Page
+     ============================================ */
+
+  .checkout-page {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: var(--background);
+  }
+
+  .checkout-page__breadcrumb {
+    padding-top: var(--header-height);
+  }
+
+  /* Container */
+  .checkout {
+    position: relative;
+    width: 100%;
+    padding: var(--space-xl) 0 var(--space-4xl);
+  }
+
+  .checkout__container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  /* ---- Step Progress Indicator ---- */
+  .checkout__progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .checkout__step {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    opacity: 0.4;
+    transition: opacity var(--transition-base);
+  }
+
+  .checkout__step--active {
+    opacity: 1;
+  }
+
+  .checkout__step--completed {
+    opacity: 0.7;
+  }
+
+  .checkout__step-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: var(--surface-light);
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    border: 2px solid var(--border);
+    transition: all var(--transition-base);
+  }
+
+  .checkout__step--active .checkout__step-badge {
+    background: var(--primary);
+    color: var(--text-primary);
+    border-color: var(--primary);
+  }
+
+  .checkout__step--completed .checkout__step-badge {
+    background: var(--primary);
+    color: var(--text-primary);
+    border-color: var(--primary);
+  }
+
+  .checkout__step-label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color var(--transition-base);
+  }
+
+  .checkout__step--active .checkout__step-label {
+    color: var(--text-primary);
+  }
+
+  .checkout__step-line {
+    width: 48px;
+    height: 2px;
+    background: var(--border);
+    margin: 0 var(--space-sm);
+    transition: background var(--transition-base);
+  }
+
+  .checkout__step-line--active {
+    background: var(--primary);
+  }
+
+  /* ---- Panel ---- */
+  .checkout__panel {
+    animation: checkoutFadeIn 0.3s ease;
+  }
+
+  @keyframes checkoutFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .checkout__panel-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .checkout__panel-desc {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-xl);
+  }
+
+  .checkout__link {
+    color: var(--primary-hover);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color var(--transition-base);
+  }
+
+  .checkout__link:hover {
+    color: var(--accent);
+  }
+
+  /* ---- Items List (Step 1) ---- */
+  .checkout__items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  :global(.checkout-item) {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+
+  :global(.checkout-item__thumb) {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--surface-light);
+  }
+
+  :global(.checkout-item__thumb img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  :global(.checkout-item__body) {
+    flex: 1;
+    min-width: 0;
+  }
+
+  :global(.checkout-item__name) {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: var(--line-height-tight);
+    margin-bottom: 4px;
+  }
+
+  :global(.checkout-item__options) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-bottom: 4px;
+  }
+
+  :global(.checkout-item__option) {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px var(--space-sm);
+    background: rgba(26, 77, 46, 0.1);
+    color: var(--text-secondary);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(26, 77, 46, 0.15);
+  }
+
+  :global(.checkout-item__option-label) {
+    color: var(--text-muted);
+    margin-right: 3px;
+  }
+
+  :global(.checkout-item__qty) {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  .checkout__item-count {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    padding: var(--space-md) 0;
+    border-top: 1px solid var(--border);
+    margin-bottom: var(--space-xl);
+  }
+
+  .checkout__item-count strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  /* ---- Form (Step 2) ---- */
+  .checkout__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+  }
+
+  .checkout__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .checkout__label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .checkout__required {
+    color: var(--error);
+    font-weight: 600;
+  }
+
+  .checkout__input,
+  .checkout__textarea {
+    width: 100%;
+    padding: var(--space-md);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-family: var(--font-family);
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+    line-height: var(--line-height-normal);
+  }
+
+  .checkout__input::placeholder,
+  .checkout__textarea::placeholder {
+    color: var(--text-muted);
+  }
+
+  .checkout__input:focus,
+  .checkout__textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.15);
+  }
+
+  .checkout__input--error {
+    border-color: var(--error) !important;
+    box-shadow: 0 0 0 3px rgba(245, 101, 101, 0.1) !important;
+  }
+
+  .checkout__textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .checkout__error {
+    font-size: var(--font-size-xs);
+    color: var(--error);
+    display: none;
+  }
+
+  .checkout__error--visible {
+    display: block;
+  }
+
+  /* ---- Actions ---- */
+  .checkout__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-md);
+  }
+
+  .checkout__actions--center {
+    justify-content: center;
+  }
+
+  .checkout__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-2xl);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    font-family: var(--font-family);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .checkout__btn--primary {
+    background: var(--primary);
+    color: var(--text-primary);
+    border: 1px solid var(--primary);
+  }
+
+  .checkout__btn--primary:hover {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 77, 46, 0.3);
+  }
+
+  .checkout__btn--outline {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+  }
+
+  .checkout__btn--outline:hover {
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+  }
+
+  /* ---- Success (Step 3) ---- */
+  .checkout__success {
+    text-align: center;
+    padding: var(--space-2xl) 0;
+  }
+
+  .checkout__success-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 96px;
+    height: 96px;
+    border-radius: var(--radius-full);
+    background: rgba(72, 187, 120, 0.1);
+    color: var(--success);
+    margin-bottom: var(--space-xl);
+  }
+
+  .checkout__success-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+  }
+
+  .checkout__success-desc {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-2xl);
+  }
+
+  /* ---- Summary Card ---- */
+  .checkout__summary-card {
+    max-width: 420px;
+    margin: 0 auto var(--space-2xl);
+    padding: var(--space-xl);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-align: left;
+  }
+
+  .checkout__summary-heading {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .checkout__summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-sm) 0;
+  }
+
+  .checkout__summary-row + .checkout__summary-row {
+    border-top: 1px solid rgba(45, 55, 72, 0.3);
+  }
+
+  .checkout__summary-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  .checkout__summary-value {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  /* ---- Empty State ---- */
+  .checkout__empty {
+    text-align: center;
+    padding: var(--space-4xl) 0;
+  }
+
+  .checkout__empty-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto var(--space-xl);
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-full);
+    color: var(--text-muted);
+  }
+
+  .checkout__empty-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+  }
+
+  .checkout__empty-desc {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-xl);
+  }
+
+  /* ---- Responsive ---- */
+
+  @media (max-width: 719px) {
+    .checkout-page__breadcrumb {
+      padding-top: var(--header-height-mobile);
+    }
+
+    .checkout__progress {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .checkout__step-label {
+      font-size: var(--font-size-xs);
+    }
+
+    .checkout__step-badge {
+      width: 28px;
+      height: 28px;
+      font-size: var(--font-size-xs);
+    }
+
+    .checkout__step-line {
+      width: 24px;
+    }
+
+    .checkout__panel-title {
+      font-size: var(--font-size-xl);
+    }
+
+    .checkout__panel-desc {
+      font-size: var(--font-size-sm);
+    }
+
+    :global(.checkout-item) {
+      padding: var(--space-md);
+    }
+
+    :global(.checkout-item__thumb) {
+      width: 48px;
+      height: 48px;
+    }
+
+    :global(.checkout-item__name) {
+      font-size: var(--font-size-sm);
+    }
+
+    .checkout__actions {
+      flex-direction: column-reverse;
+      gap: var(--space-sm);
+    }
+
+    .checkout__btn {
+      width: 100%;
+    }
+
+    .checkout__summary-card {
+      max-width: none;
+    }
+
+    .checkout__success-icon {
+      width: 80px;
+      height: 80px;
+    }
+
+    .checkout__success-icon svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .checkout__success-title {
+      font-size: var(--font-size-xl);
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const STORAGE_KEY = 'quoteCart';
+
+    // ---- Cart Helpers ----
+    interface CartItem {
+      id: string;
+      productId: string;
+      productSlug: string;
+      productName: string;
+      thumbnail: string;
+      categoryName: string;
+      priceRange: string;
+      options: {
+        size?: string;
+        material?: string;
+        finish?: string;
+        lighting?: string;
+      };
+      quantity: number;
+      memo: string;
+      addedAt: string;
+    }
+
+    function getCart(): CartItem[] {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return [];
+        return parsed;
+      } catch {
+        return [];
+      }
+    }
+
+    // ---- DOM References ----
+    const checkoutEl = document.querySelector('[data-checkout]') as HTMLElement;
+    const emptyEl = document.querySelector('[data-checkout-empty]') as HTMLElement;
+    const progressEl = document.querySelector('.checkout__progress') as HTMLElement;
+    const panels = {
+      1: document.querySelector('[data-step-panel="1"]') as HTMLElement,
+      2: document.querySelector('[data-step-panel="2"]') as HTMLElement,
+      3: document.querySelector('[data-step-panel="3"]') as HTMLElement,
+    };
+    const stepIndicators = {
+      1: document.querySelector('[data-step-indicator="1"]') as HTMLElement,
+      2: document.querySelector('[data-step-indicator="2"]') as HTMLElement,
+      3: document.querySelector('[data-step-indicator="3"]') as HTMLElement,
+    };
+    const stepLines = {
+      1: document.querySelector('[data-step-line="1"]') as HTMLElement,
+      2: document.querySelector('[data-step-line="2"]') as HTMLElement,
+    };
+
+    const itemsContainer = document.querySelector('[data-checkout-items]') as HTMLElement;
+    const itemCountEl = document.querySelector('[data-checkout-item-count]') as HTMLElement;
+    const formEl = document.querySelector('[data-checkout-form]') as HTMLFormElement;
+
+    if (!checkoutEl || !emptyEl) return;
+
+    let currentStep = 1;
+
+    // ---- Check cart ----
+    const cart = getCart();
+
+    if (cart.length === 0) {
+      emptyEl.style.display = 'block';
+      progressEl.style.display = 'none';
+      panels[1].style.display = 'none';
+      panels[2].style.display = 'none';
+      panels[3].style.display = 'none';
+      return;
+    }
+
+    // ---- Render Step 1 Items ----
+    function renderItems() {
+      const cart = getCart();
+      if (!itemsContainer) return;
+
+      itemsContainer.innerHTML = cart.map((item) => {
+        const optionEntries: { label: string; value: string }[] = [];
+        if (item.options.size) optionEntries.push({ label: '사이즈', value: item.options.size });
+        if (item.options.material) optionEntries.push({ label: '소재', value: item.options.material });
+        if (item.options.finish) optionEntries.push({ label: '마감', value: item.options.finish });
+        if (item.options.lighting) optionEntries.push({ label: '조명', value: item.options.lighting });
+
+        const optionsHtml = optionEntries.length > 0
+          ? `<div class="checkout-item__options">
+              ${optionEntries.map(o =>
+                `<span class="checkout-item__option">
+                  <span class="checkout-item__option-label">${o.label}:</span> ${o.value}
+                </span>`
+              ).join('')}
+            </div>`
+          : '';
+
+        return `
+          <div class="checkout-item">
+            <div class="checkout-item__thumb">
+              <img src="${item.thumbnail}" alt="${item.productName}" loading="lazy" />
+            </div>
+            <div class="checkout-item__body">
+              <div class="checkout-item__name">${item.productName}</div>
+              ${optionsHtml}
+              <span class="checkout-item__qty">수량: ${item.quantity}개</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (itemCountEl) {
+        itemCountEl.innerHTML = `총 <strong>${cart.length}</strong>개 항목`;
+      }
+    }
+
+    renderItems();
+
+    // ---- Step Navigation ----
+    function goToStep(step: number) {
+      // Hide all panels
+      panels[1].style.display = 'none';
+      panels[2].style.display = 'none';
+      panels[3].style.display = 'none';
+
+      // Show target panel
+      (panels as any)[step].style.display = 'block';
+
+      // Update indicators
+      for (let i = 1; i <= 3; i++) {
+        const indicator = (stepIndicators as any)[i] as HTMLElement;
+        indicator.classList.remove('checkout__step--active', 'checkout__step--completed');
+
+        if (i === step) {
+          indicator.classList.add('checkout__step--active');
+        } else if (i < step) {
+          indicator.classList.add('checkout__step--completed');
+        }
+      }
+
+      // Update lines
+      for (let i = 1; i <= 2; i++) {
+        const line = (stepLines as any)[i] as HTMLElement;
+        if (i < step) {
+          line.classList.add('checkout__step-line--active');
+        } else {
+          line.classList.remove('checkout__step-line--active');
+        }
+      }
+
+      currentStep = step;
+
+      // Scroll to top of checkout
+      checkoutEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Next step buttons
+    document.querySelectorAll<HTMLButtonElement>('[data-next-step]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const step = parseInt(btn.dataset.nextStep || '1', 10);
+        goToStep(step);
+      });
+    });
+
+    // Previous step buttons
+    document.querySelectorAll<HTMLButtonElement>('[data-prev-step]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const step = parseInt(btn.dataset.prevStep || '1', 10);
+        goToStep(step);
+      });
+    });
+
+    // ---- Form Validation & Submit ----
+    const submitBtn = document.querySelector('[data-submit-quote]') as HTMLButtonElement;
+
+    if (submitBtn && formEl) {
+      submitBtn.addEventListener('click', () => {
+        // Clear previous errors
+        formEl.querySelectorAll('.checkout__input--error').forEach(el => {
+          el.classList.remove('checkout__input--error');
+        });
+        formEl.querySelectorAll('.checkout__error--visible').forEach(el => {
+          el.classList.remove('checkout__error--visible');
+        });
+
+        let isValid = true;
+
+        // Validate name
+        const nameInput = formEl.querySelector<HTMLInputElement>('[name="name"]');
+        if (nameInput && !nameInput.value.trim()) {
+          nameInput.classList.add('checkout__input--error');
+          const nameError = formEl.querySelector('[data-error="name"]') as HTMLElement;
+          if (nameError) nameError.classList.add('checkout__error--visible');
+          isValid = false;
+        }
+
+        // Validate phone
+        const phoneInput = formEl.querySelector<HTMLInputElement>('[name="phone"]');
+        if (phoneInput && !phoneInput.value.trim()) {
+          phoneInput.classList.add('checkout__input--error');
+          const phoneError = formEl.querySelector('[data-error="phone"]') as HTMLElement;
+          if (phoneError) phoneError.classList.add('checkout__error--visible');
+          isValid = false;
+        }
+
+        if (!isValid) {
+          // Focus first error field
+          const firstError = formEl.querySelector('.checkout__input--error') as HTMLInputElement;
+          if (firstError) firstError.focus();
+          return;
+        }
+
+        // Populate summary
+        const summaryName = document.querySelector('[data-summary-name]') as HTMLElement;
+        const summaryPhone = document.querySelector('[data-summary-phone]') as HTMLElement;
+        const summaryEmail = document.querySelector('[data-summary-email]') as HTMLElement;
+        const summaryEmailRow = document.querySelector('[data-summary-email-row]') as HTMLElement;
+        const summaryAddress = document.querySelector('[data-summary-address]') as HTMLElement;
+        const summaryAddressRow = document.querySelector('[data-summary-address-row]') as HTMLElement;
+        const summaryItemCount = document.querySelector('[data-summary-item-count]') as HTMLElement;
+
+        if (summaryName && nameInput) {
+          summaryName.textContent = nameInput.value.trim();
+        }
+        if (summaryPhone && phoneInput) {
+          summaryPhone.textContent = phoneInput.value.trim();
+        }
+
+        const emailInput = formEl.querySelector<HTMLInputElement>('[name="email"]');
+        if (emailInput && emailInput.value.trim() && summaryEmail && summaryEmailRow) {
+          summaryEmail.textContent = emailInput.value.trim();
+          summaryEmailRow.style.display = 'flex';
+        }
+
+        const addressInput = formEl.querySelector<HTMLInputElement>('[name="address"]');
+        if (addressInput && addressInput.value.trim() && summaryAddress && summaryAddressRow) {
+          summaryAddress.textContent = addressInput.value.trim();
+          summaryAddressRow.style.display = 'flex';
+        }
+
+        const currentCart = getCart();
+        if (summaryItemCount) {
+          summaryItemCount.textContent = `${currentCart.length}개`;
+        }
+
+        // Clear cart
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+          window.dispatchEvent(
+            new CustomEvent('quote-cart-updated', {
+              detail: { items: [], count: 0 },
+            })
+          );
+        } catch {
+          // Silent fail
+        }
+
+        // Go to step 3
+        goToStep(3);
+
+        // Show success toast
+        if (typeof (window as any).showToast === 'function') {
+          (window as any).showToast({
+            title: '견적 요청 완료',
+            message: '빠른 시일 내에 연락드리겠습니다.',
+            type: 'success',
+          });
+        }
+      });
+    }
+
+    // ---- Clear input error on typing ----
+    if (formEl) {
+      formEl.querySelectorAll<HTMLInputElement>('.checkout__input[required]').forEach(input => {
+        input.addEventListener('input', () => {
+          input.classList.remove('checkout__input--error');
+          const fieldName = input.getAttribute('name');
+          if (fieldName) {
+            const errorEl = formEl.querySelector(`[data-error="${fieldName}"]`) as HTMLElement;
+            if (errorEl) errorEl.classList.remove('checkout__error--visible');
+          }
+        });
+      });
+    }
+  });
+</script>

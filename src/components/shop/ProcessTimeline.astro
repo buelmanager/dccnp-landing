@@ -1,0 +1,323 @@
+---
+/**
+ * ProcessTimeline Component
+ * Vertical/horizontal timeline showing the order process
+ */
+
+const steps = [
+  {
+    number: 1,
+    title: '상담',
+    titleEn: 'Consultation',
+    description: '전화, 카카오톡으로 편하게 상담하세요',
+    icon: 'chat',
+  },
+  {
+    number: 2,
+    title: '디자인',
+    titleEn: 'Design',
+    description: '전문 디자이너가 시안을 제작합니다',
+    icon: 'pencil',
+  },
+  {
+    number: 3,
+    title: '제작',
+    titleEn: 'Manufacturing',
+    description: '최신 설비로 정밀하게 제작합니다',
+    icon: 'wrench',
+  },
+  {
+    number: 4,
+    title: '설치',
+    titleEn: 'Installation',
+    description: '전문 시공팀이 현장에서 설치합니다',
+    icon: 'truck',
+  },
+  {
+    number: 5,
+    title: 'A/S',
+    titleEn: 'After Service',
+    description: '설치 후에도 책임지고 관리합니다',
+    icon: 'shield',
+  },
+];
+---
+
+<section class="process-timeline" data-process-timeline>
+  <div class="process-timeline__container">
+    <!-- Section Header -->
+    <div class="process-timeline__header">
+      <h2 class="process-timeline__title">주문 프로세스</h2>
+      <p class="process-timeline__subtitle">간판 제작, 이렇게 진행됩니다</p>
+    </div>
+
+    <!-- Timeline -->
+    <div class="process-timeline__track">
+      {steps.map((step, index) => (
+        <div class="process-timeline__step" data-process-step>
+          {/* Connecting Line (not on last step) */}
+          {index < steps.length - 1 && (
+            <div class="process-timeline__connector" />
+          )}
+
+          {/* Icon Circle */}
+          <div class="process-timeline__icon-circle">
+            {step.icon === 'chat' && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+            )}
+            {step.icon === 'pencil' && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+              </svg>
+            )}
+            {step.icon === 'wrench' && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+              </svg>
+            )}
+            {step.icon === 'truck' && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 3h15v13H1z" />
+                <path d="M16 8h4l3 3v5h-7V8z" />
+                <circle cx="5.5" cy="18.5" r="2.5" />
+                <circle cx="18.5" cy="18.5" r="2.5" />
+              </svg>
+            )}
+            {step.icon === 'shield' && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <path d="m9 12 2 2 4-4" />
+              </svg>
+            )}
+          </div>
+
+          {/* Step Info */}
+          <div class="process-timeline__step-info">
+            <span class="process-timeline__step-number">STEP {step.number}</span>
+            <h3 class="process-timeline__step-title">{step.title}</h3>
+            <p class="process-timeline__step-desc">{step.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .process-timeline {
+    position: relative;
+    padding: var(--space-4xl) 0;
+  }
+
+  .process-timeline__container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  /* Header */
+  .process-timeline__header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .process-timeline__title {
+    font-size: var(--font-size-4xl);
+    font-weight: 600;
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .process-timeline__subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* Timeline Track - Desktop: Horizontal */
+  .process-timeline__track {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  /* Individual Step */
+  .process-timeline__step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Connector Line - Desktop: Horizontal */
+  .process-timeline__connector {
+    position: absolute;
+    top: 28px;
+    left: calc(50% + 28px);
+    width: calc(100% - 56px);
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Icon Circle */
+  .process-timeline__icon-circle {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--primary);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    flex-shrink: 0;
+    z-index: 1;
+    transition: background var(--transition-base), color var(--transition-base);
+  }
+
+  .process-timeline__step:hover .process-timeline__icon-circle {
+    background: var(--primary);
+    color: var(--text-primary);
+  }
+
+  .process-timeline__icon-circle svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Step Info */
+  .process-timeline__step-info {
+    margin-top: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .process-timeline__step-number {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    font-weight: 500;
+  }
+
+  .process-timeline__step-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: var(--line-height-tight);
+  }
+
+  .process-timeline__step-desc {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    max-width: 200px;
+  }
+
+  /* Tablet: 3+2 wrap */
+  @media (min-width: 720px) and (max-width: 1023px) {
+    .process-timeline__title {
+      font-size: var(--font-size-3xl);
+    }
+
+    .process-timeline__track {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-2xl) var(--space-md);
+    }
+
+    .process-timeline__step {
+      flex: 0 0 calc(33.333% - var(--space-md));
+    }
+
+    /* Hide horizontal connectors on tablet due to wrap */
+    .process-timeline__connector {
+      display: none;
+    }
+  }
+
+  /* Mobile: Vertical timeline */
+  @media (max-width: 719px) {
+    .process-timeline__header {
+      text-align: left;
+    }
+
+    .process-timeline__title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .process-timeline__subtitle {
+      font-size: var(--font-size-base);
+    }
+
+    .process-timeline__track {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      padding-left: var(--space-md);
+    }
+
+    .process-timeline__step {
+      flex-direction: row;
+      align-items: flex-start;
+      text-align: left;
+      gap: var(--space-lg);
+      padding-bottom: var(--space-2xl);
+      width: 100%;
+    }
+
+    .process-timeline__step:last-child {
+      padding-bottom: 0;
+    }
+
+    /* Connector Line - Mobile: Vertical on left side */
+    .process-timeline__connector {
+      position: absolute;
+      top: 56px;
+      left: 27px;
+      width: 1px;
+      height: calc(100% - 56px);
+      background: var(--border);
+    }
+
+    /* Step Info - Mobile: Left-aligned */
+    .process-timeline__step-info {
+      margin-top: 0;
+      align-items: flex-start;
+      padding-top: var(--space-xs);
+    }
+
+    .process-timeline__step-desc {
+      max-width: none;
+    }
+
+    .process-timeline__icon-circle {
+      width: 48px;
+      height: 48px;
+    }
+
+    .process-timeline__icon-circle svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Adjust connector position for smaller circle */
+    .process-timeline__connector {
+      top: 48px;
+      left: 23px;
+      height: calc(100% - 48px);
+    }
+  }
+</style>

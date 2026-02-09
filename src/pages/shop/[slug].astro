@@ -1,0 +1,206 @@
+---
+/**
+ * Product Detail Page
+ * Dynamic page for individual products with gallery, configurator, and production timeline
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import ShopNavbar from '../../components/shop/ShopNavbar.astro';
+import Breadcrumb from '../../components/shop/Breadcrumb.astro';
+import ImageGallery from '../../components/shop/ImageGallery.astro';
+import ProductDetail from '../../components/shop/ProductDetail.astro';
+import ProductConfigurator from '../../components/shop/ProductConfigurator.astro';
+import AddToQuoteButton from '../../components/shop/AddToQuoteButton.astro';
+import ProductionTimeline from '../../components/shop/ProductionTimeline.astro';
+import RelatedProducts from '../../components/shop/RelatedProducts.astro';
+import QuoteForm from '../../components/shop/QuoteForm.astro';
+import ShopFooter from '../../components/shop/ShopFooter.astro';
+import Toast from '../../components/shop/Toast.astro';
+import SearchOverlay from '../../components/shop/SearchOverlay.astro';
+import ShopAnimations from '../../components/shop/ShopAnimations.astro';
+import productsData from '../../data/products.json';
+
+export async function getStaticPaths() {
+  const { products } = productsData;
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+
+const breadcrumbs = [
+  { label: '쇼핑몰', href: '/shop' },
+  { label: product.categoryName, href: `/shop/category/${product.category}` },
+  { label: product.name },
+];
+---
+
+<Layout
+  title={`${product.name} - issac.design 쇼핑몰`}
+  description={`${product.description} ${product.priceRange} - issac.design에서 제공하는 ${product.categoryName} 제품입니다.`}
+>
+  <script is:inline>document.body.classList.add('preloader-ready');</script>
+  <ShopNavbar />
+  <Toast />
+  <SearchOverlay />
+
+  <main class="product-page">
+    <!-- Breadcrumb -->
+    <div class="product-page__breadcrumb">
+      <Breadcrumb items={breadcrumbs} />
+    </div>
+
+    <!-- Product Top Section: Gallery + Info -->
+    <section class="product-page__main">
+      <div class="product-page__container">
+        <div class="product-page__grid">
+          <!-- Left: Image Gallery -->
+          <div class="product-page__gallery">
+            <ImageGallery images={product.images} productName={product.name} />
+          </div>
+
+          <!-- Right: Product Info + Configurator -->
+          <div class="product-page__info">
+            <ProductDetail product={product} />
+
+            <!-- Product Configurator -->
+            {product.options && (
+              <div class="product-page__configurator">
+                <ProductConfigurator product={product} />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Production Timeline -->
+    {product.productionSteps && product.productionSteps.length > 0 && (
+      <section class="product-page__timeline">
+        <div class="product-page__container">
+          <ProductionTimeline steps={product.productionSteps} />
+        </div>
+      </section>
+    )}
+
+    <!-- Related Products -->
+    {product.relatedProducts && (
+      <RelatedProducts
+        relatedSlugs={product.relatedProducts}
+        currentSlug={product.slug}
+        category={product.category}
+      />
+    )}
+
+    <!-- Quote Form Section -->
+    <section class="product-page__quote" id="quote-form">
+      <div class="product-page__quote-container">
+        <QuoteForm productName={product.name} />
+      </div>
+    </section>
+  </main>
+
+  <ShopFooter />
+  <ShopAnimations />
+</Layout>
+
+<style>
+  .product-page {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: var(--background);
+    padding-top: var(--header-height);
+  }
+
+  .product-page__breadcrumb {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: var(--space-lg) var(--container-padding) 0;
+  }
+
+  .product-page__container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  /* Main Product Section */
+  .product-page__main {
+    padding: var(--space-2xl) 0 var(--space-4xl);
+  }
+
+  .product-page__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4xl);
+    align-items: start;
+  }
+
+  .product-page__gallery {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-xl));
+  }
+
+  .product-page__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+  }
+
+  .product-page__configurator {
+    border-top: 1px solid var(--border);
+    padding-top: var(--space-2xl);
+  }
+
+  /* Timeline Section */
+  .product-page__timeline {
+    padding: var(--space-4xl) 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+
+  /* Quote Section */
+  .product-page__quote {
+    position: relative;
+    width: 100%;
+    padding: var(--space-4xl) 0;
+    background: var(--background-alt);
+  }
+
+  .product-page__quote-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .product-page__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-3xl);
+    }
+
+    .product-page__gallery {
+      position: relative;
+      top: 0;
+    }
+  }
+
+  @media (max-width: 719px) {
+    .product-page {
+      padding-top: var(--header-height-mobile);
+    }
+
+    .product-page__main {
+      padding: var(--space-lg) 0 var(--space-3xl);
+    }
+
+    .product-page__quote,
+    .product-page__timeline {
+      padding: var(--space-3xl) 0;
+    }
+  }
+</style>

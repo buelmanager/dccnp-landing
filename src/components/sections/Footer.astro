@@ -7,26 +7,26 @@
 const currentYear = new Date().getFullYear();
 
 const quickLinks = [
-  { label: '홈', href: '#home' },
-  { label: '서비스', href: '#services' },
-  { label: 'FAQ', href: '#faq' },
-  { label: '문의하기', href: '#contact' },
+  { label: '홈', href: '/' },
+  { label: '서비스', href: '/#services' },
+  { label: 'FAQ', href: '/#faq' },
+  { label: '문의하기', href: '/#contact' },
 ];
 
 const serviceLinks = [
-  { label: 'B2B 서비스', href: '#' },
-  { label: '온라인 견적', href: '#' },
-  { label: '중고/리퍼비시', href: '#' },
-  { label: '기술 지원', href: '#' },
+  { label: '쇼핑몰', href: '/shop' },
+  { label: '온라인 견적', href: '#contact' },
+  { label: '포트폴리오', href: '#portfolio' },
+  { label: 'A/S 문의', href: '#contact' },
 ];
 
 const contactInfo = {
-  company: '(주)디씨씨앤피',
-  phone: '070-8873-8472',
-  hours: '평일 10:00~18:30',
-  address: '서울 영등포구 문래동6가 24-1 에이스하이테크시티2 6층 606호',
-  businessNumber: '106-87-07622',
-  email: 'contact@dccom.co.kr',
+  company: 'issac.design',
+  phone: '010-1234-5678',
+  hours: '평일 09:00~18:00 (토요일 09:00~15:00)',
+  address: '서울시 강남구 테헤란로 123 아이삭빌딩 2층',
+  businessNumber: '123-45-67890',
+  email: 'contact@issac.design',
 };
 ---
 
@@ -39,12 +39,12 @@ const contactInfo = {
     <div class="footer__main">
       <!-- Brand Column -->
       <div class="footer__brand">
-        <a href="#home" class="footer__logo">
-          <span class="footer__logo-text">DCC&P</span>
+        <a href="/" class="footer__logo">
+          <span class="footer__logo-text">issac.design</span>
         </a>
         <p class="footer__tagline">
-          디지털 라이프스타일의 절정<br />
-          25년의 신뢰, 2,000여 종의 프리미엄 제품
+          당신의 Brand를 Design하다<br />
+          LED Signage · Neon Sign · Advertising Design
         </p>
         <div class="footer__social">
           <a href="#" class="footer__social-link" aria-label="Instagram">
@@ -136,7 +136,7 @@ const contactInfo = {
         <a href="#" class="footer__legal-link">개인정보처리방침</a>
       </div>
       <p class="footer__copyright">
-        &copy; {currentYear} DCC&P. All rights reserved.
+        &copy; {currentYear} issac.design. All rights reserved.
       </p>
     </div>
   </div>
@@ -160,9 +160,9 @@ const contactInfo = {
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(99, 179, 237, 0.3) 20%,
-      rgba(26, 54, 93, 0.5) 50%,
-      rgba(99, 179, 237, 0.3) 80%,
+      rgba(102, 187, 106, 0.3) 20%,
+      rgba(26, 77, 46, 0.5) 50%,
+      rgba(102, 187, 106, 0.3) 80%,
       transparent 100%
     );
   }
@@ -229,8 +229,8 @@ const contactInfo = {
   }
 
   .footer__social-link:hover {
-    background: rgba(26, 54, 93, 0.3);
-    border-color: rgba(99, 179, 237, 0.3);
+    background: rgba(26, 77, 46, 0.3);
+    border-color: rgba(102, 187, 106, 0.3);
     color: var(--accent);
     transform: translateY(-2px);
   }

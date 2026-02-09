@@ -1,0 +1,292 @@
+---
+/**
+ * Shop Animations
+ * GSAP ScrollTrigger animations for all shop sections
+ * Include this component in shop pages that need animations
+ */
+---
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initShopAnimations() {
+    // Clean up previous ScrollTrigger instances (for Astro page transitions)
+    ScrollTrigger.getAll().forEach(t => t.kill());
+
+    // ─── 1. Shop Hero ───
+    animateShopHero();
+
+    // ─── 2. Featured Bento Grid ───
+    animateBentoGrid();
+
+    // ─── 3. Category Showcase ───
+    animateCategoryShowcase();
+
+    // ─── 4. Process Timeline ───
+    animateProcessTimeline();
+
+    // ─── 5. Trust Indicators ───
+    animateTrustSection();
+
+    // ─── 6. Product Grid Cards ───
+    animateProductCards();
+
+    // ─── 7. Production Timeline ───
+    animateProductionTimeline();
+
+    // ─── 8. Related Products ───
+    animateRelatedProducts();
+  }
+
+  // ═══════════════════════════════════════════
+  // 1. Shop Hero
+  // ═══════════════════════════════════════════
+  function animateShopHero() {
+    const hero = document.querySelector('[data-shop-hero]');
+    if (!hero) return;
+
+    const title = hero.querySelector('[data-hero-title]');
+    const stats = hero.querySelector('[data-hero-stats]');
+
+    if (title) {
+      gsap.set(title, { opacity: 0, y: 30 });
+      gsap.to(title, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        delay: 0.2,
+      });
+    }
+
+    if (stats) {
+      const statChildren = stats.children;
+      if (statChildren.length) {
+        gsap.set(statChildren, { opacity: 0, y: 20 });
+        gsap.to(statChildren, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: 'power2.out',
+          stagger: 0.1,
+          delay: 0.6,
+        });
+      }
+    }
+  }
+
+  // ═══════════════════════════════════════════
+  // 2. Featured Bento Grid
+  // ═══════════════════════════════════════════
+  function animateBentoGrid() {
+    const grid = document.querySelector('[data-bento-grid]');
+    if (!grid) return;
+
+    const items = grid.querySelectorAll('[data-bento-item]');
+    if (!items.length) return;
+
+    gsap.set(items, { opacity: 0, y: 40 });
+    gsap.to(items, {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      ease: 'power2.out',
+      stagger: 0.15,
+      scrollTrigger: {
+        trigger: grid,
+        start: 'top 80%',
+      },
+    });
+  }
+
+  // ═══════════════════════════════════════════
+  // 3. Category Showcase
+  // ═══════════════════════════════════════════
+  function animateCategoryShowcase() {
+    const showcase = document.querySelector('[data-category-showcase]');
+    if (!showcase) return;
+
+    const cards = showcase.querySelectorAll('[data-category-card]');
+    if (!cards.length) return;
+
+    gsap.set(cards, { opacity: 0, x: 60 });
+    gsap.to(cards, {
+      opacity: 1,
+      x: 0,
+      duration: 0.7,
+      ease: 'power2.out',
+      stagger: 0.1,
+      scrollTrigger: {
+        trigger: showcase,
+        start: 'top 85%',
+      },
+    });
+  }
+
+  // ═══════════════════════════════════════════
+  // 4. Process Timeline
+  // ═══════════════════════════════════════════
+  function animateProcessTimeline() {
+    const timeline = document.querySelector('[data-process-timeline]');
+    if (!timeline) return;
+
+    const steps = timeline.querySelectorAll('[data-process-step]');
+    if (!steps.length) return;
+
+    gsap.set(steps, { opacity: 0, y: 30 });
+    gsap.to(steps, {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      ease: 'power2.out',
+      stagger: 0.2,
+      scrollTrigger: {
+        trigger: timeline,
+        start: 'top 75%',
+      },
+    });
+  }
+
+  // ═══════════════════════════════════════════
+  // 5. Trust Indicators
+  // ═══════════════════════════════════════════
+  function animateTrustSection() {
+    const section = document.querySelector('[data-trust-section]');
+    if (!section) return;
+
+    const cards = section.querySelectorAll('[data-trust-card]');
+    const numbers = section.querySelectorAll('[data-trust-number]');
+
+    // Cards fade-in
+    if (cards.length) {
+      gsap.set(cards, { opacity: 0, y: 20 });
+      gsap.to(cards, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: 'power2.out',
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 80%',
+        },
+      });
+    }
+
+    // Counter animation on trust numbers
+    if (numbers.length) {
+      numbers.forEach((el) => {
+        const text = el.textContent?.trim() || '';
+        // Extract the numeric part (e.g., "15+" -> 15, "1,000+" -> 1000, "100%" -> 100, "24h" -> 24)
+        const numericMatch = text.match(/[\d,]+/);
+        if (!numericMatch) return;
+
+        const targetNumber = parseInt(numericMatch[0].replace(/,/g, ''), 10);
+        if (isNaN(targetNumber)) return;
+
+        // Determine prefix/suffix around the number
+        const matchIndex = text.indexOf(numericMatch[0]);
+        const prefix = text.substring(0, matchIndex);
+        const suffix = text.substring(matchIndex + numericMatch[0].length);
+
+        // Determine if the original number had commas
+        const hasComma = numericMatch[0].includes(',');
+
+        const counter = { value: 0 };
+
+        gsap.to(counter, {
+          value: targetNumber,
+          duration: 0.8,
+          ease: 'power2.out',
+          snap: { value: 1 },
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 80%',
+          },
+          onUpdate: () => {
+            const formatted = hasComma
+              ? Math.round(counter.value).toLocaleString()
+              : Math.round(counter.value).toString();
+            el.textContent = prefix + formatted + suffix;
+          },
+        });
+      });
+    }
+  }
+
+  // ═══════════════════════════════════════════
+  // 6. Product Grid Cards
+  // ═══════════════════════════════════════════
+  function animateProductCards() {
+    const cards = document.querySelectorAll('.product-card');
+    if (!cards.length) return;
+
+    gsap.set(cards, { opacity: 0, y: 30 });
+    gsap.to(cards, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      ease: 'power2.out',
+      stagger: 0.08,
+      scrollTrigger: {
+        trigger: cards[0].parentElement,
+        start: 'top 85%',
+      },
+    });
+  }
+
+  // ═══════════════════════════════════════════
+  // 7. Production Timeline
+  // ═══════════════════════════════════════════
+  function animateProductionTimeline() {
+    const timeline = document.querySelector('[data-production-timeline]');
+    if (!timeline) return;
+
+    const steps = timeline.querySelectorAll('[data-production-step]');
+    if (!steps.length) return;
+
+    gsap.set(steps, { opacity: 0, x: -30 });
+    gsap.to(steps, {
+      opacity: 1,
+      x: 0,
+      duration: 0.7,
+      ease: 'power2.out',
+      stagger: 0.15,
+      scrollTrigger: {
+        trigger: timeline,
+        start: 'top 80%',
+      },
+    });
+  }
+
+  // ═══════════════════════════════════════════
+  // 8. Related Products
+  // ═══════════════════════════════════════════
+  function animateRelatedProducts() {
+    const section = document.querySelector('[data-related-products]');
+    if (!section) return;
+
+    const cards = section.querySelectorAll('[data-related-card]');
+    if (!cards.length) return;
+
+    gsap.set(cards, { opacity: 0, y: 30 });
+    gsap.to(cards, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      ease: 'power2.out',
+      stagger: 0.1,
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 85%',
+      },
+    });
+  }
+
+  // Init on load and Astro page transitions
+  document.addEventListener('DOMContentLoaded', initShopAnimations);
+  document.addEventListener('astro:page-load', initShopAnimations);
+</script>

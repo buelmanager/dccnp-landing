@@ -1,0 +1,379 @@
+---
+/**
+ * QuoteForm Component
+ * Quote request form for products
+ */
+
+interface Props {
+  productName?: string;
+}
+
+const { productName = '' } = Astro.props;
+---
+
+<div class="quote-form" data-quote-form>
+  <div class="quote-form__container">
+    <!-- Header -->
+    <div class="quote-form__header">
+      <h3 class="quote-form__title">견적 문의</h3>
+      <p class="quote-form__description">
+        {productName ? `${productName}에 대한 견적을 문의하세요` : '제품에 대한 견적을 문의하세요'}
+      </p>
+    </div>
+
+    <!-- Form -->
+    <form class="quote-form__form" data-quote-form-element>
+      <!-- Name -->
+      <div class="quote-form__field">
+        <label for="quote-name" class="quote-form__label">
+          이름 <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="quote-name"
+          name="name"
+          class="quote-form__input"
+          placeholder="홍길동"
+          required
+        />
+      </div>
+
+      <!-- Phone -->
+      <div class="quote-form__field">
+        <label for="quote-phone" class="quote-form__label">
+          연락처 <span class="required">*</span>
+        </label>
+        <input
+          type="tel"
+          id="quote-phone"
+          name="phone"
+          class="quote-form__input"
+          placeholder="010-1234-5678"
+          required
+        />
+      </div>
+
+      <!-- Email -->
+      <div class="quote-form__field">
+        <label for="quote-email" class="quote-form__label">
+          이메일
+        </label>
+        <input
+          type="email"
+          id="quote-email"
+          name="email"
+          class="quote-form__input"
+          placeholder="example@email.com"
+        />
+      </div>
+
+      <!-- Product -->
+      {productName && (
+        <div class="quote-form__field">
+          <label for="quote-product" class="quote-form__label">
+            문의 제품
+          </label>
+          <input
+            type="text"
+            id="quote-product"
+            name="product"
+            class="quote-form__input"
+            value={productName}
+            readonly
+          />
+        </div>
+      )}
+
+      <!-- Size/Specs -->
+      <div class="quote-form__field">
+        <label for="quote-size" class="quote-form__label">
+          희망 사이즈/사양
+        </label>
+        <input
+          type="text"
+          id="quote-size"
+          name="size"
+          class="quote-form__input"
+          placeholder="예: 가로 3m x 세로 1m"
+        />
+      </div>
+
+      <!-- Message -->
+      <div class="quote-form__field">
+        <label for="quote-message" class="quote-form__label">
+          상세 문의 내용 <span class="required">*</span>
+        </label>
+        <textarea
+          id="quote-message"
+          name="message"
+          class="quote-form__textarea"
+          rows="5"
+          placeholder="제작하고 싶은 간판에 대해 자세히 설명해주세요. 설치 장소, 원하는 디자인, 납기 등을 적어주시면 더 정확한 견적을 받으실 수 있습니다."
+          required
+        ></textarea>
+      </div>
+
+      <!-- Privacy Agreement -->
+      <div class="quote-form__checkbox">
+        <input
+          type="checkbox"
+          id="quote-privacy"
+          name="privacy"
+          required
+        />
+        <label for="quote-privacy">
+          개인정보 수집 및 이용에 동의합니다 <span class="required">*</span>
+        </label>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="quote-form__submit">
+        <span>견적 요청하기</span>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <!-- Success Message -->
+      <div class="quote-form__message quote-form__message--success" data-success-message style="display: none;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <path d="M8 12l3 3 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p>견적 문의가 성공적으로 전송되었습니다. 빠른 시일 내에 연락드리겠습니다.</p>
+      </div>
+
+      <!-- Error Message -->
+      <div class="quote-form__message quote-form__message--error" data-error-message style="display: none;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <p>전송 중 오류가 발생했습니다. 다시 시도해주세요.</p>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+  .quote-form {
+    position: relative;
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl);
+  }
+
+  .quote-form__container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .quote-form__header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .quote-form__title {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .quote-form__description {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+  }
+
+  /* Form */
+  .quote-form__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .quote-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .quote-form__label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .required {
+    color: var(--error);
+  }
+
+  .quote-form__input,
+  .quote-form__textarea {
+    width: 100%;
+    padding: var(--space-md);
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-family: var(--font-family);
+    transition: all var(--transition-base);
+  }
+
+  .quote-form__input:focus,
+  .quote-form__textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.1);
+  }
+
+  .quote-form__input::placeholder,
+  .quote-form__textarea::placeholder {
+    color: var(--text-muted);
+  }
+
+  .quote-form__input:read-only {
+    background: var(--surface-light);
+    cursor: not-allowed;
+  }
+
+  .quote-form__textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  /* Checkbox */
+  .quote-form__checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .quote-form__checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--primary);
+  }
+
+  .quote-form__checkbox label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+
+  /* Submit Button */
+  .quote-form__submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-xl);
+    background: var(--primary);
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+  }
+
+  .quote-form__submit:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(26, 77, 46, 0.3);
+  }
+
+  .quote-form__submit:active {
+    transform: translateY(0);
+  }
+
+  /* Messages */
+  .quote-form__message {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+  }
+
+  .quote-form__message svg {
+    flex-shrink: 0;
+  }
+
+  .quote-form__message--success {
+    background: rgba(72, 187, 120, 0.1);
+    color: var(--success);
+    border: 1px solid var(--success);
+  }
+
+  .quote-form__message--error {
+    background: rgba(245, 101, 101, 0.1);
+    color: var(--error);
+    border: 1px solid var(--error);
+  }
+
+  /* Responsive */
+  @media (max-width: 719px) {
+    .quote-form {
+      padding: var(--space-xl);
+    }
+
+    .quote-form__title {
+      font-size: var(--font-size-xl);
+    }
+  }
+</style>
+
+<script>
+  // Quote Form Submission
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('[data-quote-form-element]') as HTMLFormElement;
+    if (!form) return;
+
+    const successMessage = document.querySelector('[data-success-message]') as HTMLElement;
+    const errorMessage = document.querySelector('[data-error-message]') as HTMLElement;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Hide previous messages
+      if (successMessage) successMessage.style.display = 'none';
+      if (errorMessage) errorMessage.style.display = 'none';
+
+      // Get form data
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      // Simulate form submission (replace with actual API call)
+      try {
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Show success message
+        if (successMessage) {
+          successMessage.style.display = 'flex';
+          form.reset();
+
+          // Scroll to success message
+          successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        console.log('Quote request submitted:', data);
+      } catch (error) {
+        // Show error message
+        if (errorMessage) {
+          errorMessage.style.display = 'flex';
+          errorMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        console.error('Quote submission error:', error);
+      }
+    });
+  });
+</script>

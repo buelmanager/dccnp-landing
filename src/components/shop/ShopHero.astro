@@ -1,0 +1,310 @@
+---
+/**
+ * Shop Hero Section Component
+ * Full-width hero for the premium signage shop page
+ * Animations handled externally via GSAP (data attributes only)
+ */
+import productsData from '../../data/products.json';
+const { products, categories } = productsData;
+---
+
+<section class="shop-hero" data-shop-hero>
+  <!-- Background Decoration -->
+  <div class="shop-hero-bg">
+    <div class="shop-hero-radial"></div>
+    <div class="shop-hero-grid"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="shop-hero-container">
+    <div class="shop-hero-content">
+      <!-- Label Badge -->
+      <span class="shop-hero-badge">issac.design Shop</span>
+
+      <!-- Main Title -->
+      <h1 class="shop-hero-title" data-hero-title>
+        간판 <span class="text-gradient">쇼핑몰</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="shop-hero-subtitle">
+        LED Signage &middot; Hanging Banner &middot; Advertising Design
+      </p>
+      <p class="shop-hero-desc">
+        원하는 제품을 선택하고 견적을 문의하세요
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="shop-hero-cta">
+        <a href="#products" class="button button--primary shop-hero-btn">
+          <span>전체 제품 보기</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="#quote" class="button button--outline shop-hero-btn">
+          <span>무료 견적</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="shop-hero-stats" data-hero-stats>
+      <div class="shop-hero-stat">
+        <span class="shop-hero-stat-number">{products.length}</span>
+        <span class="shop-hero-stat-label">Products</span>
+      </div>
+      <div class="shop-hero-stat-divider"></div>
+      <div class="shop-hero-stat">
+        <span class="shop-hero-stat-number">{categories.length}</span>
+        <span class="shop-hero-stat-label">Categories</span>
+      </div>
+      <div class="shop-hero-stat-divider"></div>
+      <div class="shop-hero-stat">
+        <span class="shop-hero-stat-number">15</span>
+        <span class="shop-hero-stat-label">Years</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Shop Hero Section */
+  .shop-hero {
+    position: relative;
+    width: 100%;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    padding-top: calc(var(--header-height) + var(--space-4xl));
+    padding-bottom: var(--space-4xl);
+    overflow: hidden;
+    background: var(--background);
+  }
+
+  /* Background Decoration */
+  .shop-hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .shop-hero-radial {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 60% 50% at 50% 40%,
+      rgba(26, 77, 46, 0.15) 0%,
+      transparent 70%
+    );
+  }
+
+  .shop-hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(76, 175, 80, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(76, 175, 80, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 0%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 0%, transparent 100%);
+  }
+
+  /* Container */
+  .shop-hero-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xl);
+  }
+
+  /* Content */
+  .shop-hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-lg);
+  }
+
+  /* Badge */
+  .shop-hero-badge {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-lg);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--primary-light);
+    background: rgba(26, 77, 46, 0.25);
+    border: 1px solid rgba(76, 175, 80, 0.2);
+    border-radius: var(--radius-full);
+  }
+
+  /* Title */
+  .shop-hero-title {
+    font-size: clamp(2.5rem, 7vw, var(--font-size-6xl));
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+
+  /* Subtitle */
+  .shop-hero-subtitle {
+    font-size: var(--font-size-lg);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+  }
+
+  .shop-hero-desc {
+    font-size: var(--font-size-base);
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* CTA Buttons */
+  .shop-hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+  }
+
+  .shop-hero-btn {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shop-hero-btn svg {
+    transition: transform var(--transition-base);
+  }
+
+  .shop-hero-btn:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* Stats Bar */
+  .shop-hero-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xl);
+    padding: var(--space-lg) var(--space-2xl);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  .shop-hero-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .shop-hero-stat-number {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .shop-hero-stat-label {
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .shop-hero-stat-divider {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      var(--border) 50%,
+      transparent 100%
+    );
+  }
+
+  /* ==================
+     Responsive
+     ================== */
+
+  /* Tablet */
+  @media (max-width: 1023px) {
+    .shop-hero-title {
+      font-size: clamp(2rem, 6vw, var(--font-size-5xl));
+    }
+  }
+
+  /* Mobile */
+  @media (max-width: 719px) {
+    .shop-hero {
+      padding-top: calc(var(--header-height-mobile) + var(--space-4xl));
+      padding-bottom: var(--space-3xl);
+      min-height: auto;
+    }
+
+    .shop-hero-title {
+      font-size: clamp(1.75rem, 9vw, 2.5rem);
+    }
+
+    .shop-hero-subtitle {
+      font-size: var(--font-size-sm);
+    }
+
+    .shop-hero-desc {
+      font-size: var(--font-size-sm);
+    }
+
+    .shop-hero-cta {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .shop-hero-btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .shop-hero-stats {
+      flex-direction: column;
+      gap: var(--space-lg);
+      padding: var(--space-xl) var(--space-2xl);
+      width: 100%;
+    }
+
+    .shop-hero-stat-divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--border) 50%,
+        transparent 100%
+      );
+    }
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .shop-hero-btn svg {
+      transition: none;
+    }
+  }
+</style>

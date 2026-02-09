@@ -1,0 +1,268 @@
+---
+/**
+ * AddToQuoteButton Component
+ * Adds a product to the quote cart (localStorage-based)
+ */
+interface Props {
+  product: {
+    id: string;
+    slug: string;
+    name: string;
+    thumbnail: string;
+    categoryName: string;
+    priceRange: string;
+  };
+}
+const { product } = Astro.props;
+---
+
+<button
+  class="add-to-quote-btn"
+  data-add-to-quote
+  data-product-id={product.id}
+  data-product-slug={product.slug}
+  data-product-name={product.name}
+  data-product-thumbnail={product.thumbnail}
+  data-product-category={product.categoryName}
+  data-product-price={product.priceRange}
+>
+  <svg
+    class="add-to-quote-btn__icon"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <circle cx="9" cy="21" r="1"></circle>
+    <circle cx="20" cy="21" r="1"></circle>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+  </svg>
+  <span class="add-to-quote-btn__text">견적함에 추가</span>
+</button>
+
+<style>
+  .add-to-quote-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm, 8px);
+    padding: var(--space-md, 12px) var(--space-xl, 24px);
+    background-color: var(--primary);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-md, 8px);
+    font-size: var(--font-size-base, 16px);
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .add-to-quote-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 77, 46, 0.3);
+  }
+
+  .add-to-quote-btn:active {
+    transform: translateY(0) scale(0.97);
+    box-shadow: none;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+
+  .add-to-quote-btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  .add-to-quote-btn__icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+  }
+
+  .add-to-quote-btn__text {
+    display: inline;
+  }
+
+  @media (max-width: 719px) {
+    .add-to-quote-btn {
+      width: 100%;
+      padding: var(--space-md, 12px) var(--space-lg, 16px);
+    }
+  }
+</style>
+
+<script>
+  // Inline quote cart logic (mirrors quoteCartStore.ts)
+  // Astro client scripts run in the browser but cannot import .ts modules at runtime,
+  // so we duplicate the localStorage logic here.
+
+  const STORAGE_KEY = 'quoteCart';
+
+  interface InlineQuoteCartItem {
+    id: string;
+    productId: string;
+    productSlug: string;
+    productName: string;
+    thumbnail: string;
+    categoryName: string;
+    priceRange: string;
+    options: {
+      size?: string;
+      material?: string;
+      finish?: string;
+      lighting?: string;
+    };
+    quantity: number;
+    memo: string;
+    addedAt: string;
+  }
+
+  function generateId(): string {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      return crypto.randomUUID();
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = (Math.random() * 16) | 0;
+      const v = c === 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  }
+
+  function getCart(): InlineQuoteCartItem[] {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return [];
+      return parsed;
+    } catch {
+      return [];
+    }
+  }
+
+  function saveCart(items: InlineQuoteCartItem[]): void {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+      window.dispatchEvent(
+        new CustomEvent('quote-cart-updated', {
+          detail: { items, count: items.length },
+        })
+      );
+    } catch {
+      console.warn('[QuoteCart] Failed to save cart to localStorage.');
+    }
+  }
+
+  function addToCart(item: Omit<InlineQuoteCartItem, 'id' | 'addedAt'>): void {
+    const cart = getCart();
+    const newItem: InlineQuoteCartItem = {
+      ...item,
+      id: generateId(),
+      addedAt: new Date().toISOString(),
+    };
+    cart.push(newItem);
+    saveCart(cart);
+  }
+
+  // Read options from the nearest configurator element (if present)
+  function readConfiguratorOptions(
+    button: HTMLElement
+  ): InlineQuoteCartItem['options'] {
+    const options: InlineQuoteCartItem['options'] = {};
+
+    // Look for a [data-configurator] parent or sibling section
+    const configurator =
+      button.closest('[data-configurator]') ||
+      document.querySelector('[data-configurator]');
+
+    if (!configurator) return options;
+
+    // Read selected size
+    const sizeEl =
+      configurator.querySelector<HTMLSelectElement>('[data-option="size"]') ||
+      configurator.querySelector<HTMLInputElement>('input[name="size"]:checked');
+    if (sizeEl) options.size = sizeEl.value || sizeEl.textContent?.trim();
+
+    // Read selected material
+    const materialEl =
+      configurator.querySelector<HTMLSelectElement>('[data-option="material"]') ||
+      configurator.querySelector<HTMLInputElement>('input[name="material"]:checked');
+    if (materialEl) options.material = materialEl.value || materialEl.textContent?.trim();
+
+    // Read selected finish
+    const finishEl =
+      configurator.querySelector<HTMLSelectElement>('[data-option="finish"]') ||
+      configurator.querySelector<HTMLInputElement>('input[name="finish"]:checked');
+    if (finishEl) options.finish = finishEl.value || finishEl.textContent?.trim();
+
+    // Read selected lighting
+    const lightingEl =
+      configurator.querySelector<HTMLSelectElement>('[data-option="lighting"]') ||
+      configurator.querySelector<HTMLInputElement>('input[name="lighting"]:checked');
+    if (lightingEl) options.lighting = lightingEl.value || lightingEl.textContent?.trim();
+
+    return options;
+  }
+
+  // Bind click handlers to all AddToQuote buttons
+  function initAddToQuoteButtons() {
+    const buttons = document.querySelectorAll<HTMLButtonElement>('[data-add-to-quote]');
+
+    buttons.forEach((button) => {
+      // Prevent double-binding
+      if (button.dataset.bound === 'true') return;
+      button.dataset.bound = 'true';
+
+      button.addEventListener('click', () => {
+        const productId = button.dataset.productId || '';
+        const productSlug = button.dataset.productSlug || '';
+        const productName = button.dataset.productName || '';
+        const thumbnail = button.dataset.productThumbnail || '';
+        const categoryName = button.dataset.productCategory || '';
+        const priceRange = button.dataset.productPrice || '';
+
+        const options = readConfiguratorOptions(button);
+
+        addToCart({
+          productId,
+          productSlug,
+          productName,
+          thumbnail,
+          categoryName,
+          priceRange,
+          options,
+          quantity: 1,
+          memo: '',
+        });
+
+        // Show toast notification
+        if (typeof (window as any).showToast === 'function') {
+          (window as any).showToast({
+            title: '견적함에 추가됨',
+            message: productName,
+            type: 'success',
+          });
+        }
+      });
+    });
+  }
+
+  // Initialize on page load and after Astro view transitions
+  document.addEventListener('DOMContentLoaded', initAddToQuoteButtons);
+  document.addEventListener('astro:page-load', initAddToQuoteButtons);
+
+  // Also run immediately in case DOMContentLoaded already fired
+  if (document.readyState !== 'loading') {
+    initAddToQuoteButtons();
+  }
+</script>

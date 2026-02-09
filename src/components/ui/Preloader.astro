@@ -1,6 +1,6 @@
 ---
 // Preloader Component
-// Full-screen loading overlay with DCC&P logo and spinner
+// Full-screen loading overlay with issac.design logo and spinner
 ---
 
 <div id="preloader" class="preloader" aria-label="Loading">
@@ -10,19 +10,19 @@
     
     <!-- Animated Logo -->
     <div class="preloader-logo">
-      <svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg" aria-label="DCC&P Logo">
+      <svg viewBox="0 0 240 60" xmlns="http://www.w3.org/2000/svg" aria-label="issac.design Logo">
         <!-- Decorative line above -->
-        <line class="logo-line logo-line--top" x1="40" y1="8" x2="160" y2="8" />
-        
-        <!-- Main Text: DCC&P -->
-        <text class="logo-text" x="100" y="42" text-anchor="middle">
-          <tspan class="logo-text--main">DCC</tspan>
-          <tspan class="logo-text--ampersand">&amp;</tspan>
-          <tspan class="logo-text--main">P</tspan>
+        <line class="logo-line logo-line--top" x1="10" y1="12" x2="230" y2="12" />
+
+        <!-- Main Text: issac.design -->
+        <text class="logo-text" x="120" y="38" text-anchor="middle">
+          <tspan class="logo-text--main">issac</tspan>
+          <tspan class="logo-text--dot">.</tspan>
+          <tspan class="logo-text--domain">design</tspan>
         </text>
-        
+
         <!-- Decorative line below -->
-        <line class="logo-line logo-line--bottom" x1="40" y1="52" x2="160" y2="52" />
+        <line class="logo-line logo-line--bottom" x1="10" y1="48" x2="230" y2="48" />
       </svg>
     </div>
     
@@ -90,32 +90,43 @@
 
   .logo-text {
     font-family: 'Outfit', sans-serif;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 600;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.08em;
     fill: #fff;
   }
 
-  .logo-text--ampersand {
-    fill: var(--primary, #1a365d);
-    font-weight: 400;
+  .logo-text--main {
+    font-weight: 700;
+  }
+
+  .logo-text--dot {
+    fill: var(--primary, #1a4d2e);
+    font-weight: 700;
+    font-size: 28px;
+  }
+
+  .logo-text--domain {
+    fill: var(--primary-light, #4caf50);
+    font-weight: 500;
   }
 
   .logo-line {
-    stroke: var(--primary, #1a365d);
-    stroke-width: 1;
+    stroke: var(--primary, #1a4d2e);
+    stroke-width: 1.5;
     stroke-linecap: round;
-    opacity: 0.6;
   }
 
   .logo-line--top {
-    stroke-dasharray: 120;
-    stroke-dashoffset: 120;
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+    opacity: 1;
   }
 
   .logo-line--bottom {
-    stroke-dasharray: 120;
-    stroke-dashoffset: 120;
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+    opacity: 1;
   }
 
   /* Spinner Styles */
@@ -231,6 +242,16 @@
     const preloader = document.getElementById('preloader');
     if (!preloader) return;
 
+    // Skip preloader if already shown this session
+    if (sessionStorage.getItem('preloader-shown')) {
+      preloader.classList.add('is-hidden');
+      document.body.classList.add('preloader-ready');
+      window.dispatchEvent(new CustomEvent('preloader:complete'));
+      return;
+    }
+
+    sessionStorage.setItem('preloader-shown', '1');
+
     const logo = preloader.querySelector('.preloader-logo');
     const lineTop = preloader.querySelector('.logo-line--top');
     const lineBottom = preloader.querySelector('.logo-line--bottom');
@@ -245,29 +266,28 @@
       .to(logo, {
         opacity: 1,
         y: 0,
-        duration: 0.6,
+        duration: 0.5,
         ease: 'power2.out',
       })
-      // Lines draw in
+      // Progress lines animate from 0 to 100%
       .to([lineTop, lineBottom], {
         strokeDashoffset: 0,
-        duration: 0.8,
-        ease: 'power2.inOut',
-        stagger: 0.1,
-      }, '-=0.3')
+        duration: 1.8,
+        ease: 'power1.inOut',
+      }, '-=0.2')
       // Spinner fade in
       .to(spinner, {
         opacity: 1,
         duration: 0.4,
         ease: 'power2.out',
-      }, '-=0.4')
+      }, '-=1.2')
       // Text fade in
       .to(text, {
         opacity: 1,
         y: 0,
         duration: 0.4,
         ease: 'power2.out',
-      }, '-=0.2');
+      }, '-=1.0');
 
     // Fade out function
     function hidePreloader() {
@@ -275,7 +295,7 @@
         onComplete: () => {
           preloader.classList.add('is-hidden');
           document.body.classList.add('preloader-ready');
-          
+
           // Dispatch custom event for other components
           window.dispatchEvent(new CustomEvent('preloader:complete'));
         },

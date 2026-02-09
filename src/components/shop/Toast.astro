@@ -1,0 +1,186 @@
+---
+/**
+ * Toast Component
+ * Notification toast for shop actions (add to quote cart, etc.)
+ */
+---
+
+<div class="toast-container" data-toast-container></div>
+
+<style>
+  .toast-container {
+    position: fixed;
+    top: calc(var(--header-height) + var(--space-md));
+    right: var(--space-lg);
+    z-index: var(--z-tooltip);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    pointer-events: none;
+  }
+
+  .toast-container :global(.toast) {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    min-width: 280px;
+    max-width: 400px;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .toast-container :global(.toast.show) {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .toast-container :global(.toast.hiding) {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+
+  .toast-container :global(.toast__icon) {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+  }
+
+  .toast-container :global(.toast__icon--success) {
+    background: rgba(72, 187, 120, 0.15);
+    color: var(--success);
+  }
+
+  .toast-container :global(.toast__icon--error) {
+    background: rgba(245, 101, 101, 0.15);
+    color: var(--error);
+  }
+
+  .toast-container :global(.toast__icon--info) {
+    background: rgba(26, 77, 46, 0.15);
+    color: var(--primary);
+  }
+
+  .toast-container :global(.toast__content) {
+    flex: 1;
+  }
+
+  .toast-container :global(.toast__title) {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+
+  .toast-container :global(.toast__message) {
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+  }
+
+  .toast-container :global(.toast__close) {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color var(--transition-base);
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  .toast-container :global(.toast__close:hover) {
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 719px) {
+    .toast-container {
+      top: calc(var(--header-height-mobile) + var(--space-sm));
+      right: var(--space-md);
+      left: var(--space-md);
+    }
+
+    .toast-container :global(.toast) {
+      min-width: auto;
+      max-width: none;
+    }
+  }
+</style>
+
+<script>
+  // Global Toast API
+  interface ToastOptions {
+    title: string;
+    message?: string;
+    type?: 'success' | 'error' | 'info';
+    duration?: number;
+  }
+
+  function showToast(options: ToastOptions) {
+    const container = document.querySelector('[data-toast-container]');
+    if (!container) return;
+
+    const { title, message = '', type = 'success', duration = 3000 } = options;
+
+    const icons: Record<string, string> = {
+      success: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      error: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3M8 11h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+      info: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 5h.01M8 7v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+    };
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `
+      <div class="toast__icon toast__icon--${type}">${icons[type]}</div>
+      <div class="toast__content">
+        <div class="toast__title">${title}</div>
+        ${message ? `<div class="toast__message">${message}</div>` : ''}
+      </div>
+      <button class="toast__close" aria-label="닫기">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M10.5 3.5l-7 7M3.5 3.5l7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    `;
+
+    container.appendChild(toast);
+
+    // Trigger show animation
+    requestAnimationFrame(() => {
+      toast.classList.add('show');
+    });
+
+    // Close button
+    const closeBtn = toast.querySelector('.toast__close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => dismissToast(toast));
+    }
+
+    // Auto dismiss
+    if (duration > 0) {
+      setTimeout(() => dismissToast(toast), duration);
+    }
+  }
+
+  function dismissToast(toast: HTMLElement) {
+    toast.classList.remove('show');
+    toast.classList.add('hiding');
+    setTimeout(() => toast.remove(), 400);
+  }
+
+  // Expose globally
+  (window as any).showToast = showToast;
+</script>

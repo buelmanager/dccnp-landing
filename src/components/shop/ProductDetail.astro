@@ -1,0 +1,457 @@
+---
+/**
+ * ProductDetail Component
+ * Detailed product view with specs and features
+ */
+
+interface Props {
+  product: any;
+}
+
+const { product } = Astro.props;
+---
+
+<div class="product-detail" data-product-detail>
+  <div class="product-detail__container">
+    <!-- Image Section -->
+    <div class="product-detail__image-section">
+      <div class="product-detail__image-main">
+        <img
+          src={product.images[0]}
+          alt={product.name}
+          class="product-detail__image"
+        />
+      </div>
+      <div class="product-detail__badges">
+        <span class="product-detail__badge product-detail__badge--category">
+          {product.categoryName}
+        </span>
+      </div>
+    </div>
+
+    <!-- Info Section -->
+    <div class="product-detail__info-section">
+      <!-- Title & Price -->
+      <div class="product-detail__header">
+        <h1 class="product-detail__title">{product.name}</h1>
+        <div class="product-detail__price">
+          <span class="product-detail__price-label">예상 가격</span>
+          <span class="product-detail__price-value">{product.priceRange}</span>
+          <span class="product-detail__price-note">* 실제 가격은 사이즈 및 사양에 따라 달라질 수 있습니다</span>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="product-detail__section">
+        <h3 class="product-detail__section-title">제품 설명</h3>
+        <p class="product-detail__description">{product.description}</p>
+        <p class="product-detail__full-description">{product.fullDesc}</p>
+      </div>
+
+      <!-- Features -->
+      {product.features && product.features.length > 0 && (
+        <div class="product-detail__section">
+          <h3 class="product-detail__section-title">주요 특징</h3>
+          <ul class="product-detail__features">
+            {product.features.map((feature: string) => (
+              <li class="product-detail__feature">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M6 10l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <!-- Specs -->
+      {product.specs && (
+        <div class="product-detail__section">
+          <h3 class="product-detail__section-title">제품 사양</h3>
+          <dl class="product-detail__specs">
+            {Object.entries(product.specs).map(([key, value]) => (
+              <div class="product-detail__spec-item">
+                <dt class="product-detail__spec-label">{key}</dt>
+                <dd class="product-detail__spec-value">{value as string}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      )}
+
+      <!-- Production Time -->
+      {product.productionTime && (
+        <div class="product-detail__section">
+          <h3 class="product-detail__section-title">제작 기간</h3>
+          <p class="product-detail__production-time">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M10 5v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span>{product.productionTime}</span>
+          </p>
+        </div>
+      )}
+
+      <!-- Included Services -->
+      {product.includedServices && product.includedServices.length > 0 && (
+        <div class="product-detail__section">
+          <h3 class="product-detail__section-title">포함 서비스</h3>
+          <ul class="product-detail__services">
+            {product.includedServices.map((service: string) => (
+              <li class="product-detail__service">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M10 2L12.5 7.5L18 10L12.5 12.5L10 18L7.5 12.5L2 10L7.5 7.5L10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                </svg>
+                <span>{service}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <!-- Tags -->
+      {product.tags && product.tags.length > 0 && (
+        <div class="product-detail__tags">
+          {product.tags.map((tag: string) => (
+            <span class="product-detail__tag">#{tag}</span>
+          ))}
+        </div>
+      )}
+
+      <!-- CTA Buttons -->
+      <div class="product-detail__actions">
+        <a href="#quote-form" class="product-detail__btn product-detail__btn--primary">
+          <span>견적 문의하기</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="/shop" class="product-detail__btn product-detail__btn--outline">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M8 10l-4-4m0 0l4-4m-4 4h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>목록으로</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .product-detail {
+    position: relative;
+    width: 100%;
+    padding: var(--space-4xl) 0;
+  }
+
+  .product-detail__container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4xl);
+  }
+
+  /* Image Section */
+  .product-detail__image-section {
+    position: relative;
+  }
+
+  .product-detail__image-main {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-xl));
+    width: 100%;
+    padding-top: 75%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .product-detail__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-detail__badges {
+    position: absolute;
+    top: var(--space-lg);
+    left: var(--space-lg);
+    display: flex;
+    gap: var(--space-sm);
+  }
+
+  .product-detail__badge {
+    padding: var(--space-sm) var(--space-md);
+    background: var(--primary);
+    color: var(--text-primary);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Info Section */
+  .product-detail__info-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+  }
+
+  .product-detail__header {
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .product-detail__title {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    line-height: var(--line-height-tight);
+    color: var(--text-primary);
+    margin-bottom: var(--space-lg);
+  }
+
+  .product-detail__price {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .product-detail__price-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+  }
+
+  .product-detail__price-value {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  .product-detail__price-note {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  /* Sections */
+  .product-detail__section {
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .product-detail__section-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+  }
+
+  .product-detail__description,
+  .product-detail__full-description {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-md);
+  }
+
+  .product-detail__full-description {
+    color: var(--text-primary);
+  }
+
+  /* Features */
+  .product-detail__features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .product-detail__feature {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+  }
+
+  .product-detail__feature svg {
+    flex-shrink: 0;
+    color: var(--primary);
+  }
+
+  /* Specs */
+  .product-detail__specs {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .product-detail__spec-item {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: var(--space-lg);
+    padding: var(--space-md);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .product-detail__spec-label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .product-detail__spec-value {
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+  }
+
+  /* Production Time */
+  .product-detail__production-time {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+  }
+
+  .product-detail__production-time svg {
+    color: var(--primary);
+  }
+
+  /* Services */
+  .product-detail__services {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .product-detail__service {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+  }
+
+  .product-detail__service svg {
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+
+  /* Tags */
+  .product-detail__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .product-detail__tag {
+    padding: var(--space-xs) var(--space-md);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    transition: all var(--transition-base);
+  }
+
+  .product-detail__tag:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+  }
+
+  /* Actions */
+  .product-detail__actions {
+    display: flex;
+    gap: var(--space-md);
+  }
+
+  .product-detail__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-xl);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    flex: 1;
+  }
+
+  .product-detail__btn--primary {
+    background: var(--primary);
+    color: var(--text-primary);
+    border: none;
+  }
+
+  .product-detail__btn--primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(26, 77, 46, 0.3);
+  }
+
+  .product-detail__btn--outline {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+
+  .product-detail__btn--outline:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .product-detail__container {
+      grid-template-columns: 1fr;
+      gap: var(--space-3xl);
+    }
+
+    .product-detail__image-main {
+      position: relative;
+      top: 0;
+    }
+
+    .product-detail__spec-item {
+      grid-template-columns: 1fr;
+      gap: var(--space-sm);
+    }
+  }
+
+  @media (max-width: 719px) {
+    .product-detail {
+      padding: var(--space-3xl) 0;
+    }
+
+    .product-detail__title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .product-detail__price-value {
+      font-size: var(--font-size-2xl);
+    }
+
+    .product-detail__actions {
+      flex-direction: column;
+    }
+  }
+</style>

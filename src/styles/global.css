@@ -1,6 +1,6 @@
 /* ============================================
-   DCC&P Premium Landing Page - Global Styles
-   Main Color: #1a365d (Navy Blue)
+   Isaac Signage Company - Global Styles
+   Main Color: #1a4d2e (Deep Green)
    ============================================ */
 
 /* Google Fonts - Outfit */
@@ -17,16 +17,16 @@
 
 /* CSS Variables */
 :root {
-  /* Primary Colors - Navy Blue Theme */
-  --primary: #1a365d;
-  --primary-hover: #2d5a8c;
-  --primary-light: #4a7ba7;
-  --primary-dark: #0f1f3a;
-  
+  /* Primary Colors - Deep Green Theme */
+  --primary: #1a4d2e;
+  --primary-hover: #2d7a4f;
+  --primary-light: #4caf50;
+  --primary-dark: #0f2419;
+
   /* Secondary & Accent */
-  --secondary: #3182ce;
-  --accent: #63b3ed;
-  --accent-light: #90cdf4;
+  --secondary: #388e3c;
+  --accent: #66bb6a;
+  --accent-light: #81c784;
   
   /* Background Colors */
   --background: #000000;
@@ -120,6 +120,21 @@
   /* Header */
   --header-height: 80px;
   --header-height-mobile: 60px;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(17, 17, 17, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 20px;
+
+  /* Shop-specific */
+  --shop-card-bg: rgba(17, 17, 17, 0.9);
+  --shop-badge-new: #48bb78;
+  --shop-badge-best: #ecc94b;
+  --shop-badge-sale: #f56565;
+
+  /* Quote cart */
+  --cart-badge-bg: #f56565;
+  --cart-badge-text: #ffffff;
 }
 
 /* Base Styles */
@@ -265,7 +280,7 @@ img, video {
 
 /* Glass Effect */
 .glass {
-  background: rgba(26, 54, 93, 0.1);
+  background: rgba(26, 77, 46, 0.1);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -554,6 +569,54 @@ body.preloader-ready footer {
 :focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
+}
+
+/* Glassmorphism Card */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+}
+
+/* Shop Badge */
+.shop-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  border-radius: var(--radius-full);
+}
+
+.shop-badge--new {
+  background: rgba(72, 187, 120, 0.15);
+  color: var(--shop-badge-new);
+}
+
+.shop-badge--best {
+  background: rgba(236, 201, 75, 0.15);
+  color: var(--shop-badge-best);
+}
+
+/* Cart Badge */
+.cart-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: var(--cart-badge-bg);
+  color: var(--cart-badge-text);
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 50%;
+  position: absolute;
+  top: -6px;
+  right: -6px;
 }
 
 /* Reduced Motion */

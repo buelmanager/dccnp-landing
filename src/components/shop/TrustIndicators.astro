@@ -1,0 +1,182 @@
+---
+/**
+ * TrustIndicators Component
+ * Trust badges/indicators showcasing company credentials
+ * Pure CSS - no JavaScript
+ */
+
+const trustItems = [
+  {
+    number: "15+",
+    label: "Years Experience",
+    description: "15년간 축적된 간판 제작 노하우",
+  },
+  {
+    number: "1,000+",
+    label: "Projects",
+    description: "전국 1,000건 이상의 시공 실적",
+  },
+  {
+    number: "100%",
+    label: "Free Quote",
+    description: "무료 현장 방문 및 견적 상담",
+  },
+  {
+    number: "24h",
+    label: "After Service",
+    description: "24시간 긴급 A/S 지원",
+  },
+];
+---
+
+<section class="trust" data-trust-section>
+  <div class="trust__container">
+    <!-- Section Header -->
+    <div class="trust__header">
+      <h2 class="trust__title">왜 issac.design인가?</h2>
+      <p class="trust__subtitle">15년의 경험과 실력으로 약속합니다</p>
+    </div>
+
+    <!-- Trust Grid -->
+    <div class="trust__grid">
+      {trustItems.map((item) => (
+        <div class="trust__card" data-trust-card>
+          <span class="trust__number" data-trust-number>
+            {item.number}
+          </span>
+          <span class="trust__label">{item.label}</span>
+          <p class="trust__description">{item.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Section */
+  .trust {
+    position: relative;
+    padding: var(--space-4xl) 0;
+    background: var(--surface);
+  }
+
+  .trust__container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  /* Header */
+  .trust__header {
+    margin-bottom: var(--space-3xl);
+    text-align: center;
+  }
+
+  .trust__title {
+    font-size: var(--font-size-4xl);
+    font-weight: 600;
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .trust__subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* Grid */
+  .trust__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+  }
+
+  /* Card */
+  .trust__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-2xl) var(--space-lg);
+    background: var(--surface-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: transform var(--transition-base), border-color var(--transition-base);
+  }
+
+  .trust__card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary);
+  }
+
+  /* Number */
+  .trust__number {
+    display: block;
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    color: var(--primary);
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--space-sm);
+  }
+
+  /* Label */
+  .trust__label {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    margin-bottom: var(--space-sm);
+  }
+
+  /* Description */
+  .trust__description {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: var(--line-height-normal);
+  }
+
+  /* Tablet */
+  @media (max-width: 1023px) {
+    .trust__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .trust__title {
+      font-size: var(--font-size-3xl);
+    }
+  }
+
+  /* Mobile */
+  @media (max-width: 719px) {
+    .trust__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+
+    .trust__card {
+      padding: var(--space-lg) var(--space-md);
+    }
+
+    .trust__title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .trust__subtitle {
+      font-size: var(--font-size-base);
+    }
+
+    .trust__header {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .trust__number {
+      font-size: var(--font-size-3xl);
+    }
+  }
+</style>

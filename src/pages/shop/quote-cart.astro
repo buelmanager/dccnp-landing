@@ -1,0 +1,799 @@
+---
+/**
+ * Quote Cart Page (견적함)
+ * Users can review items added for a quote request,
+ * adjust quantities, add memos, and proceed to checkout.
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import ShopNavbar from '../../components/shop/ShopNavbar.astro';
+import Breadcrumb from '../../components/shop/Breadcrumb.astro';
+import ShopFooter from '../../components/shop/ShopFooter.astro';
+import Toast from '../../components/shop/Toast.astro';
+
+const breadcrumbs = [
+  { label: '쇼핑몰', href: '/shop' },
+  { label: '견적함' },
+];
+---
+
+<Layout
+  title="견적함 - issac.design Shop"
+  description="견적함에 담긴 제품을 확인하고 견적 요청을 진행하세요."
+>
+  <script is:inline>document.body.classList.add('preloader-ready');</script>
+  <ShopNavbar />
+  <Toast />
+
+  <main class="quote-cart-page">
+    <!-- Breadcrumb -->
+    <div class="quote-cart-page__breadcrumb">
+      <Breadcrumb items={breadcrumbs} />
+    </div>
+
+    <!-- Content (rendered client-side) -->
+    <section class="quote-cart" data-quote-cart>
+      <div class="quote-cart__container">
+        <!-- Empty State -->
+        <div class="quote-cart__empty" data-cart-empty style="display: none;">
+          <div class="quote-cart__empty-icon">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6z"/>
+              <path d="M3 6h18"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+          </div>
+          <h2 class="quote-cart__empty-title">견적함이 비어있습니다</h2>
+          <p class="quote-cart__empty-desc">관심있는 제품을 견적함에 추가해보세요</p>
+          <a href="/shop" class="quote-cart__empty-btn">제품 보러가기</a>
+        </div>
+
+        <!-- Cart Content -->
+        <div class="quote-cart__content" data-cart-content style="display: none;">
+          <!-- Header -->
+          <div class="quote-cart__header">
+            <h1 class="quote-cart__title">
+              견적함
+              <span class="quote-cart__count-badge" data-cart-total-count>0</span>
+            </h1>
+          </div>
+
+          <!-- Items List -->
+          <div class="quote-cart__items" data-cart-items></div>
+
+          <!-- Summary -->
+          <div class="quote-cart__summary">
+            <div class="quote-cart__summary-info">
+              <span class="quote-cart__summary-label">총 <strong data-summary-count>0</strong>개 항목</span>
+            </div>
+            <div class="quote-cart__summary-actions">
+              <button
+                class="quote-cart__clear-btn"
+                data-clear-all
+                type="button"
+              >
+                모든 항목 삭제
+              </button>
+              <a href="/shop/quote-checkout" class="quote-cart__checkout-btn">
+                견적 요청하기
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <ShopFooter />
+</Layout>
+
+<style>
+  /* ============================================
+     Quote Cart Page
+     ============================================ */
+
+  .quote-cart-page {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: var(--background);
+  }
+
+  .quote-cart-page__breadcrumb {
+    padding-top: var(--header-height);
+  }
+
+  /* Container */
+  .quote-cart {
+    position: relative;
+    width: 100%;
+    padding: var(--space-xl) 0 var(--space-4xl);
+  }
+
+  .quote-cart__container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  /* ---- Empty State ---- */
+  .quote-cart__empty {
+    text-align: center;
+    padding: var(--space-4xl) 0;
+  }
+
+  .quote-cart__empty-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto var(--space-xl);
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-full);
+    color: var(--text-muted);
+  }
+
+  .quote-cart__empty-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+  }
+
+  .quote-cart__empty-desc {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-xl);
+  }
+
+  .quote-cart__empty-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md) var(--space-xl);
+    background: var(--primary);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+  }
+
+  .quote-cart__empty-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 77, 46, 0.3);
+  }
+
+  /* ---- Cart Content ---- */
+  .quote-cart__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  /* Header */
+  .quote-cart__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .quote-cart__title {
+    font-size: var(--font-size-3xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .quote-cart__count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 8px;
+    background: var(--primary);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    border-radius: var(--radius-full);
+  }
+
+  /* Items List */
+  .quote-cart__items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  /* Individual Cart Item (generated via JS) */
+  :global(.quote-cart-item) {
+    display: flex;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: border-color var(--transition-base);
+  }
+
+  :global(.quote-cart-item:hover) {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Thumbnail */
+  :global(.quote-cart-item__thumb) {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--surface-light);
+  }
+
+  :global(.quote-cart-item__thumb img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Item Body */
+  :global(.quote-cart-item__body) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    min-width: 0;
+  }
+
+  :global(.quote-cart-item__top) {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-md);
+  }
+
+  :global(.quote-cart-item__info) {
+    flex: 1;
+    min-width: 0;
+  }
+
+  :global(.quote-cart-item__name) {
+    display: block;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: var(--line-height-tight);
+    transition: color var(--transition-base);
+    text-decoration: none;
+  }
+
+  :global(.quote-cart-item__name:hover) {
+    color: var(--primary);
+  }
+
+  :global(.quote-cart-item__category) {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Delete Button */
+  :global(.quote-cart-item__delete) {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    padding: 0;
+  }
+
+  :global(.quote-cart-item__delete:hover) {
+    color: var(--error);
+    border-color: var(--error);
+    background: rgba(245, 101, 101, 0.08);
+  }
+
+  /* Options Pills */
+  :global(.quote-cart-item__options) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  :global(.quote-cart-item__option) {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px var(--space-sm);
+    background: rgba(26, 77, 46, 0.1);
+    color: var(--text-secondary);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(26, 77, 46, 0.15);
+  }
+
+  :global(.quote-cart-item__option-label) {
+    color: var(--text-muted);
+    margin-right: 4px;
+  }
+
+  /* Quantity Controls */
+  :global(.quote-cart-item__controls) {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+  }
+
+  :global(.quote-cart-item__quantity) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  :global(.quote-cart-item__qty-btn) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--surface-light);
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    padding: 0;
+  }
+
+  :global(.quote-cart-item__qty-btn:hover) {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+  }
+
+  :global(.quote-cart-item__qty-btn:disabled) {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  :global(.quote-cart-item__qty-value) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 32px;
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
+
+  /* Memo */
+  :global(.quote-cart-item__memo) {
+    width: 100%;
+  }
+
+  :global(.quote-cart-item__memo-input) {
+    width: 100%;
+    min-height: 40px;
+    max-height: 120px;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--surface-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    resize: vertical;
+    transition: border-color var(--transition-base);
+    line-height: var(--line-height-normal);
+  }
+
+  :global(.quote-cart-item__memo-input::placeholder) {
+    color: var(--text-muted);
+  }
+
+  :global(.quote-cart-item__memo-input:focus) {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.1);
+  }
+
+  /* ---- Summary Card ---- */
+  .quote-cart__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    padding: var(--space-lg) var(--space-xl);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    flex-wrap: wrap;
+  }
+
+  .quote-cart__summary-info {
+    display: flex;
+    align-items: center;
+  }
+
+  .quote-cart__summary-label {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+  }
+
+  .quote-cart__summary-label strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .quote-cart__summary-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .quote-cart__clear-btn {
+    padding: var(--space-sm) var(--space-md);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    font-family: var(--font-family);
+    cursor: pointer;
+    transition: color var(--transition-base);
+  }
+
+  .quote-cart__clear-btn:hover {
+    color: var(--error);
+  }
+
+  .quote-cart__checkout-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md) var(--space-2xl);
+    background: var(--primary);
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    white-space: nowrap;
+  }
+
+  .quote-cart__checkout-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 77, 46, 0.3);
+  }
+
+  /* ---- Responsive ---- */
+
+  @media (max-width: 719px) {
+    .quote-cart-page__breadcrumb {
+      padding-top: var(--header-height-mobile);
+    }
+
+    .quote-cart__title {
+      font-size: var(--font-size-2xl);
+    }
+
+    :global(.quote-cart-item) {
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    :global(.quote-cart-item__thumb) {
+      width: 60px;
+      height: 60px;
+    }
+
+    :global(.quote-cart-item__top) {
+      flex-direction: row;
+    }
+
+    :global(.quote-cart-item__controls) {
+      gap: var(--space-md);
+    }
+
+    .quote-cart__summary {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-md);
+      padding: var(--space-lg);
+    }
+
+    .quote-cart__summary-actions {
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .quote-cart__checkout-btn {
+      width: 100%;
+      text-align: center;
+    }
+
+    .quote-cart__clear-btn {
+      width: 100%;
+      text-align: center;
+      order: 1;
+    }
+
+    .quote-cart__checkout-btn {
+      order: 0;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const STORAGE_KEY = 'quoteCart';
+
+    // DOM references
+    const emptyEl = document.querySelector('[data-cart-empty]') as HTMLElement;
+    const contentEl = document.querySelector('[data-cart-content]') as HTMLElement;
+    const itemsContainer = document.querySelector('[data-cart-items]') as HTMLElement;
+    const totalCountBadge = document.querySelector('[data-cart-total-count]') as HTMLElement;
+    const summaryCount = document.querySelector('[data-summary-count]') as HTMLElement;
+    const clearAllBtn = document.querySelector('[data-clear-all]') as HTMLElement;
+
+    if (!emptyEl || !contentEl || !itemsContainer) return;
+
+    // ---- Cart Helpers ----
+    interface CartItem {
+      id: string;
+      productId: string;
+      productSlug: string;
+      productName: string;
+      thumbnail: string;
+      categoryName: string;
+      priceRange: string;
+      options: {
+        size?: string;
+        material?: string;
+        finish?: string;
+        lighting?: string;
+      };
+      quantity: number;
+      memo: string;
+      addedAt: string;
+    }
+
+    function getCart(): CartItem[] {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return [];
+        return parsed;
+      } catch {
+        return [];
+      }
+    }
+
+    function saveCart(items: CartItem[]): void {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+        window.dispatchEvent(
+          new CustomEvent('quote-cart-updated', {
+            detail: { items, count: items.length },
+          })
+        );
+      } catch {
+        console.warn('[QuoteCart] Failed to save cart.');
+      }
+    }
+
+    // ---- Debounce Utility ----
+    function debounce<T extends (...args: any[]) => void>(fn: T, delay: number): T {
+      let timer: ReturnType<typeof setTimeout>;
+      return ((...args: any[]) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn(...args), delay);
+      }) as unknown as T;
+    }
+
+    // ---- Render ----
+    function renderCart() {
+      const cart = getCart();
+
+      if (cart.length === 0) {
+        emptyEl.style.display = 'block';
+        contentEl.style.display = 'none';
+        return;
+      }
+
+      emptyEl.style.display = 'none';
+      contentEl.style.display = 'flex';
+
+      // Update counts
+      if (totalCountBadge) totalCountBadge.textContent = String(cart.length);
+      if (summaryCount) summaryCount.textContent = String(cart.length);
+
+      // Render items
+      itemsContainer.innerHTML = cart.map((item) => {
+        // Build option pills
+        const optionEntries: { label: string; value: string }[] = [];
+        if (item.options.size) optionEntries.push({ label: '사이즈', value: item.options.size });
+        if (item.options.material) optionEntries.push({ label: '소재', value: item.options.material });
+        if (item.options.finish) optionEntries.push({ label: '마감', value: item.options.finish });
+        if (item.options.lighting) optionEntries.push({ label: '조명', value: item.options.lighting });
+
+        const optionsHtml = optionEntries.length > 0
+          ? `<div class="quote-cart-item__options">
+              ${optionEntries.map(o =>
+                `<span class="quote-cart-item__option">
+                  <span class="quote-cart-item__option-label">${o.label}:</span> ${o.value}
+                </span>`
+              ).join('')}
+            </div>`
+          : '';
+
+        return `
+          <div class="quote-cart-item" data-item-id="${item.id}">
+            <div class="quote-cart-item__thumb">
+              <img src="${item.thumbnail}" alt="${item.productName}" loading="lazy" />
+            </div>
+            <div class="quote-cart-item__body">
+              <div class="quote-cart-item__top">
+                <div class="quote-cart-item__info">
+                  <a href="/shop/${item.productSlug}" class="quote-cart-item__name">${item.productName}</a>
+                  <span class="quote-cart-item__category">${item.categoryName}</span>
+                </div>
+                <button class="quote-cart-item__delete" data-delete-item="${item.id}" type="button" aria-label="삭제">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </button>
+              </div>
+              ${optionsHtml}
+              <div class="quote-cart-item__controls">
+                <div class="quote-cart-item__quantity">
+                  <button class="quote-cart-item__qty-btn" data-qty-minus="${item.id}" type="button" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
+                  <span class="quote-cart-item__qty-value" data-qty-value="${item.id}">${item.quantity}</span>
+                  <button class="quote-cart-item__qty-btn" data-qty-plus="${item.id}" type="button">+</button>
+                </div>
+              </div>
+              <div class="quote-cart-item__memo">
+                <textarea
+                  class="quote-cart-item__memo-input"
+                  data-memo-input="${item.id}"
+                  placeholder="메모를 남겨주세요"
+                  rows="1"
+                >${item.memo || ''}</textarea>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Bind item event listeners
+      bindItemEvents();
+    }
+
+    // ---- Event Binding ----
+    function bindItemEvents() {
+      // Delete buttons
+      itemsContainer.querySelectorAll<HTMLButtonElement>('[data-delete-item]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.deleteItem;
+          if (!id) return;
+          if (!confirm('이 항목을 견적함에서 삭제하시겠습니까?')) return;
+          const cart = getCart().filter(item => item.id !== id);
+          saveCart(cart);
+          renderCart();
+          if (typeof (window as any).showToast === 'function') {
+            (window as any).showToast({
+              title: '항목 삭제됨',
+              type: 'info',
+            });
+          }
+        });
+      });
+
+      // Quantity minus
+      itemsContainer.querySelectorAll<HTMLButtonElement>('[data-qty-minus]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.qtyMinus;
+          if (!id) return;
+          const cart = getCart();
+          const item = cart.find(i => i.id === id);
+          if (item && item.quantity > 1) {
+            item.quantity -= 1;
+            saveCart(cart);
+            // Update UI inline
+            const valueEl = itemsContainer.querySelector(`[data-qty-value="${id}"]`) as HTMLElement;
+            if (valueEl) valueEl.textContent = String(item.quantity);
+            const minusBtn = itemsContainer.querySelector(`[data-qty-minus="${id}"]`) as HTMLButtonElement;
+            if (minusBtn) minusBtn.disabled = item.quantity <= 1;
+          }
+        });
+      });
+
+      // Quantity plus
+      itemsContainer.querySelectorAll<HTMLButtonElement>('[data-qty-plus]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.qtyPlus;
+          if (!id) return;
+          const cart = getCart();
+          const item = cart.find(i => i.id === id);
+          if (item) {
+            item.quantity += 1;
+            saveCart(cart);
+            // Update UI inline
+            const valueEl = itemsContainer.querySelector(`[data-qty-value="${id}"]`) as HTMLElement;
+            if (valueEl) valueEl.textContent = String(item.quantity);
+            const minusBtn = itemsContainer.querySelector(`[data-qty-minus="${id}"]`) as HTMLButtonElement;
+            if (minusBtn) minusBtn.disabled = false;
+          }
+        });
+      });
+
+      // Memo inputs (debounced save)
+      itemsContainer.querySelectorAll<HTMLTextAreaElement>('[data-memo-input]').forEach(textarea => {
+        const id = textarea.dataset.memoInput;
+        if (!id) return;
+
+        const saveMemo = debounce(() => {
+          const cart = getCart();
+          const item = cart.find(i => i.id === id);
+          if (item) {
+            item.memo = textarea.value;
+            saveCart(cart);
+          }
+        }, 500);
+
+        textarea.addEventListener('input', saveMemo);
+      });
+    }
+
+    // ---- Clear All ----
+    if (clearAllBtn) {
+      clearAllBtn.addEventListener('click', () => {
+        const cart = getCart();
+        if (cart.length === 0) return;
+        if (!confirm('모든 항목을 견적함에서 삭제하시겠습니까?')) return;
+        saveCart([]);
+        renderCart();
+        if (typeof (window as any).showToast === 'function') {
+          (window as any).showToast({
+            title: '견적함 비우기 완료',
+            message: '모든 항목이 삭제되었습니다.',
+            type: 'info',
+          });
+        }
+      });
+    }
+
+    // ---- Listen for external updates ----
+    window.addEventListener('quote-cart-updated', () => {
+      renderCart();
+    });
+
+    // ---- Initial render ----
+    renderCart();
+  });
+</script>

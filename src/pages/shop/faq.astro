@@ -1,0 +1,527 @@
+---
+/**
+ * FAQ Page
+ * Frequently asked questions with accordion and category filtering
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import ShopNavbar from '../../components/shop/ShopNavbar.astro';
+import Breadcrumb from '../../components/shop/Breadcrumb.astro';
+import ShopFooter from '../../components/shop/ShopFooter.astro';
+import Toast from '../../components/shop/Toast.astro';
+import faqData from '../../data/shop-faq.json';
+
+const breadcrumbs = [
+  { label: '쇼핑몰', href: '/shop' },
+  { label: 'FAQ' },
+];
+
+const { faqCategories, faqs } = faqData;
+---
+
+<Layout
+  title="FAQ - issac.design 쇼핑몰"
+  description="issac.design 간판 제작, 설치, A/S에 관한 자주 묻는 질문을 확인하세요."
+>
+  <script is:inline>document.body.classList.add('preloader-ready');</script>
+  <ShopNavbar />
+  <Toast />
+
+  <main class="faq-page">
+    <!-- Breadcrumb -->
+    <div class="faq-page__breadcrumb">
+      <Breadcrumb items={breadcrumbs} />
+    </div>
+
+    <!-- Hero Section -->
+    <section class="faq-hero">
+      <div class="faq-hero__container">
+        <span class="faq-hero__label">FAQ</span>
+        <h1 class="faq-hero__title">자주 묻는 질문</h1>
+        <p class="faq-hero__subtitle">궁금한 점을 찾아보세요</p>
+      </div>
+    </section>
+
+    <!-- Category Filter -->
+    <section class="faq-filter">
+      <div class="faq-filter__container">
+        <div class="faq-filter__pills">
+          <button
+            class="faq-filter__pill faq-filter__pill--active"
+            data-faq-category="all"
+            type="button"
+          >
+            전체
+          </button>
+          {faqCategories.map((cat) => (
+            <button
+              class="faq-filter__pill"
+              data-faq-category={cat.id}
+              type="button"
+            >
+              {cat.name}
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Accordion List -->
+    <section class="faq-list">
+      <div class="faq-list__container">
+        {faqs.map((faq) => (
+          <div class="faq-item" data-faq-item data-faq-cat={faq.category}>
+            <button class="faq-item__header" data-faq-toggle type="button">
+              <div class="faq-item__header-left">
+                <span class="faq-item__badge">{faq.categoryName}</span>
+                <h3 class="faq-item__question">{faq.question}</h3>
+              </div>
+              <span class="faq-item__icon">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+            </button>
+            <div class="faq-item__body">
+              <div class="faq-item__answer">
+                <p>{faq.answer}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        <!-- Empty state for filtering -->
+        <div class="faq-list__empty" data-faq-empty style="display: none;">
+          <p class="faq-list__empty-text">해당 카테고리에 등록된 질문이 없습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact CTA -->
+    <section class="faq-cta">
+      <div class="faq-cta__container">
+        <div class="faq-cta__card">
+          <h2 class="faq-cta__title">원하는 답을 찾지 못하셨나요?</h2>
+          <p class="faq-cta__desc">
+            추가 문의 사항이 있으시면 언제든 연락주세요. 친절하게 안내해드리겠습니다.
+          </p>
+          <a href="/shop/contact" class="faq-cta__button">
+            <span>고객센터 바로가기</span>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <ShopFooter />
+</Layout>
+
+<style>
+  .faq-page {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: var(--background);
+  }
+
+  /* Breadcrumb */
+  .faq-page__breadcrumb {
+    padding-top: var(--header-height);
+  }
+
+  /* ===== Hero Section ===== */
+  .faq-hero {
+    position: relative;
+    width: 100%;
+    padding: var(--space-3xl) 0;
+    text-align: center;
+  }
+
+  .faq-hero__container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  .faq-hero__label {
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--primary-light);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    margin-bottom: var(--space-md);
+  }
+
+  .faq-hero__title {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .faq-hero__subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* ===== Category Filter ===== */
+  .faq-filter {
+    position: relative;
+    width: 100%;
+    padding-bottom: var(--space-2xl);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .faq-filter__container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  .faq-filter__pills {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .faq-filter__pill {
+    padding: var(--space-sm) var(--space-lg);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    font-family: var(--font-family);
+    cursor: pointer;
+    transition: all var(--transition-base);
+  }
+
+  .faq-filter__pill:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .faq-filter__pill--active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--text-primary);
+  }
+
+  .faq-filter__pill--active:hover {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+    color: var(--text-primary);
+  }
+
+  /* ===== FAQ List ===== */
+  .faq-list {
+    position: relative;
+    width: 100%;
+    padding: var(--space-2xl) 0 var(--space-4xl);
+  }
+
+  .faq-list__container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  /* FAQ Item */
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .faq-item__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    width: 100%;
+    padding: var(--space-xl) 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-family);
+    color: var(--text-primary);
+    transition: color var(--transition-base);
+  }
+
+  .faq-item__header:hover {
+    color: var(--primary-light);
+  }
+
+  .faq-item__header-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    flex: 1;
+    min-width: 0;
+  }
+
+  .faq-item__badge {
+    display: inline-block;
+    width: fit-content;
+    padding: var(--space-xs) var(--space-sm);
+    background: rgba(26, 77, 46, 0.1);
+    color: var(--primary-light);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    border-radius: var(--radius-sm);
+  }
+
+  .faq-item__question {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    line-height: var(--line-height-normal);
+  }
+
+  .faq-item__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+    transition: transform var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+  }
+
+  .faq-item--open .faq-item__icon {
+    transform: rotate(45deg);
+    color: var(--primary);
+    border-color: var(--primary);
+  }
+
+  /* FAQ Body (collapsible) */
+  .faq-item__body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .faq-item--open .faq-item__body {
+    max-height: 500px;
+  }
+
+  .faq-item__answer {
+    padding: 0 0 var(--space-xl) 0;
+  }
+
+  .faq-item__answer p {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* Empty State */
+  .faq-list__empty {
+    text-align: center;
+    padding: var(--space-3xl) 0;
+  }
+
+  .faq-list__empty-text {
+    font-size: var(--font-size-lg);
+    color: var(--text-muted);
+  }
+
+  /* ===== Contact CTA ===== */
+  .faq-cta {
+    position: relative;
+    width: 100%;
+    padding: 0 0 var(--space-4xl);
+  }
+
+  .faq-cta__container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  .faq-cta__card {
+    text-align: center;
+    padding: var(--space-3xl);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+
+  .faq-cta__title {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+  }
+
+  .faq-cta__desc {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-xl);
+  }
+
+  .faq-cta__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-2xl);
+    background: var(--primary);
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+  }
+
+  .faq-cta__button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(26, 77, 46, 0.3);
+  }
+
+  /* ===== Responsive - Tablet ===== */
+  @media (max-width: 1023px) {
+    .faq-hero__title {
+      font-size: var(--font-size-3xl);
+    }
+  }
+
+  /* ===== Responsive - Mobile ===== */
+  @media (max-width: 719px) {
+    .faq-page__breadcrumb {
+      padding-top: var(--header-height-mobile);
+    }
+
+    .faq-hero {
+      padding: var(--space-2xl) 0;
+    }
+
+    .faq-hero__title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .faq-hero__subtitle {
+      font-size: var(--font-size-base);
+    }
+
+    .faq-filter__pills {
+      gap: var(--space-xs);
+    }
+
+    .faq-filter__pill {
+      padding: var(--space-xs) var(--space-md);
+      font-size: var(--font-size-xs);
+    }
+
+    .faq-item__header {
+      padding: var(--space-lg) 0;
+      gap: var(--space-md);
+    }
+
+    .faq-item__question {
+      font-size: var(--font-size-base);
+    }
+
+    .faq-item__icon {
+      width: 32px;
+      height: 32px;
+    }
+
+    .faq-item__icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .faq-item__answer p {
+      font-size: var(--font-size-sm);
+    }
+
+    .faq-cta__card {
+      padding: var(--space-xl);
+    }
+
+    .faq-cta__title {
+      font-size: var(--font-size-xl);
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // ===== Accordion Toggle =====
+    const faqItems = document.querySelectorAll('[data-faq-item]');
+    const faqToggles = document.querySelectorAll('[data-faq-toggle]');
+
+    faqToggles.forEach((toggle) => {
+      toggle.addEventListener('click', () => {
+        const parentItem = toggle.closest('[data-faq-item]') as HTMLElement;
+        if (!parentItem) return;
+
+        const isOpen = parentItem.classList.contains('faq-item--open');
+
+        // Close all open items (accordion behavior)
+        faqItems.forEach((item) => {
+          item.classList.remove('faq-item--open');
+        });
+
+        // Toggle current item
+        if (!isOpen) {
+          parentItem.classList.add('faq-item--open');
+        }
+      });
+    });
+
+    // ===== Category Filtering =====
+    const categoryPills = document.querySelectorAll('[data-faq-category]');
+    const emptyState = document.querySelector('[data-faq-empty]') as HTMLElement;
+
+    categoryPills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const category = (pill as HTMLElement).dataset.faqCategory;
+
+        // Update active pill
+        categoryPills.forEach((p) => p.classList.remove('faq-filter__pill--active'));
+        pill.classList.add('faq-filter__pill--active');
+
+        // Close all open items when changing category
+        faqItems.forEach((item) => {
+          item.classList.remove('faq-item--open');
+        });
+
+        // Filter FAQ items
+        let visibleCount = 0;
+        faqItems.forEach((item) => {
+          const el = item as HTMLElement;
+          const itemCat = el.dataset.faqCat;
+
+          if (category === 'all' || itemCat === category) {
+            el.style.display = '';
+            visibleCount++;
+          } else {
+            el.style.display = 'none';
+          }
+        });
+
+        // Show/hide empty state
+        if (emptyState) {
+          emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+      });
+    });
+  });
+</script>

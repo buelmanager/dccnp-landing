@@ -1,0 +1,132 @@
+{
+  "portfolioItems": [
+    {
+      "id": "port-001",
+      "title": "강남 프리미엄 카페 LED 채널 간판",
+      "category": "led-channel",
+      "description": "강남역 인근 프리미엄 카페의 브랜드 아이덴티티를 살린 고급 LED 채널 간판 제작 및 설치. 세련된 타이포그래피와 은은한 조명으로 야간 시인성을 극대화했습니다. 건물 외관과 조화를 이루는 디자인으로 고객사의 만족도가 매우 높았습니다.",
+      "client": "카페 모먼트",
+      "location": "서울 강남구 역삼동",
+      "completedDate": "2024-11",
+      "images": {
+        "before": "https://images.unsplash.com/photo-1635176776026-27d4c4a310f3?w=800&q=80",
+        "after": "https://images.unsplash.com/photo-1763673263764-4d189ab2f03f?w=800&q=80",
+        "process": "https://images.unsplash.com/photo-1767488903403-3963f0d370db?w=800&q=80"
+      },
+      "productUsed": "led-channel",
+      "testimonial": "밤에도 은은하게 빛나는 간판 덕분에 매출이 30% 이상 증가했어요. 디자인과 시공 모두 완벽했습니다."
+    },
+    {
+      "id": "port-002",
+      "title": "홍대 복합문화공간 네온 사인",
+      "category": "neon",
+      "description": "홍대 메인거리 복합문화공간의 개성 있는 네온 사인 제작. 레트로 감성과 현대적 디자인을 결합하여 젊은 층의 포토존으로 인기를 끌고 있습니다. 맞춤형 컬러 조합과 독특한 서체로 브랜드 정체성을 명확히 표현했습니다.",
+      "client": "스페이스 루프",
+      "location": "서울 마포구 홍익동",
+      "completedDate": "2024-10",
+      "images": {
+        "before": "https://images.unsplash.com/photo-1642222197378-14d9fa160203?w=800&q=80",
+        "after": "https://images.unsplash.com/photo-1551560798-b935eb510ab3?w=800&q=80",
+        "process": "https://images.unsplash.com/photo-1646119843923-7cc001121d5d?w=800&q=80"
+      },
+      "productUsed": "neon",
+      "testimonial": "인스타그램 필수 인증샷 명소가 되었어요. 네온 사인 설치 후 SNS 홍보 효과가 엄청났습니다."
+    },
+    {
+      "id": "port-003",
+      "title": "부산 해운대 의료기관 아크릴 입체간판",
+      "category": "acrylic",
+      "description": "해운대 메디컬 빌딩 내 피부과 의원의 고급스러운 아크릴 입체간판. 백색 아크릴과 골드 메탈 프레임을 활용하여 신뢰감과 전문성을 동시에 표현했습니다. LED 후광 조명으로 세련되고 모던한 이미지를 완성했습니다.",
+      "client": "더마 클리닉",
+      "location": "부산 해운대구 우동",
+      "completedDate": "2024-09",
+      "images": {
+        "before": "https://images.unsplash.com/photo-1642222197378-14d9fa160203?w=800&q=80",
+        "after": "https://images.unsplash.com/photo-1767488903403-3963f0d370db?w=800&q=80",
+        "process": "https://images.unsplash.com/photo-1763673263764-4d189ab2f03f?w=800&q=80"
+      },
+      "productUsed": "acrylic",
+      "testimonial": "간판만 보고 방문하는 환자분들이 늘었습니다. 고급스러운 이미지 덕분에 병원 브랜딩에 큰 도움이 되었어요."
+    },
+    {
+      "id": "port-004",
+      "title": "이태원 레스토랑 현수막 및 배너",
+      "category": "banner",
+      "description": "이태원 루프탑 레스토랑의 시즌별 프로모션 현수막 제작. 내구성 강한 소재와 생생한 컬러 출력으로 야외 환경에서도 오래 사용 가능합니다. 디자인부터 설치까지 원스톱 서비스로 신속하게 진행했습니다.",
+      "client": "루프탑 가든",
+      "location": "서울 용산구 이태원동",
+      "completedDate": "2024-08",
+      "images": {
+        "before": "https://images.unsplash.com/photo-1635176776026-27d4c4a310f3?w=800&q=80",
+        "after": "https://images.unsplash.com/photo-1646119843923-7cc001121d5d?w=800&q=80",
+        "process": "https://images.unsplash.com/photo-1768812141741-4ee1bf3d9095?w=800&q=80"
+      },
+      "productUsed": "banner",
+      "testimonial": "시즌마다 새로운 배너로 교체하는데, 빠른 작업과 합리적인 가격이 정말 만족스럽습니다."
+    },
+    {
+      "id": "port-005",
+      "title": "판교 IT기업 돌출간판",
+      "category": "protruding",
+      "description": "판교 테크노밸리 스타트업 기업의 현대적인 돌출간판 제작 및 설치. 양면 LED 조명으로 멀리서도 잘 보이며, 심플하면서도 임팩트 있는 디자인으로 기업 이미지를 효과적으로 전달합니다. 건축물 외관과 완벽하게 조화를 이룹니다.",
+      "client": "테크노 솔루션즈",
+      "location": "경기 성남시 분당구 삼평동",
+      "completedDate": "2024-12",
+      "images": {
+        "before": "https://images.unsplash.com/photo-1635176776026-27d4c4a310f3?w=800&q=80",
+        "after": "https://images.unsplash.com/photo-1703578438904-b1b83426103c?w=800&q=80",
+        "process": "https://images.unsplash.com/photo-1762680850399-c085c8d15afe?w=800&q=80"
+      },
+      "productUsed": "protruding",
+      "testimonial": "사무실 찾아오시는 고객들이 건물을 헤매지 않게 되었어요. 시인성이 정말 좋습니다."
+    },
+    {
+      "id": "port-006",
+      "title": "인천 구월동 쇼핑몰 옥상간판",
+      "category": "rooftop",
+      "description": "인천 구월동 대형 쇼핑몰의 랜드마크 옥상간판 시공. 대형 LED 디스플레이와 입체 채널을 결합하여 원거리 시인성과 브랜드 임팩트를 동시에 달성했습니다. 안전 규정을 철저히 준수하며 품질 높은 시공을 완료했습니다.",
+      "client": "프리미엄 아울렛",
+      "location": "인천 남동구 구월동",
+      "completedDate": "2025-01",
+      "images": {
+        "before": "https://images.unsplash.com/photo-1642222197378-14d9fa160203?w=800&q=80",
+        "after": "https://images.unsplash.com/photo-1760510463648-363d4caac5f7?w=800&q=80",
+        "process": "https://images.unsplash.com/photo-1513757378314-e46255f6ed16?w=800&q=80"
+      },
+      "productUsed": "rooftop",
+      "testimonial": "고속도로에서도 보일 정도로 시인성이 뛰어납니다. 쇼핑몰 방문객이 크게 증가했어요."
+    },
+    {
+      "id": "port-007",
+      "title": "강남 고급 헤어살롱 LED 채널",
+      "category": "led-channel",
+      "description": "압구정 로데오거리 프리미엄 헤어살롱의 럭셔리한 LED 채널 간판. 블랙과 골드 컬러 조합으로 고급스러움을 강조하고, 은은한 백라이트로 세련된 분위기를 연출했습니다. 브랜드 로고와 타이포그래피의 정밀한 표현이 돋보입니다.",
+      "client": "아틀리에 헤어",
+      "location": "서울 강남구 신사동",
+      "completedDate": "2024-07",
+      "images": {
+        "before": "https://images.unsplash.com/photo-1642222197378-14d9fa160203?w=800&q=80",
+        "after": "https://images.unsplash.com/photo-1713608062698-ad6e34d5c024?w=800&q=80",
+        "process": "https://images.unsplash.com/photo-1760831029512-a83911de7daa?w=800&q=80"
+      },
+      "productUsed": "led-channel",
+      "testimonial": "간판이 너무 예뻐서 손님들이 사진을 많이 찍어가세요. 브랜드 이미지 상승에 큰 역할을 했습니다."
+    },
+    {
+      "id": "port-008",
+      "title": "대구 동성로 베이커리 네온 사인",
+      "category": "neon",
+      "description": "대구 중심가 수제 베이커리의 따뜻한 감성 네온 사인 제작. 빵과 커피를 형상화한 아이콘과 감성적인 문구로 고객의 시선을 사로잡습니다. 웜톤 네온 조명으로 아늑하고 친근한 분위기를 연출했습니다.",
+      "client": "베이크 하우스",
+      "location": "대구 중구 동성로",
+      "completedDate": "2024-06",
+      "images": {
+        "before": "https://images.unsplash.com/photo-1642222197378-14d9fa160203?w=800&q=80",
+        "after": "https://images.unsplash.com/photo-1706720045042-24942be8c166?w=800&q=80",
+        "process": "https://images.unsplash.com/photo-1762680850399-c085c8d15afe?w=800&q=80"
+      },
+      "productUsed": "neon",
+      "testimonial": "네온 간판 설치 후 매장 앞에서 발걸음을 멈추는 분들이 확실히 늘었어요. 따뜻한 느낌이 정말 마음에 듭니다."
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+---
+/**
+ * Breadcrumb Component
+ * Navigation breadcrumb for shop pages
+ */
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <ol class="breadcrumb__list">
+    <li class="breadcrumb__item">
+      <a href="/shop" class="breadcrumb__link">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M2 6l6-4 6 4v7a1 1 0 01-1 1H3a1 1 0 01-1-1V6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 14V8h4v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>쇼핑몰</span>
+      </a>
+    </li>
+    {items.map((item, index) => (
+      <li class="breadcrumb__item">
+        <svg class="breadcrumb__separator" width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        {item.href ? (
+          <a href={item.href} class="breadcrumb__link">{item.label}</a>
+        ) : (
+          <span class="breadcrumb__current" aria-current="page">{item.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .breadcrumb {
+    width: 100%;
+    padding: var(--space-md) 0;
+  }
+
+  .breadcrumb__list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  .breadcrumb__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .breadcrumb__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    transition: color var(--transition-base);
+  }
+
+  .breadcrumb__link:hover {
+    color: var(--primary);
+  }
+
+  .breadcrumb__link svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .breadcrumb__separator {
+    color: var(--text-muted);
+    opacity: 0.5;
+  }
+
+  .breadcrumb__current {
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  @media (max-width: 719px) {
+    .breadcrumb__link,
+    .breadcrumb__current {
+      font-size: var(--font-size-xs);
+    }
+  }
+</style>

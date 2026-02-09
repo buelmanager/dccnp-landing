@@ -1,0 +1,249 @@
+---
+/**
+ * FeaturedBento Component
+ * Premium bento grid layout displaying featured products
+ * Pure CSS - no JavaScript
+ */
+
+import productsData from '../../data/products.json';
+const featured = productsData.products.filter(p => p.isFeatured);
+---
+
+<section class="featured-bento">
+  <div class="featured-bento__container">
+    <!-- Section Header -->
+    <div class="featured-bento__header">
+      <h2 class="featured-bento__title">추천 제품</h2>
+      <p class="featured-bento__subtitle">issac.design이 자신 있게 추천하는 프리미엄 제품</p>
+    </div>
+
+    <!-- Bento Grid -->
+    <div class="featured-bento__grid" data-bento-grid>
+      {featured.slice(0, 6).map((product, index) => (
+        <a
+          href={`/shop/${product.slug}`}
+          class:list={['featured-bento__item', { 'featured-bento__item--large': index === 0 }]}
+          data-bento-item
+        >
+          <!-- Product Image -->
+          <img
+            src={product.images[0]}
+            alt={product.name}
+            class="featured-bento__image"
+            loading={index === 0 ? 'eager' : 'lazy'}
+          />
+
+          <!-- Glassmorphism Overlay -->
+          <div class="featured-bento__overlay">
+            <div class="featured-bento__badges">
+              <span class="shop-badge shop-badge--best">BEST</span>
+              {product.isNew && (
+                <span class="shop-badge shop-badge--new">NEW</span>
+              )}
+            </div>
+            <h3 class="featured-bento__name">{product.name}</h3>
+            <span class="featured-bento__price">{product.priceRange}</span>
+            <span class="featured-bento__cta">자세히 보기</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Section */
+  .featured-bento {
+    position: relative;
+    padding: var(--space-4xl) 0;
+    background: var(--background);
+  }
+
+  .featured-bento__container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  /* Header */
+  .featured-bento__header {
+    margin-bottom: var(--space-3xl);
+  }
+
+  .featured-bento__title {
+    font-size: var(--font-size-4xl);
+    font-weight: 600;
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .featured-bento__subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* Bento Grid */
+  .featured-bento__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 280px;
+    gap: var(--space-md);
+  }
+
+  /* Card Item */
+  .featured-bento__item {
+    position: relative;
+    display: block;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+  }
+
+  .featured-bento__item--large {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  /* Product Image */
+  .featured-bento__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .featured-bento__item:hover .featured-bento__image {
+    transform: scale(1.05);
+  }
+
+  /* Glassmorphism Overlay */
+  .featured-bento__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-lg);
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border-top: 1px solid var(--glass-border);
+    transition: transform var(--transition-base);
+  }
+
+  .featured-bento__item:hover .featured-bento__overlay {
+    transform: translateY(-2rem);
+  }
+
+  /* Badges */
+  .featured-bento__badges {
+    display: flex;
+    gap: var(--space-xs);
+  }
+
+  /* Product Name */
+  .featured-bento__name {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: var(--line-height-tight);
+  }
+
+  .featured-bento__item--large .featured-bento__name {
+    font-size: var(--font-size-2xl);
+  }
+
+  /* Price */
+  .featured-bento__price {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+  }
+
+  /* CTA */
+  .featured-bento__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--primary-hover);
+    letter-spacing: var(--letter-spacing-wide);
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition: opacity var(--transition-base), transform var(--transition-base);
+  }
+
+  .featured-bento__item:hover .featured-bento__cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Tablet */
+  @media (max-width: 1023px) {
+    .featured-bento__grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 260px;
+    }
+
+    .featured-bento__item--large {
+      grid-column: span 2;
+      grid-row: span 1;
+    }
+
+    .featured-bento__title {
+      font-size: var(--font-size-3xl);
+    }
+
+    .featured-bento__item--large .featured-bento__name {
+      font-size: var(--font-size-lg);
+    }
+  }
+
+  /* Mobile */
+  @media (max-width: 719px) {
+    .featured-bento__grid {
+      grid-template-columns: 1fr;
+      grid-auto-rows: 240px;
+    }
+
+    .featured-bento__item--large {
+      grid-column: span 1;
+      grid-row: span 1;
+    }
+
+    .featured-bento__title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .featured-bento__subtitle {
+      font-size: var(--font-size-base);
+    }
+
+    .featured-bento__header {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .featured-bento__overlay {
+      padding: var(--space-md);
+    }
+
+    .featured-bento__name {
+      font-size: var(--font-size-base);
+    }
+
+    .featured-bento__item--large .featured-bento__name {
+      font-size: var(--font-size-base);
+    }
+  }
+</style>

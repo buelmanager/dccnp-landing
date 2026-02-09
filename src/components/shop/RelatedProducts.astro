@@ -1,0 +1,267 @@
+---
+/**
+ * RelatedProducts Component
+ * Horizontal scrollable section showing related products
+ */
+
+interface Props {
+  relatedSlugs: string[];
+  currentSlug: string;
+  category: string;
+}
+
+import productsData from '../../data/products.json';
+
+const { relatedSlugs, currentSlug, category } = Astro.props;
+
+// Get related products by slug, fallback to same category
+let related = productsData.products.filter(
+  (p) => relatedSlugs.includes(p.slug) && p.slug !== currentSlug
+);
+if (related.length < 3) {
+  const sameCat = productsData.products.filter(
+    (p) =>
+      p.category === category &&
+      p.slug !== currentSlug &&
+      !relatedSlugs.includes(p.slug)
+  );
+  related = [...related, ...sameCat].slice(0, 4);
+}
+---
+
+{related.length > 0 && (
+  <section class="related-products" data-related-products>
+    <div class="related-products__container">
+      <!-- Section Header -->
+      <div class="related-products__header">
+        <h2 class="related-products__title">관련 제품</h2>
+        <p class="related-products__subtitle">이 제품과 함께 많이 보는 제품들</p>
+      </div>
+
+      <!-- Scrollable Row -->
+      <div class="related-products__track">
+        {related.map((product) => (
+          <a
+            href={`/shop/${product.slug}`}
+            class="related-products__card"
+            data-related-card
+          >
+            {/* Thumbnail */}
+            <div class="related-products__card-image">
+              <img
+                src={product.thumbnail}
+                alt={product.name}
+                class="related-products__card-img"
+                loading="lazy"
+              />
+            </div>
+
+            {/* Card Content */}
+            <div class="related-products__card-content">
+              <span class="related-products__card-category">
+                {product.categoryName}
+              </span>
+              <h3 class="related-products__card-name">{product.name}</h3>
+              <span class="related-products__card-price">
+                {product.priceRange}
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .related-products {
+    position: relative;
+    padding: var(--space-4xl) 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .related-products__container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  /* Header */
+  .related-products__header {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .related-products__title {
+    font-size: var(--font-size-3xl);
+    font-weight: 600;
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .related-products__subtitle {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* Scrollable Track */
+  .related-products__track {
+    display: flex;
+    gap: var(--space-lg);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--container-padding);
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--space-md);
+  }
+
+  /* Hide scrollbar visually but keep functionality */
+  .related-products__track::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .related-products__track::-webkit-scrollbar-track {
+    background: var(--surface-light);
+    border-radius: var(--radius-full);
+  }
+
+  .related-products__track::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: var(--radius-full);
+  }
+
+  .related-products__track::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+  }
+
+  /* Card */
+  .related-products__card {
+    flex: 0 0 calc(25% - var(--space-lg) * 3 / 4);
+    min-width: 0;
+    scroll-snap-align: start;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color var(--transition-base),
+      transform var(--transition-base), box-shadow var(--transition-base);
+    display: block;
+  }
+
+  .related-products__card:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(26, 77, 46, 0.15);
+  }
+
+  /* Card Image */
+  .related-products__card-image {
+    position: relative;
+    width: 100%;
+    padding-top: 75%; /* 4:3 ratio */
+    background: var(--surface-light);
+    overflow: hidden;
+  }
+
+  .related-products__card-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .related-products__card:hover .related-products__card-img {
+    transform: scale(1.05);
+  }
+
+  /* Card Content */
+  .related-products__card-content {
+    padding: var(--space-md) var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .related-products__card-category {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+  }
+
+  .related-products__card-name {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: var(--line-height-tight);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .related-products__card-price {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--primary);
+  }
+
+  /* Responsive: Tablet */
+  @media (min-width: 720px) and (max-width: 1023px) {
+    .related-products__title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .related-products__card {
+      flex: 0 0 calc(33.333% - var(--space-lg) * 2 / 3);
+    }
+  }
+
+  /* Responsive: Mobile */
+  @media (max-width: 719px) {
+    .related-products {
+      padding: var(--space-3xl) 0;
+    }
+
+    .related-products__header {
+      margin-bottom: var(--space-lg);
+    }
+
+    .related-products__title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .related-products__subtitle {
+      font-size: var(--font-size-sm);
+    }
+
+    .related-products__track {
+      gap: var(--space-md);
+    }
+
+    .related-products__card {
+      flex: 0 0 calc(80% - var(--space-md));
+      min-width: calc(80% - var(--space-md));
+    }
+
+    .related-products__card-content {
+      padding: var(--space-sm) var(--space-md);
+    }
+
+    .related-products__card-name {
+      font-size: var(--font-size-sm);
+    }
+
+    .related-products__card-price {
+      font-size: var(--font-size-xs);
+    }
+  }
+</style>

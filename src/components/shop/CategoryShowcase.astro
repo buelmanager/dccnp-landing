@@ -1,0 +1,262 @@
+---
+/**
+ * CategoryShowcase Component
+ * Horizontal scrollable showcase of product categories
+ */
+
+import productsData from '../../data/products.json';
+const { categories, products } = productsData;
+
+// Count products per category
+const categoryWithCount = categories.map(cat => ({
+  ...cat,
+  productCount: products.filter(p => p.category === cat.id).length
+}));
+
+const iconMap: Record<string, string> = {
+  led: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 4C11.582 4 8 7.582 8 12c0 3.064 1.726 5.726 4.258 7.068.39.207.742.574.742 1.016V22h6v-1.916c0-.442.352-.81.742-1.016C22.274 17.726 24 15.064 24 12c0-4.418-3.582-8-8-8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12 26h8M13 22v4M19 22v4M16 4v-1M25 12h1M6 12H5M22.364 5.636l.707-.707M9.636 5.636l-.707-.707" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`,
+  neon: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 4l1.796 5.528h5.812l-4.702 3.416 1.796 5.528L16 15.056l-4.702 3.416 1.796-5.528-4.702-3.416h5.812L16 4z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M8 24l-2 4M16 24v4M24 24l2 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`,
+  acrylic: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="5" y="5" width="22" height="22" rx="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="9" y="9" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M5 10h4M5 16h4M5 22h4M23 10h4M23 16h4M23 22h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`,
+  banner: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 4v24l4-3 4 3 4-3 4 3V4H8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12 10h8M12 15h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`,
+  protruding: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6 6v20h4V6H6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M10 10h12a2 2 0 012 2v8a2 2 0 01-2 2H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M18 16h4M22 16l-2-2M22 16l-2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`,
+  rooftop: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4 28V14l12-10 12 10v14H4z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12 28V20h8v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M10 6h12v2H10V6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`
+};
+---
+
+<section class="category-showcase" data-category-showcase>
+  <div class="category-showcase__container">
+    <!-- Header -->
+    <div class="category-showcase__header">
+      <h2 class="category-showcase__title">카테고리</h2>
+      <p class="category-showcase__subtitle">다양한 간판 카테고리를 둘러보세요</p>
+    </div>
+
+    <!-- Scrollable Row -->
+    <div class="category-showcase__scroll">
+      {categoryWithCount.map(cat => (
+        <a
+          href={`/shop/category/${cat.id}`}
+          class="category-card"
+          data-category-card
+        >
+          <div class="category-card__icon" set:html={iconMap[cat.icon] || iconMap['led']} />
+          <h3 class="category-card__name">{cat.name}</h3>
+          <p class="category-card__description">{cat.description}</p>
+          <span class="category-card__count">{cat.productCount}개 제품</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .category-showcase {
+    padding: var(--space-4xl) 0;
+  }
+
+  .category-showcase__container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  /* Header */
+  .category-showcase__header {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .category-showcase__title {
+    font-size: var(--font-size-3xl);
+    font-weight: 600;
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .category-showcase__subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* Scrollable Row */
+  .category-showcase__scroll {
+    display: flex;
+    gap: var(--space-lg);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--space-md);
+  }
+
+  /* Hide scrollbar on desktop */
+  .category-showcase__scroll::-webkit-scrollbar {
+    height: 0;
+    display: none;
+  }
+
+  .category-showcase__scroll {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  /* Category Card */
+  .category-card {
+    flex: 0 0 auto;
+    min-width: 260px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-xl);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: border-color var(--transition-base),
+                transform var(--transition-base),
+                box-shadow var(--transition-base);
+  }
+
+  .category-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(26, 77, 46, 0.15);
+  }
+
+  /* Icon */
+  .category-card__icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+    transition: color var(--transition-base);
+  }
+
+  .category-card:hover .category-card__icon {
+    color: var(--primary);
+  }
+
+  .category-card__icon :global(svg) {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Name */
+  .category-card__name {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: var(--line-height-tight);
+  }
+
+  /* Description */
+  .category-card__description {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* Count */
+  .category-card__count {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-top: var(--space-xs);
+  }
+
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .category-card {
+      min-width: 240px;
+    }
+  }
+
+  @media (max-width: 719px) {
+    .category-showcase {
+      padding: var(--space-3xl) 0;
+    }
+
+    .category-showcase__title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .category-showcase__subtitle {
+      font-size: var(--font-size-base);
+    }
+
+    .category-showcase__scroll {
+      gap: var(--space-md);
+    }
+
+    /* Show scrollbar on mobile */
+    .category-showcase__scroll::-webkit-scrollbar {
+      height: 4px;
+      display: block;
+    }
+
+    .category-showcase__scroll::-webkit-scrollbar-track {
+      background: var(--surface-light);
+      border-radius: var(--radius-full);
+    }
+
+    .category-showcase__scroll::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: var(--radius-full);
+    }
+
+    .category-showcase__scroll {
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary) var(--surface-light);
+    }
+
+    .category-card {
+      min-width: calc(50vw - var(--container-padding) - var(--space-sm));
+      padding: var(--space-lg);
+    }
+
+    .category-card__icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    .category-card__icon :global(svg) {
+      width: 28px;
+      height: 28px;
+    }
+
+    .category-card__name {
+      font-size: var(--font-size-base);
+    }
+
+    .category-card__description {
+      font-size: var(--font-size-xs);
+    }
+  }
+</style>

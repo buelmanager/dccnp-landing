@@ -1,0 +1,62 @@
+---
+/**
+ * ShopLayout Component
+ * Wrapper layout for all shop pages with navbar, breadcrumb, and footer
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import ShopNavbar from './ShopNavbar.astro';
+import Breadcrumb from './Breadcrumb.astro';
+import ShopFooter from './ShopFooter.astro';
+import Toast from './Toast.astro';
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  breadcrumbs?: BreadcrumbItem[];
+  showBreadcrumb?: boolean;
+}
+
+const {
+  title,
+  description = 'issac.design - 프리미엄 사이니지 쇼핑몰',
+  breadcrumbs = [],
+  showBreadcrumb = true,
+} = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <script is:inline>document.body.classList.add('preloader-ready');</script>
+  <ShopNavbar />
+
+  {showBreadcrumb && breadcrumbs.length > 0 && (
+    <div class="shop-layout__breadcrumb">
+      <Breadcrumb items={breadcrumbs} />
+    </div>
+  )}
+
+  <slot />
+
+  <Toast />
+  <ShopFooter />
+</Layout>
+
+<style>
+  .shop-layout__breadcrumb {
+    position: relative;
+    width: 100%;
+    background: var(--background);
+    padding-top: var(--header-height);
+  }
+
+  @media (max-width: 719px) {
+    .shop-layout__breadcrumb {
+      padding-top: var(--header-height-mobile);
+    }
+  }
+</style>

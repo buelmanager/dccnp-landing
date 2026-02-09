@@ -6,13 +6,13 @@
  */
 
 const menuItems = [
-  { label: '홈', href: '#home', section: 'home' },
-  { label: '서비스', href: '#services', section: 'services' },
-  { label: 'IT 제품', href: '#it-products', section: 'it-products' },
-  { label: '주변기기', href: '#appliances', section: 'appliances' },
-  { label: '브랜드', href: '#brands', section: 'brands' },
-  { label: 'FAQ', href: '#faq', section: 'faq' },
-  { label: '문의하기', href: '#contact', section: 'contact' },
+  { label: '홈', href: '/', section: 'home' },
+  { label: '쇼핑몰', href: '/shop', section: 'shop' },
+  { label: '서비스', href: '/#services', section: 'services' },
+  { label: '포트폴리오', href: '/#portfolio', section: 'portfolio' },
+  { label: '간판 솔루션', href: '/#appliances', section: 'appliances' },
+  { label: 'FAQ', href: '/#faq', section: 'faq' },
+  { label: '문의하기', href: '/#contact', section: 'contact' },
 ];
 ---
 
@@ -500,23 +500,35 @@ const menuItems = [
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const href = link.getAttribute('href');
-      
+
       // Close menu first
       closeMenu();
-      
+
       // Dispatch close event to navbar
       window.dispatchEvent(new CustomEvent('closeMenu'));
-      
+
       // Navigate after animation
       setTimeout(() => {
-        if (href && window.lenis) {
-          const target = document.querySelector(href);
-          if (target) {
+        if (!href) return;
+
+        // Check if it's a hash link on the same page
+        if (href.startsWith('/#')) {
+          const hash = href.substring(1); // Remove leading '/'
+          const target = document.querySelector(hash);
+
+          // If we're not on the home page, navigate to home first
+          if (window.location.pathname !== '/') {
+            window.location.href = href;
+          } else if (target && window.lenis) {
+            // Scroll to target on current page
             window.lenis.scrollTo(target, {
               offset: -80,
               duration: 1.2
             });
           }
+        } else {
+          // Regular page navigation
+          window.location.href = href;
         }
       }, 600);
     });

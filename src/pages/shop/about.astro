@@ -1,0 +1,540 @@
+---
+/**
+ * About Page
+ * Company introduction with values, story, stats, and CTA
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import ShopNavbar from '../../components/shop/ShopNavbar.astro';
+import Breadcrumb from '../../components/shop/Breadcrumb.astro';
+import ShopFooter from '../../components/shop/ShopFooter.astro';
+import Toast from '../../components/shop/Toast.astro';
+
+const breadcrumbs = [
+  { label: '쇼핑몰', href: '/shop' },
+  { label: '회사 소개' },
+];
+---
+
+<Layout
+  title="회사 소개 - issac.design 쇼핑몰"
+  description="15년 전통의 간판 전문 기업 issac.design. 최고급 소재와 정밀 제작으로 고객 만족을 약속합니다."
+>
+  <script is:inline>document.body.classList.add('preloader-ready');</script>
+  <ShopNavbar />
+  <Toast />
+
+  <main class="about-page">
+    <!-- Breadcrumb -->
+    <div class="about-page__breadcrumb">
+      <Breadcrumb items={breadcrumbs} />
+    </div>
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+      <div class="about-hero__bg"></div>
+      <div class="about-hero__container">
+        <span class="about-hero__label">About Us</span>
+        <h1 class="about-hero__title">issac.design</h1>
+        <p class="about-hero__subtitle">15년 전통의 간판 전문 기업</p>
+      </div>
+    </section>
+
+    <!-- Values Grid -->
+    <section class="about-values">
+      <div class="about-values__container">
+        <div class="about-values__grid">
+          <!-- Quality -->
+          <div class="about-values__card">
+            <div class="about-values__icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <h3 class="about-values__card-title">품질</h3>
+            <p class="about-values__card-desc">최고급 소재와 정밀 제작</p>
+          </div>
+
+          <!-- Trust -->
+          <div class="about-values__card">
+            <div class="about-values__icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h3 class="about-values__card-title">신뢰</h3>
+            <p class="about-values__card-desc">15년간 1,000건 이상의 시공 실적</p>
+          </div>
+
+          <!-- Service -->
+          <div class="about-values__card">
+            <div class="about-values__icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+              </svg>
+            </div>
+            <h3 class="about-values__card-title">서비스</h3>
+            <p class="about-values__card-desc">24시간 A/S 및 무료 견적 상담</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Company Story -->
+    <section class="about-story">
+      <div class="about-story__container">
+        <div class="about-story__header">
+          <span class="about-story__label">Our Story</span>
+          <h2 class="about-story__title">우리의 이야기</h2>
+        </div>
+        <div class="about-story__content">
+          <p class="about-story__text">
+            issac.design은 2009년 서울에서 시작된 간판 전문 기업입니다.
+            설립 이래 '고객의 브랜드를 빛나게 한다'는 철학 아래, LED 사인부터 대형 옥외광고까지
+            다양한 분야에서 1,000건 이상의 프로젝트를 성공적으로 수행해 왔습니다.
+            작은 카페 간판 하나에도 정성을 다하며, 모든 프로젝트에 최고 품질의 소재와
+            최신 기술을 적용합니다.
+          </p>
+          <p class="about-story__text">
+            우리의 강점은 디자인부터 제작, 설치, A/S까지 원스톱으로 제공하는 통합 서비스입니다.
+            전문 디자이너가 고객의 브랜드 아이덴티티를 분석하여 최적의 사인 솔루션을 제안하고,
+            숙련된 기술자들이 정밀하게 제작하며, 경험 풍부한 설치 팀이 안전하고 완벽하게
+            시공합니다. 설치 이후에도 24시간 A/S 체계를 통해 고객의 사인물이
+            항상 최상의 상태를 유지할 수 있도록 관리합니다.
+          </p>
+          <p class="about-story__text">
+            앞으로도 issac.design은 끊임없는 기술 혁신과 고객 중심의 서비스로,
+            대한민국을 대표하는 사인 전문 기업으로 성장해 나가겠습니다.
+            고객의 비전을 현실로 만드는 파트너, issac.design과 함께하세요.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Grid -->
+    <section class="about-stats">
+      <div class="about-stats__container">
+        <div class="about-stats__grid">
+          <div class="about-stats__card">
+            <span class="about-stats__number">15+</span>
+            <span class="about-stats__label">Years Experience</span>
+            <p class="about-stats__desc">15년간 축적된 간판 제작 노하우</p>
+          </div>
+          <div class="about-stats__card">
+            <span class="about-stats__number">1,000+</span>
+            <span class="about-stats__label">Projects</span>
+            <p class="about-stats__desc">전국 1,000건 이상의 시공 실적</p>
+          </div>
+          <div class="about-stats__card">
+            <span class="about-stats__number">100%</span>
+            <span class="about-stats__label">Satisfaction</span>
+            <p class="about-stats__desc">고객 만족을 위한 완벽한 서비스</p>
+          </div>
+          <div class="about-stats__card">
+            <span class="about-stats__number">24h</span>
+            <span class="about-stats__label">After Service</span>
+            <p class="about-stats__desc">24시간 긴급 A/S 지원</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="about-cta">
+      <div class="about-cta__container">
+        <h2 class="about-cta__title">프로젝트를 시작할 준비가 되셨나요?</h2>
+        <p class="about-cta__desc">무료 견적 상담을 통해 최적의 솔루션을 제안해드립니다.</p>
+        <a href="/shop/contact" class="about-cta__button">
+          <span>견적 문의하기</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <ShopFooter />
+</Layout>
+
+<style>
+  .about-page {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: var(--background);
+  }
+
+  /* Breadcrumb */
+  .about-page__breadcrumb {
+    padding-top: var(--header-height);
+  }
+
+  /* ===== Hero Section ===== */
+  .about-hero {
+    position: relative;
+    width: 100%;
+    padding: var(--space-4xl) 0;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .about-hero__bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(26, 77, 46, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .about-hero__container {
+    position: relative;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+    z-index: 1;
+  }
+
+  .about-hero__label {
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--primary-light);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    margin-bottom: var(--space-lg);
+  }
+
+  .about-hero__title {
+    font-size: var(--font-size-6xl);
+    font-weight: 700;
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+  }
+
+  .about-hero__subtitle {
+    font-size: var(--font-size-xl);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* ===== Values Grid ===== */
+  .about-values {
+    position: relative;
+    width: 100%;
+    padding: var(--space-4xl) 0;
+  }
+
+  .about-values__container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  .about-values__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .about-values__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-2xl) var(--space-xl);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: transform var(--transition-base), border-color var(--transition-base);
+  }
+
+  .about-values__card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary);
+  }
+
+  .about-values__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    background: rgba(26, 77, 46, 0.1);
+    border-radius: var(--radius-lg);
+    color: var(--primary-light);
+    margin-bottom: var(--space-lg);
+  }
+
+  .about-values__card-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .about-values__card-desc {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* ===== Company Story ===== */
+  .about-story {
+    position: relative;
+    width: 100%;
+    padding: var(--space-4xl) 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-story__container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  .about-story__header {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .about-story__label {
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--primary-light);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    margin-bottom: var(--space-sm);
+  }
+
+  .about-story__title {
+    font-size: var(--font-size-3xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+  }
+
+  .about-story__content {
+    max-width: 800px;
+  }
+
+  .about-story__text {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-xl);
+  }
+
+  .about-story__text:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ===== Stats Grid ===== */
+  .about-stats {
+    position: relative;
+    width: 100%;
+    padding: var(--space-4xl) 0;
+  }
+
+  .about-stats__container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  .about-stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .about-stats__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-2xl) var(--space-lg);
+    background: var(--surface-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: transform var(--transition-base), border-color var(--transition-base);
+  }
+
+  .about-stats__card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary);
+  }
+
+  .about-stats__number {
+    display: block;
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    color: var(--primary);
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--space-sm);
+  }
+
+  .about-stats__label {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    margin-bottom: var(--space-sm);
+  }
+
+  .about-stats__desc {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: var(--line-height-normal);
+  }
+
+  /* ===== CTA Section ===== */
+  .about-cta {
+    position: relative;
+    width: 100%;
+    padding: var(--space-4xl) 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .about-cta__container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  .about-cta__title {
+    font-size: var(--font-size-3xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--space-md);
+  }
+
+  .about-cta__desc {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .about-cta__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-2xl);
+    background: var(--primary);
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+  }
+
+  .about-cta__button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(26, 77, 46, 0.3);
+  }
+
+  /* ===== Responsive - Tablet ===== */
+  @media (max-width: 1023px) {
+    .about-hero__title {
+      font-size: var(--font-size-5xl);
+    }
+
+    .about-values__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .about-stats__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-story__title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .about-cta__title {
+      font-size: var(--font-size-2xl);
+    }
+  }
+
+  /* ===== Responsive - Mobile ===== */
+  @media (max-width: 719px) {
+    .about-page__breadcrumb {
+      padding-top: var(--header-height-mobile);
+    }
+
+    .about-hero {
+      padding: var(--space-3xl) 0;
+    }
+
+    .about-hero__title {
+      font-size: var(--font-size-4xl);
+    }
+
+    .about-hero__subtitle {
+      font-size: var(--font-size-base);
+    }
+
+    .about-values {
+      padding: var(--space-3xl) 0;
+    }
+
+    .about-values__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+
+    .about-values__card {
+      padding: var(--space-xl) var(--space-lg);
+    }
+
+    .about-story {
+      padding: var(--space-3xl) 0;
+    }
+
+    .about-story__text {
+      font-size: var(--font-size-base);
+    }
+
+    .about-stats {
+      padding: var(--space-3xl) 0;
+    }
+
+    .about-stats__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+
+    .about-stats__card {
+      padding: var(--space-lg) var(--space-md);
+    }
+
+    .about-stats__number {
+      font-size: var(--font-size-3xl);
+    }
+
+    .about-cta {
+      padding: var(--space-3xl) 0;
+    }
+
+    .about-cta__title {
+      font-size: var(--font-size-xl);
+    }
+
+    .about-cta__desc {
+      font-size: var(--font-size-base);
+    }
+  }
+</style>

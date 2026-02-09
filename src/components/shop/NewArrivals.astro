@@ -1,0 +1,242 @@
+---
+/**
+ * NewArrivals Component
+ * Horizontal scrollable section showcasing new products
+ */
+
+import productsData from '../../data/products.json';
+const newProducts = productsData.products.filter(p => p.isNew);
+---
+
+<section class="new-arrivals" data-new-arrivals>
+  <div class="new-arrivals__container">
+    <!-- Section Header -->
+    <div class="new-arrivals__header">
+      <h2 class="new-arrivals__title">신제품</h2>
+      <p class="new-arrivals__subtitle">새롭게 출시된 제품을 만나보세요</p>
+    </div>
+
+    <!-- Scrollable Product Cards -->
+    <div class="new-arrivals__scroll-wrapper">
+      <div class="new-arrivals__scroll-track">
+        {newProducts.map((product) => (
+          <a href={`/shop/${product.slug}`} class="new-arrivals__card" data-new-arrival-card>
+            {/* Image Container */}
+            <div class="new-arrivals__card-image">
+              <img
+                src={product.thumbnail}
+                alt={product.name}
+                loading="lazy"
+              />
+              <span class="new-arrivals__badge">NEW</span>
+            </div>
+
+            {/* Card Content */}
+            <div class="new-arrivals__card-content">
+              <span class="new-arrivals__card-category">{product.categoryName}</span>
+              <h3 class="new-arrivals__card-name">{product.name}</h3>
+              <span class="new-arrivals__card-price">{product.priceRange}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .new-arrivals {
+    position: relative;
+    padding: var(--space-4xl) 0;
+  }
+
+  .new-arrivals__container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  /* Header */
+  .new-arrivals__header {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .new-arrivals__title {
+    font-size: var(--font-size-4xl);
+    font-weight: 600;
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .new-arrivals__subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* Scroll Wrapper */
+  .new-arrivals__scroll-wrapper {
+    overflow: hidden;
+  }
+
+  .new-arrivals__scroll-track {
+    display: flex;
+    gap: var(--space-lg);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--space-md);
+  }
+
+  /* Hide scrollbar for clean look */
+  .new-arrivals__scroll-track::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .new-arrivals__scroll-track::-webkit-scrollbar-track {
+    background: var(--surface);
+    border-radius: var(--radius-full);
+  }
+
+  .new-arrivals__scroll-track::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: var(--radius-full);
+  }
+
+  /* Cards */
+  .new-arrivals__card {
+    flex: 0 0 auto;
+    width: 320px;
+    min-width: 280px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    scroll-snap-align: start;
+    transition: border-color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .new-arrivals__card:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(26, 77, 46, 0.15);
+  }
+
+  /* Card Image */
+  .new-arrivals__card-image {
+    position: relative;
+    width: 100%;
+    padding-top: 75%;
+    background: var(--surface-light);
+    overflow: hidden;
+  }
+
+  .new-arrivals__card-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .new-arrivals__card:hover .new-arrivals__card-image img {
+    transform: scale(1.05);
+  }
+
+  /* NEW Badge */
+  .new-arrivals__badge {
+    position: absolute;
+    top: var(--space-sm);
+    left: var(--space-sm);
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--shop-badge-new);
+    color: #fff;
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    border-radius: var(--radius-sm);
+    line-height: 1;
+  }
+
+  /* Card Content */
+  .new-arrivals__card-content {
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .new-arrivals__card-category {
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+  }
+
+  .new-arrivals__card-name {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: var(--line-height-tight);
+  }
+
+  .new-arrivals__card-price {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-top: var(--space-xs);
+  }
+
+  /* Responsive - Desktop: 3-4 cards visible */
+  @media (min-width: 1024px) {
+    .new-arrivals__card {
+      width: calc((100% - var(--space-lg) * 3) / 4);
+      min-width: 280px;
+    }
+  }
+
+  /* Tablet */
+  @media (min-width: 720px) and (max-width: 1023px) {
+    .new-arrivals__card {
+      width: calc((100% - var(--space-lg) * 2) / 3);
+      min-width: 260px;
+    }
+
+    .new-arrivals__title {
+      font-size: var(--font-size-3xl);
+    }
+  }
+
+  /* Mobile: 1.2 cards visible (showing peek of next) */
+  @media (max-width: 719px) {
+    .new-arrivals__title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .new-arrivals__subtitle {
+      font-size: var(--font-size-base);
+    }
+
+    .new-arrivals__card {
+      width: calc(100% - 60px);
+      min-width: 260px;
+    }
+
+    .new-arrivals__card-content {
+      padding: var(--space-md);
+    }
+
+    .new-arrivals__card-name {
+      font-size: var(--font-size-base);
+    }
+  }
+</style>

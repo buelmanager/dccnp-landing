@@ -5,94 +5,96 @@
  */
 
 const services = [
-  { 
-    icon: 'server', 
-    title: '25년 노하우', 
-    desc: '오랜 경험으로 쌓인 전문성' 
+  {
+    icon: 'design',
+    title: 'Creative Design',
+    desc: '브랜드 아이덴티티를 담은 창의적 디자인'
   },
-  { 
-    icon: 'truck', 
-    title: '빠른 배송', 
-    desc: '파주 물류센터에서 신속 출고' 
+  {
+    icon: 'led',
+    title: 'LED Signage',
+    desc: '고휘도 프리미엄 LED 간판 제작'
   },
-  { 
-    icon: 'shield', 
-    title: 'B2B 전문', 
-    desc: '기업 맞춤 솔루션 제공' 
+  {
+    icon: 'banner',
+    title: 'Hanging Banner',
+    desc: '현수막, X-Banner, Roll-Up Banner 제작'
   },
-  { 
-    icon: 'users', 
-    title: 'B2C 서비스', 
-    desc: '개인 고객 친절 상담' 
+  {
+    icon: 'outdoor',
+    title: 'Outdoor Advertising',
+    desc: '대형 옥외광고 간판 제작 및 설치'
   },
-  { 
-    icon: 'refresh', 
-    title: '중고/리퍼', 
-    desc: '품질 보증된 리퍼비시' 
+  {
+    icon: 'install',
+    title: 'Installation',
+    desc: '안전하고 신속한 전문 설치 서비스'
   },
-  { 
-    icon: 'document', 
-    title: '온라인 견적', 
-    desc: '실시간 맞춤 견적 제공' 
+  {
+    icon: 'quote',
+    title: 'Free Quote',
+    desc: '실시간 무료 견적 상담 제공'
   },
-  { 
-    icon: 'headphones', 
-    title: '고객 지원', 
-    desc: '전문 상담원 기술 지원' 
+  {
+    icon: 'support',
+    title: 'A/S Warranty',
+    desc: '제작 후 1년 무상 A/S 보증'
   },
-  { 
-    icon: 'star', 
-    title: '프리미엄', 
-    desc: '2,000여 종 큐레이션 제품' 
+  {
+    icon: 'fast',
+    title: 'Fast Production',
+    desc: '7일 내 제작 완료 보장'
   },
 ];
 
 // SVG 아이콘 매핑
 const icons: Record<string, string> = {
-  server: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="2" y="3" width="20" height="8" rx="2"/>
-    <rect x="2" y="13" width="20" height="8" rx="2"/>
-    <circle cx="6" cy="7" r="1" fill="currentColor"/>
-    <circle cx="6" cy="17" r="1" fill="currentColor"/>
-    <line x1="10" y1="7" x2="18" y2="7"/>
-    <line x1="10" y1="17" x2="18" y2="17"/>
+  design: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+    <path d="M2 2l7.586 7.586"/>
+    <circle cx="11" cy="11" r="2"/>
   </svg>`,
-  truck: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M16 3H1v13h15V3z"/>
-    <path d="M16 8h4l3 3v5h-7V8z"/>
-    <circle cx="5.5" cy="18.5" r="2.5"/>
-    <circle cx="18.5" cy="18.5" r="2.5"/>
+  led: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/>
+    <circle cx="12" cy="12" r="6"/>
+    <line x1="12" y1="2" x2="12" y2="6"/>
+    <line x1="12" y1="18" x2="12" y2="22"/>
+    <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/>
+    <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>
+    <line x1="2" y1="12" x2="6" y2="12"/>
+    <line x1="18" y1="12" x2="22" y2="12"/>
+    <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/>
+    <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
   </svg>`,
-  shield: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-    <polyline points="9 12 11 14 15 10"/>
+  banner: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="2"/>
+    <line x1="3" y1="9" x2="21" y2="9"/>
+    <line x1="9" y1="21" x2="9" y2="9"/>
   </svg>`,
-  users: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-    <circle cx="9" cy="7" r="4"/>
-    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+  outdoor: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+    <polyline points="9 22 9 12 15 12 15 22"/>
   </svg>`,
-  refresh: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="23 4 23 10 17 10"/>
-    <polyline points="1 20 1 14 7 14"/>
-    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/>
-    <path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"/>
+  install: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <line x1="12" y1="18" x2="12" y2="12"/>
+    <line x1="9" y1="15" x2="12" y2="12"/>
+    <line x1="15" y1="15" x2="12" y2="12"/>
   </svg>`,
-  document: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  quote: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
     <polyline points="14 2 14 8 20 8"/>
     <line x1="16" y1="13" x2="8" y2="13"/>
     <line x1="16" y1="17" x2="8" y2="17"/>
-    <polyline points="10 9 9 9 8 9"/>
   </svg>`,
-  headphones: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
-    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3v5z"/>
-    <path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3v5z"/>
+  support: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    <polyline points="9 12 11 14 15 10"/>
   </svg>`,
-  star: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+  fast: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
   </svg>`,
 };
 ---
@@ -107,10 +109,10 @@ const icons: Record<string, string> = {
   <div class="services__container">
     <!-- Section Header -->
     <header class="services__header">
-      <span class="services__label">Why DCC&P</span>
-      <h2 class="services__title">왜 DCC&P인가?</h2>
+      <span class="services__label">Why issac.design</span>
+      <h2 class="services__title">왜 issac.design인가?</h2>
       <p class="services__description">
-        25년 이상의 경험으로 최고의 서비스를 제공합니다
+        LED Signage · Advertising Design - 15년의 Creative Excellence
       </p>
     </header>
 

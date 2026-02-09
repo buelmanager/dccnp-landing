@@ -1,0 +1,134 @@
+---
+/**
+ * ProductGrid Component
+ * Grid layout for displaying products with filtering
+ */
+
+import ProductCard from './ProductCard.astro';
+
+interface Props {
+  products: any[];
+}
+
+const { products } = Astro.props;
+---
+
+<div class="product-grid" data-product-grid>
+  <div class="product-grid__container">
+    {products.map((product, index) => (
+      <ProductCard product={product} index={index} />
+    ))}
+  </div>
+
+  <!-- Empty State -->
+  <div class="product-grid__empty" data-empty-state style="display: none;">
+    <div class="product-grid__empty-icon">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.35-4.35"/>
+      </svg>
+    </div>
+    <h3 class="product-grid__empty-title">검색 결과가 없습니다</h3>
+    <p class="product-grid__empty-description">다른 카테고리를 선택해보세요</p>
+  </div>
+</div>
+
+<style>
+  .product-grid {
+    position: relative;
+    width: 100%;
+  }
+
+  .product-grid__container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-xl);
+    margin-bottom: var(--space-4xl);
+  }
+
+  /* Empty State */
+  .product-grid__empty {
+    text-align: center;
+    padding: var(--space-4xl) var(--space-xl);
+  }
+
+  .product-grid__empty-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--space-lg);
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-full);
+    color: var(--text-muted);
+  }
+
+  .product-grid__empty-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .product-grid__empty-description {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+  }
+
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .product-grid__container {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--space-lg);
+    }
+  }
+
+  @media (max-width: 719px) {
+    .product-grid__container {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
+</style>
+
+<script>
+  // Product Grid Filtering Logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.querySelector('[data-product-grid]');
+    if (!grid) return;
+
+    const container = grid.querySelector('.product-grid__container');
+    const emptyState = grid.querySelector('[data-empty-state]');
+    const productCards = grid.querySelectorAll('[data-product-card]');
+
+    // Filter products by category
+    window.filterProducts = (category: string) => {
+      let visibleCount = 0;
+
+      productCards.forEach((card) => {
+        const cardCategory = card.getAttribute('data-category');
+        const shouldShow = category === 'all' || cardCategory === category;
+
+        if (shouldShow) {
+          (card as HTMLElement).style.display = 'block';
+          visibleCount++;
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+
+      // Show/hide empty state
+      if (container && emptyState) {
+        if (visibleCount === 0) {
+          (emptyState as HTMLElement).style.display = 'block';
+          (container as HTMLElement).style.display = 'none';
+        } else {
+          (emptyState as HTMLElement).style.display = 'none';
+          (container as HTMLElement).style.display = 'grid';
+        }
+      }
+    };
+  });
+</script>

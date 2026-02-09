@@ -1,0 +1,704 @@
+---
+/**
+ * ProductConfigurator Component
+ * Product configuration panel for selecting options before requesting a quote
+ */
+
+interface Props {
+  product: {
+    name: string;
+    slug: string;
+    priceRange: string;
+    options: {
+      sizes: Array<{label: string; priceModifier: string}>;
+      materials: Array<{label: string; description: string}>;
+      finishes: Array<{label: string; colorHex: string}>;
+      lightingTypes: Array<{label: string; description: string}>;
+    };
+  };
+}
+
+const { product } = Astro.props;
+const hasLighting = product.options.lightingTypes && product.options.lightingTypes.length > 0;
+---
+
+<div
+  class="configurator"
+  data-configurator
+  data-product-name={product.name}
+  data-product-slug={product.slug}
+>
+  <!-- Header -->
+  <div class="configurator__header">
+    <h3 class="configurator__title">제품 구성</h3>
+    <p class="configurator__subtitle">{product.name}</p>
+  </div>
+
+  <!-- Option Groups -->
+  <div class="configurator__groups">
+
+    <!-- Sizes -->
+    {product.options.sizes && product.options.sizes.length > 0 && (
+      <div class="configurator__group" data-group="size">
+        <h4 class="configurator__group-label">사이즈</h4>
+        <div class="configurator__options configurator__options--pills">
+          {product.options.sizes.map((size, i) => (
+            <button
+              type="button"
+              class={`configurator__pill ${i === 0 ? 'configurator__pill--active' : ''}`}
+              data-option="size"
+              data-value={size.label}
+              data-price-modifier={size.priceModifier}
+            >
+              <span class="configurator__pill-label">{size.label}</span>
+              <span class="configurator__pill-modifier">{size.priceModifier}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Materials -->
+    {product.options.materials && product.options.materials.length > 0 && (
+      <div class="configurator__group" data-group="material">
+        <h4 class="configurator__group-label">소재</h4>
+        <div class="configurator__options configurator__options--cards">
+          {product.options.materials.map((material, i) => (
+            <button
+              type="button"
+              class={`configurator__card ${i === 0 ? 'configurator__card--active' : ''}`}
+              data-option="material"
+              data-value={material.label}
+            >
+              <span class="configurator__card-label">{material.label}</span>
+              <span class="configurator__card-desc">{material.description}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Finishes -->
+    {product.options.finishes && product.options.finishes.length > 0 && (
+      <div class="configurator__group" data-group="finish">
+        <h4 class="configurator__group-label">마감</h4>
+        <div class="configurator__options configurator__options--swatches">
+          {product.options.finishes.map((finish, i) => (
+            <button
+              type="button"
+              class={`configurator__swatch ${i === 0 ? 'configurator__swatch--active' : ''}`}
+              data-option="finish"
+              data-value={finish.label}
+              data-color={finish.colorHex}
+            >
+              <span
+                class="configurator__swatch-color"
+                style={`background-color: ${finish.colorHex};`}
+              />
+              <span class="configurator__swatch-label">{finish.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Lighting -->
+    {hasLighting && (
+      <div class="configurator__group" data-group="lighting">
+        <h4 class="configurator__group-label">조명</h4>
+        <div class="configurator__options configurator__options--cards">
+          {product.options.lightingTypes.map((lighting, i) => (
+            <button
+              type="button"
+              class={`configurator__card ${i === 0 ? 'configurator__card--active' : ''}`}
+              data-option="lighting"
+              data-value={lighting.label}
+            >
+              <span class="configurator__card-label">{lighting.label}</span>
+              <span class="configurator__card-desc">{lighting.description}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+
+  <!-- Summary Panel -->
+  <div class="configurator__summary" data-summary>
+    <h4 class="configurator__summary-title">선택 구성</h4>
+
+    <dl class="configurator__summary-list" data-summary-list>
+      {product.options.sizes && product.options.sizes.length > 0 && (
+        <div class="configurator__summary-item">
+          <dt class="configurator__summary-label">사이즈</dt>
+          <dd class="configurator__summary-value" data-summary-size>
+            {product.options.sizes[0].label}
+          </dd>
+        </div>
+      )}
+      {product.options.materials && product.options.materials.length > 0 && (
+        <div class="configurator__summary-item">
+          <dt class="configurator__summary-label">소재</dt>
+          <dd class="configurator__summary-value" data-summary-material>
+            {product.options.materials[0].label}
+          </dd>
+        </div>
+      )}
+      {product.options.finishes && product.options.finishes.length > 0 && (
+        <div class="configurator__summary-item">
+          <dt class="configurator__summary-label">마감</dt>
+          <dd class="configurator__summary-value" data-summary-finish>
+            {product.options.finishes[0].label}
+          </dd>
+        </div>
+      )}
+      {hasLighting && (
+        <div class="configurator__summary-item">
+          <dt class="configurator__summary-label">조명</dt>
+          <dd class="configurator__summary-value" data-summary-lighting>
+            {product.options.lightingTypes[0].label}
+          </dd>
+        </div>
+      )}
+    </dl>
+
+    <!-- Price Range -->
+    <div class="configurator__summary-price">
+      <span class="configurator__summary-price-label">예상 가격</span>
+      <span class="configurator__summary-price-value">{product.priceRange}</span>
+    </div>
+
+    <!-- CTA Buttons -->
+    <div class="configurator__actions">
+      <button
+        type="button"
+        class="configurator__btn configurator__btn--primary"
+        data-add-to-quote
+      >
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M9 3v12M3 9h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span>견적함에 추가</span>
+      </button>
+      <a
+        href="#quote-form"
+        class="configurator__btn configurator__btn--outline"
+      >
+        <span>바로 견적 문의</span>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3.75 9h10.5M10.5 5.25L14.25 9l-3.75 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Container */
+  .configurator {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+  }
+
+  /* Header */
+  .configurator__header {
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .configurator__title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .configurator__subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  /* Option Groups */
+  .configurator__groups {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .configurator__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .configurator__group-label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+  }
+
+  /* Options Container */
+  .configurator__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .configurator__options--cards {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .configurator__options--swatches {
+    gap: var(--space-md);
+  }
+
+  /* Pills (Sizes) */
+  .configurator__pill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-md) var(--space-lg);
+    background: var(--surface-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    min-width: 80px;
+  }
+
+  .configurator__pill:hover {
+    border-color: var(--border-light);
+    background: var(--surface-hover);
+  }
+
+  .configurator__pill--active {
+    border-color: var(--primary);
+    background: rgba(26, 77, 46, 0.1);
+  }
+
+  .configurator__pill--active:hover {
+    border-color: var(--primary);
+    background: rgba(26, 77, 46, 0.15);
+  }
+
+  .configurator__pill-label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .configurator__pill-modifier {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+  }
+
+  .configurator__pill--active .configurator__pill-label {
+    color: var(--primary-light);
+  }
+
+  .configurator__pill--active .configurator__pill-modifier {
+    color: var(--primary);
+  }
+
+  /* Cards (Materials, Lighting) */
+  .configurator__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-md) var(--space-lg);
+    background: var(--surface-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-align: left;
+    width: 100%;
+  }
+
+  .configurator__card:hover {
+    border-color: var(--border-light);
+    background: var(--surface-hover);
+  }
+
+  .configurator__card--active {
+    border-color: var(--primary);
+    background: rgba(26, 77, 46, 0.1);
+  }
+
+  .configurator__card--active:hover {
+    border-color: var(--primary);
+    background: rgba(26, 77, 46, 0.15);
+  }
+
+  .configurator__card-label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .configurator__card-desc {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .configurator__card--active .configurator__card-label {
+    color: var(--primary-light);
+  }
+
+  /* Swatches (Finishes) */
+  .configurator__swatch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    min-width: 64px;
+  }
+
+  .configurator__swatch:hover {
+    border-color: var(--border-light);
+  }
+
+  .configurator__swatch--active {
+    border-color: var(--primary);
+  }
+
+  .configurator__swatch--active:hover {
+    border-color: var(--primary);
+  }
+
+  .configurator__swatch-color {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--border);
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .configurator__swatch--active .configurator__swatch-color {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.3);
+  }
+
+  .configurator__swatch-label {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .configurator__swatch--active .configurator__swatch-label {
+    color: var(--primary-light);
+  }
+
+  /* Summary Panel */
+  .configurator__summary {
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .configurator__summary-title {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .configurator__summary-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .configurator__summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--surface-light);
+    border-radius: var(--radius-sm);
+  }
+
+  .configurator__summary-label {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+  }
+
+  .configurator__summary-value {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+  }
+
+  /* Price */
+  .configurator__summary-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md) var(--space-lg);
+    background: rgba(26, 77, 46, 0.08);
+    border: 1px solid rgba(26, 77, 46, 0.2);
+    border-radius: var(--radius-md);
+  }
+
+  .configurator__summary-price-label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .configurator__summary-price-value {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--primary-light);
+  }
+
+  /* CTA Buttons */
+  .configurator__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .configurator__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-xl);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .configurator__btn--primary {
+    background: var(--primary);
+    color: var(--text-primary);
+    border: 1px solid var(--primary);
+  }
+
+  .configurator__btn--primary:hover {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(26, 77, 46, 0.3);
+  }
+
+  .configurator__btn--outline {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+
+  .configurator__btn--outline:hover {
+    border-color: var(--primary);
+    color: var(--primary-light);
+    transform: translateY(-2px);
+  }
+
+  .configurator__btn svg {
+    flex-shrink: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .configurator {
+      padding: var(--space-xl);
+    }
+  }
+
+  @media (max-width: 719px) {
+    .configurator {
+      padding: var(--space-lg);
+      gap: var(--space-xl);
+      border-radius: var(--radius-md);
+    }
+
+    .configurator__header {
+      padding-bottom: var(--space-md);
+    }
+
+    .configurator__title {
+      font-size: var(--font-size-lg);
+    }
+
+    .configurator__groups {
+      gap: var(--space-lg);
+    }
+
+    .configurator__pill {
+      padding: var(--space-sm) var(--space-md);
+      min-width: 64px;
+    }
+
+    .configurator__card {
+      padding: var(--space-sm) var(--space-md);
+    }
+
+    .configurator__swatch-color {
+      width: 32px;
+      height: 32px;
+    }
+
+    .configurator__swatch {
+      min-width: 52px;
+    }
+
+    .configurator__summary-price-value {
+      font-size: var(--font-size-lg);
+    }
+
+    .configurator__btn {
+      padding: var(--space-md) var(--space-lg);
+      font-size: var(--font-size-xs);
+    }
+  }
+</style>
+
+<script>
+  function initConfigurator() {
+    const configurators = document.querySelectorAll<HTMLElement>('[data-configurator]');
+
+    configurators.forEach((configurator) => {
+      const productName = configurator.dataset.productName || '';
+      const productSlug = configurator.dataset.productSlug || '';
+
+      // Track current selections
+      const selections: Record<string, string> = {};
+
+      // Initialize default selections from pre-selected options
+      configurator.querySelectorAll<HTMLElement>(
+        '.configurator__pill--active, .configurator__card--active, .configurator__swatch--active'
+      ).forEach((el) => {
+        const optionType = el.dataset.option;
+        const optionValue = el.dataset.value;
+        if (optionType && optionValue) {
+          selections[optionType] = optionValue;
+        }
+      });
+
+      // Handle option clicks
+      configurator.addEventListener('click', (e) => {
+        const target = (e.target as HTMLElement).closest<HTMLElement>(
+          '[data-option]'
+        );
+        if (!target) return;
+
+        const optionType = target.dataset.option;
+        const optionValue = target.dataset.value;
+        if (!optionType || !optionValue) return;
+
+        // Find all sibling options in the same group
+        const group = target.closest('[data-group]');
+        if (!group) return;
+
+        // Determine the active class based on option element type
+        let activeClass = '';
+        if (target.classList.contains('configurator__pill') || target.classList.contains('configurator__pill--active')) {
+          activeClass = 'configurator__pill--active';
+        } else if (target.classList.contains('configurator__card') || target.classList.contains('configurator__card--active')) {
+          activeClass = 'configurator__card--active';
+        } else if (target.classList.contains('configurator__swatch') || target.classList.contains('configurator__swatch--active')) {
+          activeClass = 'configurator__swatch--active';
+        }
+        if (!activeClass) return;
+
+        // Remove active from siblings
+        group.querySelectorAll(`[data-option="${optionType}"]`).forEach((sibling) => {
+          sibling.classList.remove(activeClass);
+        });
+
+        // Set active on clicked
+        target.classList.add(activeClass);
+
+        // Update selection
+        selections[optionType] = optionValue;
+
+        // Update summary
+        updateSummary(configurator, selections);
+      });
+
+      // Add to quote button
+      const addToQuoteBtn = configurator.querySelector('[data-add-to-quote]');
+      if (addToQuoteBtn) {
+        addToQuoteBtn.addEventListener('click', () => {
+          const detail = {
+            product: {
+              name: productName,
+              slug: productSlug,
+            },
+            selections: { ...selections },
+          };
+
+          configurator.dispatchEvent(
+            new CustomEvent('add-to-quote', {
+              detail,
+              bubbles: true,
+              composed: true,
+            })
+          );
+
+          // Show toast if available
+          if (typeof (window as any).showToast === 'function') {
+            (window as any).showToast({
+              title: '견적함에 추가되었습니다',
+              message: `${productName} - ${Object.values(selections).join(', ')}`,
+              type: 'success',
+            });
+          }
+        });
+      }
+    });
+  }
+
+  function updateSummary(
+    configurator: HTMLElement,
+    selections: Record<string, string>
+  ) {
+    const summaryMap: Record<string, string> = {
+      size: '[data-summary-size]',
+      material: '[data-summary-material]',
+      finish: '[data-summary-finish]',
+      lighting: '[data-summary-lighting]',
+    };
+
+    Object.entries(summaryMap).forEach(([key, selector]) => {
+      const el = configurator.querySelector(selector);
+      if (el && selections[key]) {
+        el.textContent = selections[key];
+      }
+    });
+  }
+
+  // Initialize on DOM ready
+  document.addEventListener('DOMContentLoaded', initConfigurator);
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initConfigurator);
+</script>

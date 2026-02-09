@@ -1,0 +1,1008 @@
+---
+/**
+ * Portfolio Section
+ * - Swiper carousel with signage portfolio cards
+ * - Modal with GSAP animations
+ * - Parallax dark background
+ */
+
+const portfolioItems = [
+  {
+    id: 'led-storefront',
+    title: 'LED Channel Signage',
+    desc: 'Premium LED 채널 간판 - 고급 레스토랑',
+    fullDesc: 'Creative Design과 LED Technology를 결합한 프리미엄 채널 간판으로 야간에도 선명한 브랜드 인지도 제공.',
+    specs: ['LED Channel 방식', '150mm 아크릴', '5년 보증', '자동 점등 시스템'],
+    image: 'https://images.unsplash.com/photo-1767488903403-3963f0d370db?w=600&q=80',
+    category: 'LED Signage'
+  },
+  {
+    id: 'neon-sign',
+    title: 'Neon Sign Design',
+    desc: '감성 네온 사인 - 빈티지 카페',
+    fullDesc: 'Creative Advertising Design으로 따뜻한 감성의 네온 간판 제작. 독특한 브랜드 아이덴티티 표현.',
+    specs: ['맞춤 제작', '20종 컬러', '실내외 설치', 'LED 네온'],
+    image: 'https://images.unsplash.com/photo-1646119843923-7cc001121d5d?w=600&q=80',
+    category: 'Neon Sign'
+  },
+  {
+    id: 'banner-printing',
+    title: 'Hanging Banner',
+    desc: '대형 현수막 - 고해상도 출력',
+    fullDesc: 'Advertising Banner로 선명한 컬러와 내구성을 자랑하는 대형 현수막 제작.',
+    specs: ['방수 원단', '고해상도 출력', '맞춤 사이즈', '당일 제작'],
+    image: 'https://images.unsplash.com/photo-1513757378314-e46255f6ed16?w=600&q=80',
+    category: 'Banner'
+  },
+  {
+    id: 'building-sign',
+    title: 'Building Signage',
+    desc: 'Outdoor Advertising - 대형 빌딩 간판',
+    fullDesc: 'Large-scale Outdoor Advertising으로 대형 건물 외벽 간판 제작. 강한 브랜드 존재감 표현.',
+    specs: ['대형 사이즈', '강풍 대비', 'LED 조명', '정기 점검'],
+    image: 'https://images.unsplash.com/photo-1642222197378-14d9fa160203?w=600&q=80',
+    category: 'Outdoor'
+  },
+  {
+    id: 'storefront-total',
+    title: 'Total Signage Design',
+    desc: '매장 통합 사인 시스템',
+    fullDesc: 'Creative Design으로 매장 정면, 실내 안내판, 메뉴판까지 통합 디자인 제공.',
+    specs: ['통합 디자인', '실내외 사인', '메뉴판 포함', '브랜드 컨설팅'],
+    image: 'https://images.unsplash.com/photo-1762680850399-c085c8d15afe?w=600&q=80',
+    category: 'Total Solution'
+  },
+];
+---
+
+<section id="portfolio" class="it-products">
+  <!-- Parallax Background -->
+  <div class="it-products__bg">
+    <div class="it-products__bg-gradient"></div>
+    <div class="it-products__bg-grid"></div>
+    <div class="it-products__bg-glow"></div>
+  </div>
+
+  <div class="it-products__container">
+    <!-- Section Header -->
+    <header class="it-products__header">
+      <span class="it-products__eyebrow">Creative Portfolio</span>
+      <h2 class="it-products__title">
+        Signage Design의 <span class="text-gradient">정점</span>
+      </h2>
+      <p class="it-products__description">
+        LED Signage · Banner · Advertising - 브랜드를 빛내는 Creative Works
+      </p>
+    </header>
+
+    <!-- Swiper Carousel -->
+    <div class="it-products__carousel">
+      <div class="swiper it-products-swiper">
+        <div class="swiper-wrapper">
+          {portfolioItems.map((product, index) => (
+            <div class="swiper-slide">
+              <article 
+                class="product-card" 
+                data-product-id={product.id}
+                data-index={index}
+                role="button"
+                tabindex="0"
+                aria-label={`${product.title} 상세보기`}
+              >
+                <!-- Product Image -->
+                <div class="product-card__image">
+                  <img 
+                    src={product.image} 
+                    alt={product.title}
+                    class="product-card__img"
+                  />
+                  <div class="product-card__image-content">
+                    <svg class="product-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      {product.id === 'led-storefront' && (
+                        <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round"/>
+                      )}
+                      {product.id === 'neon-sign' && (
+                        <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"/>
+                      )}
+                      {product.id === 'banner-printing' && (
+                        <path d="M3 3h18v18H3V3zm0 6h18M3 15h18M9 3v18" stroke-linecap="round" stroke-linejoin="round"/>
+                      )}
+                      {product.id === 'building-sign' && (
+                        <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round"/>
+                      )}
+                      {product.id === 'storefront-total' && (
+                        <path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm0 8a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zm10 0a1 1 0 011-1h4a1 1 0 011 1v6a1 1 0 01-1 1h-4a1 1 0 01-1-1v-6z" stroke-linecap="round" stroke-linejoin="round"/>
+                      )}
+                    </svg>
+                    <span class="product-card__label">{product.title.split(' ')[0]}</span>
+                  </div>
+                  
+                  <!-- Hover Overlay -->
+                  <div class="product-card__overlay">
+                    <span class="product-card__view">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+                
+                <!-- Card Content -->
+                <div class="product-card__content">
+                  <h3 class="product-card__title">{product.title}</h3>
+                  <p class="product-card__desc">{product.desc}</p>
+                </div>
+              </article>
+            </div>
+          ))}
+        </div>
+        
+        <!-- Navigation -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        
+        <!-- Pagination -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div class="product-modal" id="productModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="product-modal__backdrop"></div>
+    <div class="product-modal__container">
+      <button class="product-modal__close" aria-label="모달 닫기">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      
+       <div class="product-modal__content">
+         <div class="product-modal__image" id="modalImage">
+           <img 
+             id="modalImageImg"
+             src=""
+             alt="Product"
+             class="product-modal__img"
+           />
+           <div class="product-modal__image-content">
+             <svg class="product-modal__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" id="modalIcon"></svg>
+             <span class="product-modal__label" id="modalLabel"></span>
+           </div>
+         </div>
+        
+        <div class="product-modal__info">
+          <span class="product-modal__eyebrow">Product Details</span>
+          <h3 class="product-modal__title" id="modalTitle"></h3>
+          <p class="product-modal__description" id="modalDescription"></p>
+          
+          <div class="product-modal__specs">
+            <h4 class="product-modal__specs-title">주요 사양</h4>
+            <ul class="product-modal__specs-list" id="modalSpecs"></ul>
+          </div>
+          
+          <div class="product-modal__actions">
+            <button class="button button--primary">견적 문의</button>
+            <button class="button button--outline">자세히 보기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .it-products {
+    position: relative;
+    padding: var(--space-4xl) 0;
+    min-height: 100vh;
+    overflow: hidden;
+    background: var(--background);
+  }
+  
+  /* Parallax Background */
+  .it-products__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  
+  .it-products__bg-gradient {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(26, 54, 93, 0.3) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 100%, rgba(49, 130, 206, 0.15) 0%, transparent 50%);
+  }
+  
+  .it-products__bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: perspective(500px) rotateX(60deg);
+    transform-origin: center top;
+    mask-image: linear-gradient(to bottom, white 0%, transparent 80%);
+    -webkit-mask-image: linear-gradient(to bottom, white 0%, transparent 80%);
+  }
+  
+  .it-products__bg-glow {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(26, 54, 93, 0.4) 0%, transparent 70%);
+    transform: translateX(-50%);
+    filter: blur(100px);
+    animation: glowPulse 8s ease-in-out infinite;
+  }
+  
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+    50% { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
+  }
+  
+  /* Container */
+  .it-products__container {
+    position: relative;
+    z-index: 1;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+  
+  /* Header */
+  .it-products__header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--space-4xl);
+  }
+  
+  .it-products__eyebrow {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--accent);
+    margin-bottom: var(--space-md);
+    padding: var(--space-xs) var(--space-md);
+    background: rgba(99, 179, 237, 0.1);
+    border: 1px solid rgba(99, 179, 237, 0.2);
+    border-radius: var(--radius-full);
+  }
+  
+  .it-products__title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 600;
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .it-products__description {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+  
+  /* Carousel */
+  .it-products__carousel {
+    position: relative;
+    padding: 0 40px;
+  }
+  
+  .it-products-swiper {
+    padding-bottom: 60px;
+    overflow: visible;
+  }
+  
+  .it-products-swiper .swiper-slide {
+    height: auto;
+  }
+  
+  .it-products-swiper .swiper-button-prev,
+  .it-products-swiper .swiper-button-next {
+    top: calc(50% - 30px);
+  }
+  
+  .it-products-swiper .swiper-button-prev {
+    left: -20px;
+  }
+  
+  .it-products-swiper .swiper-button-next {
+    right: -20px;
+  }
+  
+  /* Product Card */
+  .product-card {
+    position: relative;
+    height: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all var(--transition-base);
+  }
+  
+  .product-card:hover,
+  .product-card:focus-visible {
+    border-color: var(--primary);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+  
+  .product-card:focus-visible {
+    outline: none;
+  }
+  
+   .product-card__image {
+     position: relative;
+     aspect-ratio: 4/3;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     overflow: hidden;
+     background: var(--surface-dark);
+   }
+   
+   .product-card__img {
+     position: absolute;
+     inset: 0;
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     object-position: center;
+   }
+  
+  .product-card__image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.1) 0%, 
+      transparent 50%, 
+      rgba(0, 0, 0, 0.2) 100%);
+    pointer-events: none;
+  }
+  
+  .product-card__image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+  }
+  
+  .product-card__image-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    color: rgba(255, 255, 255, 0.8);
+    transition: transform var(--transition-base);
+  }
+  
+  .product-card:hover .product-card__image-content {
+    transform: scale(1.05);
+  }
+  
+  .product-card__icon {
+    width: 64px;
+    height: 64px;
+    opacity: 0.8;
+  }
+  
+  .product-card__label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    opacity: 0.7;
+  }
+  
+  .product-card__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+  }
+  
+  .product-card:hover .product-card__overlay {
+    opacity: 1;
+  }
+  
+  .product-card__view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: var(--primary);
+    border-radius: var(--radius-full);
+    transform: scale(0.8);
+    transition: transform var(--transition-base);
+  }
+  
+  .product-card:hover .product-card__view {
+    transform: scale(1);
+  }
+  
+  .product-card__view svg {
+    width: 24px;
+    height: 24px;
+    color: white;
+  }
+  
+  .product-card__content {
+    padding: var(--space-lg);
+  }
+  
+  .product-card__title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+    line-height: var(--line-height-tight);
+  }
+  
+  .product-card__desc {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: var(--line-height-normal);
+  }
+  
+  /* Modal */
+  .product-modal {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-modal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-lg);
+    pointer-events: none;
+    visibility: hidden;
+  }
+  
+  .product-modal.is-open {
+    pointer-events: auto;
+    visibility: visible;
+  }
+  
+  .product-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+  }
+  
+  .product-modal.is-open .product-modal__backdrop {
+    opacity: 1;
+  }
+  
+  .product-modal__container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    max-height: 90vh;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  
+  .product-modal.is-open .product-modal__container {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  .product-modal__close {
+    position: absolute;
+    top: var(--space-lg);
+    right: var(--space-lg);
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-full);
+    color: white;
+    cursor: pointer;
+    transition: all var(--transition-base);
+  }
+  
+  .product-modal__close:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: rotate(90deg);
+  }
+  
+  .product-modal__close svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .product-modal__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 500px;
+  }
+  
+   .product-modal__image {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: var(--space-3xl);
+     position: relative;
+     overflow: hidden;
+     background: var(--surface-dark);
+   }
+   
+   .product-modal__img {
+     position: absolute;
+     inset: 0;
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     object-position: center;
+   }
+  
+  .product-modal__image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.1) 0%, 
+      transparent 50%, 
+      rgba(0, 0, 0, 0.2) 100%);
+    pointer-events: none;
+  }
+  
+  .product-modal__image-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .product-modal__icon {
+    width: 120px;
+    height: 120px;
+    opacity: 0.9;
+  }
+  
+  .product-modal__label {
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    opacity: 0.8;
+  }
+  
+  .product-modal__info {
+    padding: var(--space-3xl);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--surface-light);
+  }
+  
+  .product-modal__eyebrow {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--accent);
+    margin-bottom: var(--space-md);
+  }
+  
+  .product-modal__title {
+    font-size: var(--font-size-3xl);
+    font-weight: 600;
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .product-modal__description {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-2xl);
+  }
+  
+  .product-modal__specs {
+    margin-bottom: var(--space-2xl);
+  }
+  
+  .product-modal__specs-title {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--text-muted);
+    margin-bottom: var(--space-md);
+  }
+  
+  .product-modal__specs-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  
+  .product-modal__specs-list li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+  }
+  
+  .product-modal__specs-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--primary);
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+  }
+  
+  .product-modal__actions {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+  
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .it-products__carousel {
+      padding: 0 20px;
+    }
+    
+    .it-products-swiper .swiper-button-prev,
+    .it-products-swiper .swiper-button-next {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .it-products {
+      padding: var(--space-3xl) 0;
+    }
+    
+    .it-products__header {
+      margin-bottom: var(--space-2xl);
+    }
+    
+    .it-products__carousel {
+      padding: 0;
+    }
+    
+    .product-modal__content {
+      grid-template-columns: 1fr;
+    }
+    
+    .product-modal__image {
+      aspect-ratio: 16/9;
+      padding: var(--space-2xl);
+    }
+    
+    .product-modal__icon {
+      width: 80px;
+      height: 80px;
+    }
+    
+    .product-modal__info {
+      padding: var(--space-2xl);
+    }
+    
+    .product-modal__title {
+      font-size: var(--font-size-2xl);
+    }
+    
+    .product-modal__actions {
+      flex-direction: column;
+    }
+    
+    .product-modal__actions .button {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Pagination } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/navigation';
+  import 'swiper/css/pagination';
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  
+  gsap.registerPlugin(ScrollTrigger);
+  
+   // Product data for modal
+   const products = [
+     {
+       id: 'led-storefront',
+       title: 'LED Channel Signage',
+       desc: 'Premium LED 채널 간판 - 고급 레스토랑',
+       fullDesc: 'Creative Design과 LED Technology를 결합한 프리미엄 채널 간판으로 야간에도 선명한 브랜드 인지도를 제공합니다. 고휘도 LED 모듈과 정밀 가공된 아크릴로 오래가는 품질을 보장합니다.',
+       specs: ['LED Channel 방식', '150mm 아크릴', '5년 보증', '자동 점등 시스템'],
+       image: 'https://images.unsplash.com/photo-1767488903403-3963f0d370db?w=600&q=80',
+       gradient: 'linear-gradient(135deg, #1a365d 0%, #2d5a8c 50%, #4a7ba7 100%)',
+       iconPath: 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z'
+     },
+     {
+       id: 'neon-sign',
+       title: 'Neon Sign Design',
+       desc: '감성 네온 사인 - 빈티지 카페',
+       fullDesc: 'Creative Advertising Design으로 따뜻한 감성의 네온 간판을 제작합니다. LED 네온 플렉스로 독특한 브랜드 아이덴티티를 표현하며, 20가지 이상의 컬러 옵션을 제공합니다.',
+       specs: ['맞춤 제작', '20종 컬러', '실내외 설치', 'LED 네온'],
+       image: 'https://images.unsplash.com/photo-1646119843923-7cc001121d5d?w=600&q=80',
+       gradient: 'linear-gradient(135deg, #0f1f3a 0%, #1a365d 50%, #3182ce 100%)',
+       iconPath: 'M13 10V3L4 14h7v7l9-11h-7z'
+     },
+     {
+       id: 'banner-printing',
+       title: 'Hanging Banner',
+       desc: '대형 현수막 - 고해상도 출력',
+       fullDesc: '선명한 컬러와 내구성을 자랑하는 대형 현수막을 제작합니다. 방수 원단, 고해상도 출력으로 실외 환경에서도 오래가는 품질을 보장합니다.',
+       specs: ['방수 원단', '고해상도 출력', '맞춤 사이즈', '당일 제작'],
+       image: 'https://images.unsplash.com/photo-1513757378314-e46255f6ed16?w=600&q=80',
+       gradient: 'linear-gradient(135deg, #2d3748 0%, #4a5568 50%, #718096 100%)',
+       iconPath: 'M3 3h18v18H3V3zm0 6h18M3 15h18M9 3v18'
+     },
+     {
+       id: 'building-sign',
+       title: 'Building Signage',
+       desc: 'Outdoor Advertising - 대형 빌딩 간판',
+       fullDesc: '대형 건물 외벽에 설치하는 프리미엄 간판으로 강한 브랜드 존재감을 표현합니다. 강풍에도 안전한 구조 설계와 LED 조명을 적용합니다.',
+       specs: ['대형 사이즈', '강풍 대비', 'LED 조명', '정기 점검'],
+       image: 'https://images.unsplash.com/photo-1642222197378-14d9fa160203?w=600&q=80',
+       gradient: 'linear-gradient(135deg, #1a365d 0%, #3182ce 50%, #63b3ed 100%)',
+       iconPath: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4'
+     },
+     {
+       id: 'storefront-total',
+       title: 'Total Signage Design',
+       desc: '매장 통합 사인 시스템',
+       fullDesc: '매장 정면, 실내 안내판, 메뉴판까지 통합 디자인을 제공합니다. 브랜드 컨설팅부터 제작, 설치까지 원스톱 솔루션으로 일관된 브랜드 이미지를 구현합니다.',
+       specs: ['통합 디자인', '실내외 사인', '메뉴판 포함', '브랜드 컨설팅'],
+       image: 'https://images.unsplash.com/photo-1762680850399-c085c8d15afe?w=600&q=80',
+       gradient: 'linear-gradient(135deg, #0f1f3a 0%, #2d5a8c 50%, #4a7ba7 100%)',
+       iconPath: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm0 8a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zm10 0a1 1 0 011-1h4a1 1 0 011 1v6a1 1 0 01-1 1h-4a1 1 0 01-1-1v-6z'
+     },
+   ];
+  
+  // Initialize Swiper
+  const swiper = new Swiper('.it-products-swiper', {
+    modules: [Navigation, Pagination],
+    slidesPerView: 1,
+    spaceBetween: 24,
+    loop: true,
+    grabCursor: true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    breakpoints: {
+      640: {
+        slidesPerView: 2,
+        spaceBetween: 24,
+      },
+      1024: {
+        slidesPerView: 3,
+        spaceBetween: 32,
+      },
+    },
+  });
+  
+   // Modal elements
+   const modal = document.getElementById('productModal') as HTMLElement;
+   const modalImage = document.getElementById('modalImage') as HTMLElement;
+   const modalImageImg = document.getElementById('modalImageImg') as HTMLImageElement;
+   const modalIcon = document.getElementById('modalIcon') as SVGElement;
+   const modalLabel = document.getElementById('modalLabel') as HTMLElement;
+   const modalTitle = document.getElementById('modalTitle') as HTMLElement;
+   const modalDescription = document.getElementById('modalDescription') as HTMLElement;
+   const modalSpecs = document.getElementById('modalSpecs') as HTMLElement;
+   const closeBtn = modal.querySelector('.product-modal__close') as HTMLElement;
+   const backdrop = modal.querySelector('.product-modal__backdrop') as HTMLElement;
+  
+   // Open modal
+   function openModal(productId: string) {
+     const product = products.find(p => p.id === productId);
+     if (!product) return;
+     
+     // Update modal content
+     modalImageImg.src = product.image;
+     modalImageImg.alt = product.title;
+     modalIcon.innerHTML = `<path d="${product.iconPath}" stroke-linecap="round" stroke-linejoin="round"/>`;
+     modalLabel.textContent = product.title.split(' ')[0];
+     modalTitle.textContent = product.title;
+     modalDescription.textContent = product.fullDesc;
+     modalSpecs.innerHTML = product.specs.map(spec => `<li>${spec}</li>`).join('');
+    
+    // Stop Lenis scroll
+    if (window.lenis) {
+      window.lenis.stop();
+    }
+    
+    // Show modal with GSAP animation
+    modal.classList.add('is-open');
+    
+    const tl = gsap.timeline();
+    
+    tl.fromTo(backdrop, 
+      { opacity: 0 },
+      { opacity: 1, duration: 0.3, ease: 'power2.out' }
+    );
+    
+    tl.fromTo(modal.querySelector('.product-modal__container'),
+      { opacity: 0, scale: 0.9, y: 20 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: 'back.out(1.5)' },
+      '-=0.15'
+    );
+    
+    tl.fromTo(modal.querySelector('.product-modal__image-content'),
+      { opacity: 0, scale: 0.8 },
+      { opacity: 1, scale: 1, duration: 0.3, ease: 'power2.out' },
+      '-=0.2'
+    );
+    
+    tl.fromTo(modal.querySelectorAll('.product-modal__info > *'),
+      { opacity: 0, y: 15 },
+      { opacity: 1, y: 0, duration: 0.3, stagger: 0.05, ease: 'power2.out' },
+      '-=0.2'
+    );
+  }
+  
+  // Close modal
+  function closeModal() {
+    const tl = gsap.timeline({
+      onComplete: () => {
+        modal.classList.remove('is-open');
+        
+        // Resume Lenis scroll
+        if (window.lenis) {
+          window.lenis.start();
+        }
+      }
+    });
+    
+    tl.to(modal.querySelector('.product-modal__container'), {
+      opacity: 0,
+      scale: 0.9,
+      duration: 0.25,
+      ease: 'power2.in'
+    });
+    
+    tl.to(backdrop, {
+      opacity: 0,
+      duration: 0.2,
+      ease: 'power2.in'
+    }, '-=0.15');
+  }
+  
+  // Event listeners for product cards
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const productId = card.getAttribute('data-product-id');
+      if (productId) openModal(productId);
+    });
+    
+    card.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') {
+        e.preventDefault();
+        const productId = card.getAttribute('data-product-id');
+        if (productId) openModal(productId);
+      }
+    });
+  });
+  
+  // Close modal events
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+  
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+      closeModal();
+    }
+  });
+  
+  // Parallax effect for background
+  gsap.to('.it-products__bg-glow', {
+    y: 100,
+    scrollTrigger: {
+      trigger: '.it-products',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 1,
+    }
+  });
+  
+  gsap.to('.it-products__bg-grid', {
+    y: -50,
+    scrollTrigger: {
+      trigger: '.it-products',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 1,
+    }
+  });
+  
+  // Entrance animations
+  const headerEl = document.querySelector('.it-products__header');
+  const carouselEl = document.querySelector('.it-products__carousel');
+  const productCards = document.querySelectorAll('.product-card');
+  
+  if (headerEl) {
+    gsap.fromTo(headerEl, 
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: headerEl,
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        }
+      }
+    );
+  }
+  
+  if (productCards.length > 0) {
+    // Entrance animation with immediateRender: false to keep cards visible until triggered
+    gsap.from(productCards, {
+      opacity: 0,
+      y: 40,
+      duration: 0.7,
+      stagger: 0.12,
+      ease: 'power2.out',
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: carouselEl || '.it-products__carousel',
+        start: 'top 90%',
+        toggleActions: 'play none none none',
+      }
+    });
+  }
+  
+  // Type declaration for global lenis
+  declare global {
+    interface Window {
+      lenis: any;
+    }
+  }
+</script>

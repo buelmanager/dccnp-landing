@@ -1,0 +1,610 @@
+---
+/**
+ * SearchOverlay Component
+ * Full-screen search overlay with real-time product filtering
+ */
+
+import productsData from '../../data/products.json';
+
+const { products, categories } = productsData;
+
+// Build a simplified product list for search
+const searchProducts = products.map(p => ({
+  slug: p.slug,
+  name: p.name,
+  category: p.category,
+  categoryName: p.categoryName,
+  description: p.description,
+  thumbnail: p.thumbnail,
+  priceRange: p.priceRange,
+  tags: p.tags
+}));
+---
+
+<div class="search-overlay" data-search-overlay>
+  <!-- Close Button -->
+  <button class="search-overlay__close" data-search-close aria-label="검색 닫기" type="button">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <div class="search-overlay__container">
+    <!-- Search Input -->
+    <div class="search-overlay__input-wrapper">
+      <svg class="search-overlay__input-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+        <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <input
+        type="text"
+        class="search-overlay__input"
+        data-search-input
+        placeholder="제품명, 카테고리, 태그로 검색..."
+        autocomplete="off"
+      />
+      <span class="search-overlay__shortcut" data-search-shortcut>ESC</span>
+    </div>
+
+    <!-- Quick Categories -->
+    <div class="search-overlay__categories" data-search-categories>
+      <span class="search-overlay__categories-label">카테고리:</span>
+      {categories.map(cat => (
+        <a href={`/shop/category/${cat.id}`} class="search-overlay__category-tag">
+          {cat.name}
+        </a>
+      ))}
+    </div>
+
+    <!-- Results Area -->
+    <div class="search-overlay__results" data-search-results>
+      <!-- Default State -->
+      <div class="search-overlay__hint" data-search-hint>
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <circle cx="22" cy="22" r="14" stroke="currentColor" stroke-width="2"/>
+          <path d="M33 33l9 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <p>검색어를 입력하여 제품을 찾아보세요</p>
+      </div>
+
+      <!-- Results Grid -->
+      <div class="search-overlay__grid" data-search-grid style="display: none;"></div>
+
+      <!-- No Results -->
+      <div class="search-overlay__empty" data-search-empty style="display: none;">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="2"/>
+          <path d="M16 16l16 16M32 16L16 32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <p class="search-overlay__empty-title">검색 결과가 없습니다</p>
+        <p class="search-overlay__empty-desc">다른 키워드로 검색하거나 카테고리를 선택해보세요</p>
+        <a href="/shop/search" class="search-overlay__empty-link" data-search-page-link>검색 페이지로 이동</a>
+      </div>
+
+      <!-- Result Count -->
+      <div class="search-overlay__count" data-search-count style="display: none;">
+        <span data-search-count-text></span>
+        <a href="/shop/search" class="search-overlay__all-link" data-search-all-link>검색 페이지에서 보기</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Embedded product data for client-side search -->
+<script type="application/json" data-products>
+  {JSON.stringify(searchProducts)}
+</script>
+
+<style>
+  .search-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-modal);
+    background: rgba(0, 0, 0, 0.98);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .search-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Close Button */
+  .search-overlay__close {
+    position: fixed;
+    top: var(--space-lg);
+    right: var(--space-lg);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-base);
+  }
+
+  .search-overlay__close:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+  }
+
+  /* Container */
+  .search-overlay__container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: calc(var(--header-height) + var(--space-xl)) var(--container-padding) var(--space-4xl);
+  }
+
+  /* Input */
+  .search-overlay__input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding-bottom: var(--space-lg);
+    border-bottom: 2px solid var(--primary);
+    margin-bottom: var(--space-xl);
+  }
+
+  .search-overlay__input-icon {
+    flex-shrink: 0;
+    color: var(--primary);
+  }
+
+  .search-overlay__input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: var(--font-size-3xl);
+    font-weight: 300;
+    font-family: var(--font-family);
+    color: var(--text-primary);
+    caret-color: var(--primary);
+  }
+
+  .search-overlay__input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .search-overlay__shortcut {
+    flex-shrink: 0;
+    padding: var(--space-xs) var(--space-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: var(--letter-spacing-wide);
+  }
+
+  /* Quick Categories */
+  .search-overlay__categories {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .search-overlay__categories-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-right: var(--space-xs);
+  }
+
+  .search-overlay__category-tag {
+    display: inline-flex;
+    padding: var(--space-xs) var(--space-md);
+    background: rgba(26, 77, 46, 0.1);
+    color: var(--text-secondary);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(26, 77, 46, 0.2);
+    transition: all var(--transition-base);
+  }
+
+  .search-overlay__category-tag:hover {
+    background: rgba(26, 77, 46, 0.2);
+    color: var(--primary);
+    border-color: var(--primary);
+  }
+
+  /* Results */
+  .search-overlay__results {
+    min-height: 200px;
+  }
+
+  /* Hint State */
+  .search-overlay__hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-4xl) 0;
+    text-align: center;
+    color: var(--text-muted);
+  }
+
+  .search-overlay__hint svg {
+    opacity: 0.3;
+  }
+
+  .search-overlay__hint p {
+    font-size: var(--font-size-base);
+  }
+
+  /* Grid */
+  .search-overlay__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  /* Result Card (generated via JS) */
+  .search-overlay :global(.search-result-card) {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-base);
+    text-decoration: none;
+  }
+
+  .search-overlay :global(.search-result-card:hover) {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(26, 77, 46, 0.2);
+  }
+
+  .search-overlay :global(.search-result-card__image) {
+    position: relative;
+    width: 100%;
+    padding-top: 66%;
+    background: var(--surface-light);
+    overflow: hidden;
+  }
+
+  .search-overlay :global(.search-result-card__image img) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .search-overlay :global(.search-result-card:hover .search-result-card__image img) {
+    transform: scale(1.05);
+  }
+
+  .search-overlay :global(.search-result-card__body) {
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .search-overlay :global(.search-result-card__category) {
+    font-size: var(--font-size-xs);
+    color: var(--primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+  }
+
+  .search-overlay :global(.search-result-card__name) {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: var(--line-height-tight);
+  }
+
+  .search-overlay :global(.search-result-card__price) {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+  }
+
+  /* Empty State */
+  .search-overlay__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-4xl) 0;
+    text-align: center;
+    color: var(--text-muted);
+  }
+
+  .search-overlay__empty svg {
+    opacity: 0.3;
+  }
+
+  .search-overlay__empty-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .search-overlay__empty-desc {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+  }
+
+  .search-overlay__empty-link {
+    display: inline-flex;
+    padding: var(--space-sm) var(--space-lg);
+    margin-top: var(--space-sm);
+    background: var(--primary);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+  }
+
+  .search-overlay__empty-link:hover {
+    background: var(--primary-hover);
+  }
+
+  /* Result Count */
+  .search-overlay__count {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  .search-overlay__all-link {
+    color: var(--primary);
+    font-weight: 500;
+    transition: color var(--transition-base);
+  }
+
+  .search-overlay__all-link:hover {
+    color: var(--primary-hover);
+  }
+
+  /* Responsive - Tablet */
+  @media (max-width: 1023px) {
+    .search-overlay__input {
+      font-size: var(--font-size-2xl);
+    }
+
+    .search-overlay__grid {
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+  }
+
+  /* Responsive - Mobile */
+  @media (max-width: 719px) {
+    .search-overlay__container {
+      padding-top: calc(var(--header-height-mobile) + var(--space-lg));
+    }
+
+    .search-overlay__close {
+      top: var(--space-md);
+      right: var(--space-md);
+      width: 40px;
+      height: 40px;
+    }
+
+    .search-overlay__close svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .search-overlay__input {
+      font-size: var(--font-size-xl);
+    }
+
+    .search-overlay__input-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .search-overlay__shortcut {
+      display: none;
+    }
+
+    .search-overlay__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+
+    .search-overlay__categories {
+      gap: var(--space-xs);
+    }
+
+    .search-overlay__categories-label {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.querySelector('[data-search-overlay]') as HTMLElement;
+    if (!overlay) return;
+
+    const input = overlay.querySelector('[data-search-input]') as HTMLInputElement;
+    const closeBtn = overlay.querySelector('[data-search-close]') as HTMLElement;
+    const hint = overlay.querySelector('[data-search-hint]') as HTMLElement;
+    const grid = overlay.querySelector('[data-search-grid]') as HTMLElement;
+    const empty = overlay.querySelector('[data-search-empty]') as HTMLElement;
+    const countEl = overlay.querySelector('[data-search-count]') as HTMLElement;
+    const countText = overlay.querySelector('[data-search-count-text]') as HTMLElement;
+    const allLink = overlay.querySelector('[data-search-all-link]') as HTMLAnchorElement;
+    const pageLink = overlay.querySelector('[data-search-page-link]') as HTMLAnchorElement;
+
+    // Load products data
+    let products: any[] = [];
+    const dataScript = document.querySelector('script[data-products]');
+    if (dataScript) {
+      try {
+        products = JSON.parse(dataScript.textContent || '[]');
+      } catch (e) {
+        console.error('Failed to parse products data');
+      }
+    }
+
+    // Open overlay
+    function openOverlay() {
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => {
+        if (input) input.focus();
+      }, 100);
+    }
+
+    // Close overlay
+    function closeOverlay() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      if (input) input.value = '';
+      resetResults();
+    }
+
+    // Reset results to default state
+    function resetResults() {
+      if (hint) hint.style.display = 'flex';
+      if (grid) { grid.style.display = 'none'; grid.innerHTML = ''; }
+      if (empty) empty.style.display = 'none';
+      if (countEl) countEl.style.display = 'none';
+    }
+
+    // Search products
+    function searchProducts(query: string) {
+      const q = query.toLowerCase().trim();
+      if (!q) {
+        resetResults();
+        return;
+      }
+
+      const results = products.filter(p => {
+        const searchable = [
+          p.name,
+          p.categoryName,
+          p.description,
+          ...(p.tags || [])
+        ].join(' ').toLowerCase();
+        return searchable.includes(q);
+      });
+
+      // Hide hint
+      if (hint) hint.style.display = 'none';
+
+      // Update search page link
+      const encodedQ = encodeURIComponent(query.trim());
+      if (allLink) allLink.href = `/shop/search?q=${encodedQ}`;
+      if (pageLink) pageLink.href = `/shop/search?q=${encodedQ}`;
+
+      if (results.length === 0) {
+        if (grid) { grid.style.display = 'none'; grid.innerHTML = ''; }
+        if (empty) empty.style.display = 'flex';
+        if (countEl) countEl.style.display = 'none';
+      } else {
+        if (empty) empty.style.display = 'none';
+        if (countEl) {
+          countEl.style.display = 'flex';
+          if (countText) countText.textContent = `${results.length}개의 검색 결과`;
+        }
+        renderResults(results);
+      }
+    }
+
+    // Render result cards
+    function renderResults(results: any[]) {
+      if (!grid) return;
+
+      grid.style.display = 'grid';
+      grid.innerHTML = results.map(p => `
+        <a href="/shop/${p.slug}" class="search-result-card">
+          <div class="search-result-card__image">
+            <img src="${p.thumbnail}" alt="${p.name}" loading="lazy" />
+          </div>
+          <div class="search-result-card__body">
+            <span class="search-result-card__category">${p.categoryName}</span>
+            <span class="search-result-card__name">${p.name}</span>
+            <span class="search-result-card__price">${p.priceRange}</span>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    // Event: Open triggers (from ShopNavbar data-search-toggle)
+    document.querySelectorAll('[data-search-trigger], [data-search-toggle]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        openOverlay();
+      });
+    });
+
+    // Event: Close button
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeOverlay);
+    }
+
+    // Event: ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) {
+        closeOverlay();
+      }
+    });
+
+    // Event: Click outside
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        closeOverlay();
+      }
+    });
+
+    // Event: Input search
+    let debounceTimer: ReturnType<typeof setTimeout>;
+    if (input) {
+      input.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          searchProducts(input.value);
+        }, 200);
+      });
+
+      // Enter key navigates to search page
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && input.value.trim()) {
+          window.location.href = `/shop/search?q=${encodeURIComponent(input.value.trim())}`;
+        }
+      });
+    }
+
+    // Keyboard shortcut: Ctrl+K or Cmd+K to open search
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        if (overlay.classList.contains('open')) {
+          closeOverlay();
+        } else {
+          openOverlay();
+        }
+      }
+    });
+  });
+</script>
